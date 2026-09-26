@@ -1,0 +1,47 @@
+version: 2
+
+builds:
+  - id: elvish
+    main: ./cmd/elvish
+    binary: elvish
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+    goos:
+      - linux
+      - darwin
+      - windows
+      - openbsd
+    goarch:
+      - '386'
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - '6'
+      - '7'
+    ignore:
+      - goos: windows
+        goarch: arm
+
+nfpms:
+  - maintainer: "https://github.com/{{ .Env.GITHUB_USER }}"
+    formats:
+      - deb
+      - rpm
+      - apk
+
+archives:
+  - formats: [gz]
+    files:
+      - none*
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
