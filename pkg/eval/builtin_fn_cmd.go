@@ -2,9 +2,9 @@ package eval
 
 import (
 	"os"
-	"os/exec"
 
 	"src.elv.sh/pkg/eval/errs"
+	"src.elv.sh/pkg/fsutil"
 )
 
 // Command and process control.
@@ -30,12 +30,12 @@ func external(cmd string) Callable {
 }
 
 func hasExternal(cmd string) bool {
-	_, err := exec.LookPath(cmd)
+	_, err := fsutil.LookPath(cmd)
 	return err == nil
 }
 
 func searchExternal(cmd string) (string, error) {
-	return exec.LookPath(cmd)
+	return fsutil.LookPath(cmd)
 }
 
 // Can be overridden in tests.

@@ -1416,6 +1416,17 @@ is a single string literal, it is subject to **static resolution**:
     -   If the `unknown-command` pragma is set to `disallow`, such command heads
         trigger a compilation error.
 
+When Elvish starts, it appends a virtual directory to `$E:PATH` containing
+in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `ls`, `mkdir`, `mv`, `pwd`,
+`rm`, `rmdir` and `touch`. A real executable found earlier in `$E:PATH` takes
+precedence. These fallbacks use Go's filesystem APIs and do not start a child
+process. `cd` is already an Elvish builtin and continues to resolve as one. The
+fallback commands implement common options, not every option of GNU or BSD
+coreutils. Removing the virtual directory from `$E:PATH` disables them.
+Supported options are `ls`/`dir -a -A -l -d -1`, `cp -r -R`, `mkdir -p` and
+`rm -r -R -f`; the other fallbacks accept paths without options. Use `--` before
+a path beginning with `-`.
+
 Examples of commands using static resolution:
 
 ```elvish-transcript

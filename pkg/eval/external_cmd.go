@@ -3,7 +3,6 @@ package eval
 import (
 	"errors"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -86,9 +85,12 @@ func (e externalCmd) Call(fm *Frame, argVals []any, opts map[string]any) error {
 		args[i+1] = vals.ToString(a)
 	}
 
-	path, err := exec.LookPath(e.Name)
+	path, err := fsutil.LookPath(e.Name)
 	if err != nil {
 		return err
+	}
+	if fsutil.IsSyntheticPath(path) {
+		return runSyntheticCommand(fm, filepath.Base(path), args[1:])
 	}
 
 	if runtime.GOOS == "windows" && !filepath.IsAbs(path) {

@@ -14,6 +14,7 @@ import (
 	"src.elv.sh/pkg/daemon/daemondefs"
 	"src.elv.sh/pkg/env"
 	"src.elv.sh/pkg/eval"
+	"src.elv.sh/pkg/fsutil"
 	"src.elv.sh/pkg/logutil"
 	"src.elv.sh/pkg/mods"
 	"src.elv.sh/pkg/parse"
@@ -75,6 +76,8 @@ func (p *Program) RegisterFlags(fs *prog.FlagSet) {
 }
 
 func (p *Program) Run(fds [3]*os.File, args []string) error {
+	cleanupPath := fsutil.AppendSyntheticPath()
+	defer cleanupPath()
 	cleanup1 := incSHLVL()
 	defer cleanup1()
 	cleanup2 := initSignal(fds)

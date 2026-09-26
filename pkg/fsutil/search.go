@@ -29,6 +29,12 @@ func IsExecutable(stat os.FileInfo) bool {
 // $E:PATH. That is, no deduplication of the files found by scanning $E:PATH is performed.
 func EachExternal(f func(string)) {
 	for _, dir := range searchPaths() {
+		if samePath(dir, SyntheticPath()) {
+			for _, name := range SyntheticCommands {
+				f(name)
+			}
+			continue
+		}
 		files, err := os.ReadDir(dir)
 		if err != nil {
 			// In practice this rarely happens. There isn't much we can reasonably do when it does

@@ -1,0 +1,19 @@
+//each:elvish-in-global
+//in-temp-dir
+
+// With no real executables on PATH, common commands run in process.
+~> set E:PATH = ''
+   elvish -c 'mkdir -p d; touch d/a; cp d/a d/b; ls d'
+a
+b
+~> elvish -c 'dir d'
+a
+b
+~> elvish -c 'echo hello > d/a; cat d/a'
+hello
+~> elvish -c 'mv d/b d/c; rm d/a d/c; rmdir d; echo done'
+done
+~> elvish -c 'has-external ls; has-external cp; has-external missing-command'
+▶ $true
+▶ $true
+▶ $false
