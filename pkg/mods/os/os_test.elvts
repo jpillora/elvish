@@ -205,7 +205,7 @@ Exception: lstat non-existent: no such file or directory
 //only-on windows
 // Windows has a different error message.
 ~> os:stat non-existent
-Exception: CreateFile non-existent: The system cannot find the file specified.
+Exception: GetFileAttributesEx non-existent: The system cannot find the file specified.
   [tty]:1:1-20: os:stat non-existent
 
 ## symlink ##
@@ -377,7 +377,7 @@ Exception: lstat bad: no such file or directory
 //only-on windows
 ~> os:symlink bad s-bad
 ~> os:eval-symlinks s-bad
-Exception: CreateFile bad: The system cannot find the file specified.
+Exception: GetFileAttributesEx bad: The system cannot find the file specified.
   [tty]:1:1-22: os:eval-symlinks s-bad
 
 ///////////////
