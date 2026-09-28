@@ -98,8 +98,8 @@ type Type struct {
 
 // Value contains all the build information.
 var Value = Type{
-	// On a release branch, change to addVariant(VersionBase, BuildVariant).
-	Version:   addVariant(devVersion(VersionBase, VCSOverride), BuildVariant),
+	// On a development branch, use addVariant(devVersion(VersionBase, VCSOverride), BuildVariant).
+	Version:   addVariant(VersionBase, BuildVariant),
 	GoVersion: runtime.Version(),
 }
 
