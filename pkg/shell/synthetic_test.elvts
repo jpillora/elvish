@@ -17,3 +17,57 @@ done
 ▶ $true
 ▶ $true
 ▶ $false
+
+# Text pipelines #
+// Text commands consume and produce bytes in ordinary pipelines.
+~> elvish -c 'printf "one\ntwo\nthree\n" | head -n2 | tail -n1'
+two
+~> elvish -c 'printf "one\ntwo\nthree\n" | tail -n+2 | head -n-1'
+two
+~> elvish -c 'echo (printf abcdef | head -c3); echo (printf abcdef | tail -c2)'
+abc
+ef
+~> elvish -c 'printf "café\n" | wc -mc'
+5 6
+~> elvish -c 'printf "one\ntwo\n" > a; printf "three\n" > b; wc -l a b'
+2 a
+1 b
+3 total
+
+# Sorting and counting #
+~> elvish -c 'put (printf "pear\napple\npear\nbanana\npear\nbanana\n" | sort | uniq -c | sort -nr)'
+▶ '      3 pear'
+▶ '      2 banana'
+▶ '      1 apple'
+~> elvish -c 'printf "b\na\nb\n" > records; sort -o records records; uniq records deduped; cat deduped'
+a
+b
+~> elvish -c 'printf "10\n2\n2\n-3\n" | sort -nu'
+-3
+2
+10
+
+# Early pipeline cancellation #
+// A consumer that stops early must not leave the upstream pipeline hanging.
+~> elvish -c 'range 100000 | each {|n| echo line } | head -n1'
+line
+~> elvish -c 'range 100000 | each {|n| echo $n } | uniq | head -n1'
+0
+
+# Filtering #
+~> elvish -c 'put (printf "pear\napple\npear\nbanana\npear\nbanana\n" | grep -v apple | sort | uniq -c | sort -nr | head -n1)'
+▶ '      3 pear'
+~> elvish -c 'printf "error\ninfo\nERROR\n" | grep -in error'
+1:error
+3:ERROR
+~> elvish -c 'put ?(grep missing)[reason][type exit-status]'
+▶ external-cmd/exited
+▶ 1
+~> elvish -c 'put ?(grep --unsupported)[reason][type exit-status]'
+▶ external-cmd/exited
+▶ 2
+[stderr] grep: unsupported option --unsupported
+~> elvish -c 'range 100000 | each {|n| echo $n } | grep -q 0; echo done'
+done
+~> elvish -c 'range 100000 | each {|n| echo $n } | grep . | head -n1'
+0

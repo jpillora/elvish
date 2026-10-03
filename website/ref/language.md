@@ -1417,15 +1417,71 @@ is a single string literal, it is subject to **static resolution**:
         trigger a compilation error.
 
 When Elvish starts, it appends a virtual directory to `$E:PATH` containing
-in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `ls`, `mkdir`, `mv`, `pwd`,
-`rm`, `rmdir` and `touch`. A real executable found earlier in `$E:PATH` takes
-precedence. These fallbacks use Go's filesystem APIs and do not start a child
-process. `cd` is already an Elvish builtin and continues to resolve as one. The
-fallback commands implement common options, not every option of GNU or BSD
+in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `grep`, `head`, `ls`, `mkdir`, `mv`,
+`pwd`, `rm`, `rmdir`, `sort`, `tail`, `touch`, `uniq` and `wc`. A real executable
+found earlier in `$E:PATH` takes precedence. On Windows, bare `sort` selects
+the fallback when lookup finds Windows's `sort.exe` in a system directory;
+use `sort.exe` explicitly to run that Windows utility. Installed Unix `sort`
+executables retain precedence. These fallbacks use Go's filesystem and stream
+APIs and do not start a child process. `cd` is already an Elvish builtin and
+continues to resolve as one. The fallback commands implement common options,
+not every option of GNU or BSD
 coreutils. Removing the virtual directory from `$E:PATH` disables them.
-Supported options are `ls`/`dir -a -A -l -d -1`, `cp -r -R`, `mkdir -p` and
-`rm -r -R -f`; the other fallbacks accept paths without options. Use `--` before
-a path beginning with `-`.
+Supported filesystem options are `ls`/`dir -a -A -l -d -1`, `cp -r -R`,
+`mkdir -p` and `rm -r -R -f`; the other filesystem fallbacks accept paths
+without options. Moves across filesystems preserve modification times.
+Use `--` before a path beginning with `-`.
+
+`head` and `tail` read files or standard input (`-`) and output ten lines by
+default. They accept `-n COUNT`/`--lines=COUNT`, `-c COUNT`/`--bytes=COUNT`,
+`-q`/`--quiet` to suppress file headers and `-v`/`--verbose` to always show
+headers. Attached counts such as `-n5` and the older form `-5` are accepted.
+`head -n -N` omits the last N lines; `tail -n +N` starts at line N, counting
+from one. The same count forms apply to bytes with `-c`.
+
+`wc` reads files or standard input and counts newline bytes, words and bytes
+by default. Select counts with `-l` (newlines), `-w` (words), `-c` (bytes) and
+`-m` (UTF-8 characters). Word boundaries use Unicode whitespace. With multiple
+files it also prints totals. These text commands work with Elvish byte
+pipelines, for example `cat log | tail -n20 | wc -l`.
+
+`sort` reads files or standard input (`-`) and sorts lines by byte order.
+It accepts `-n` for exact decimal numeric ordering, `-r` for reverse order,
+`-u` for unique keys, `-f` for ASCII case folding, `-b` to ignore leading spaces
+and tabs, and `-s` to keep input order for equal keys. Numeric ordering uses
+the decimal prefix after leading spaces and tabs; nonnumeric prefixes count
+as zero. `-o FILE` writes the result to a file and supports sorting that file
+in place. The corresponding long options are `--numeric-sort`, `--reverse`,
+`--unique`, `--ignore-case`, `--ignore-leading-blanks`, `--stable` and
+`--output=FILE`. This fallback holds the input in memory and uses byte order
+instead of locale collation.
+
+`uniq` groups adjacent equal lines. It accepts `-c`/`--count` for counts,
+`-d`/`--repeated` to keep repeated groups, `-u`/`--unique` to keep single-line
+groups, and `-i`/`--ignore-case` for ASCII case folding. With no paths it reads
+standard input; one path names the input and a second names the output.
+Use `-` for standard input or output. Input and output must be different files.
+For a frequency table, use `cat log | sort | uniq -c | sort -nr`.
+
+`grep` filters lines from files or standard input (`-`). It accepts basic
+regular expressions by default, `-E` for extended expressions and `-F` for
+fixed strings. Use `-e PATTERN` or `-f FILE` to supply multiple patterns,
+`-i` to ignore case, `-v` to invert selection and `-x` to match whole lines.
+Output options are `-n` for line numbers, `-H`/`-h` to show/hide filenames,
+`-c` for selected-line counts, `-o` for nonempty matching portions, `-l`/`-L`
+for filenames with/without selected lines, and `-q` for quiet mode. The
+corresponding GNU long options are accepted. Status is 0 when a line is
+selected, 1 when none are selected, and 2 on error; a quiet match returns 0
+even if an earlier file failed to open. `-L` also bases status on selected
+lines, independently of the filenames printed.
+
+This fallback processes all input as text (`-a` is accepted). Patterns must
+be valid UTF-8 and use Go's RE2 engine, with common basic-regexp operators
+translated; backreferences, directional word boundaries, locale collation,
+and full GNU regexp compatibility are not supported. Input bytes are
+preserved. Recursive search, context lines and word matching (`-w`) are not
+implemented. For example, `cat log | grep -i error | tail -n20` filters the
+last twenty error lines.
 
 Examples of commands using static resolution:
 
