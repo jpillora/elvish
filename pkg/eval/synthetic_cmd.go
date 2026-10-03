@@ -35,6 +35,10 @@ func runSyntheticCommand(fm *Frame, name string, args []string) error {
 		return syntheticSliceText(name, fm.InputFile(), fm.ByteOutput(), args)
 	case "wc":
 		return syntheticWc(fm.InputFile(), fm.ByteOutput(), args)
+	case "sort":
+		return syntheticSort(fm.InputFile(), fm.ByteOutput(), args)
+	case "uniq":
+		return syntheticUniq(fm.InputFile(), fm.ByteOutput(), args)
 	case "pwd":
 		if len(args) != 0 {
 			return fmt.Errorf("pwd: unexpected arguments: %v", args)

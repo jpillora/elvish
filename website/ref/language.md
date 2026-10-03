@@ -1418,8 +1418,11 @@ is a single string literal, it is subject to **static resolution**:
 
 When Elvish starts, it appends a virtual directory to `$E:PATH` containing
 in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `head`, `ls`, `mkdir`, `mv`,
-`pwd`, `rm`, `rmdir`, `tail`, `touch` and `wc`. A real executable found earlier
-in `$E:PATH` takes precedence. These fallbacks use Go's filesystem and stream
+`pwd`, `rm`, `rmdir`, `sort`, `tail`, `touch`, `uniq` and `wc`. A real executable
+found earlier in `$E:PATH` takes precedence. On Windows, bare `sort` selects
+the fallback when lookup finds Windows's `sort.exe` in a system directory;
+use `sort.exe` explicitly to run that Windows utility. Installed Unix `sort`
+executables retain precedence. These fallbacks use Go's filesystem and stream
 APIs and do not start a child process. `cd` is already an Elvish builtin and
 continues to resolve as one. The fallback commands implement common options,
 not every option of GNU or BSD
@@ -1441,6 +1444,24 @@ by default. Select counts with `-l` (newlines), `-w` (words), `-c` (bytes) and
 `-m` (UTF-8 characters). Word boundaries use Unicode whitespace. With multiple
 files it also prints totals. These text commands work with Elvish byte
 pipelines, for example `cat log | tail -n20 | wc -l`.
+
+`sort` reads files or standard input (`-`) and sorts lines by byte order.
+It accepts `-n` for exact decimal numeric ordering, `-r` for reverse order,
+`-u` for unique keys, `-f` for ASCII case folding, `-b` to ignore leading spaces
+and tabs, and `-s` to keep input order for equal keys. Numeric ordering uses
+the decimal prefix after leading spaces and tabs; nonnumeric prefixes count
+as zero. `-o FILE` writes the result to a file and supports sorting that file
+in place. The corresponding long options are `--numeric-sort`, `--reverse`,
+`--unique`, `--ignore-case`, `--ignore-leading-blanks`, `--stable` and
+`--output=FILE`. This fallback holds the input in memory and uses byte order
+instead of locale collation.
+
+`uniq` groups adjacent equal lines. It accepts `-c`/`--count` for counts,
+`-d`/`--repeated` to keep repeated groups, `-u`/`--unique` to keep single-line
+groups, and `-i`/`--ignore-case` for ASCII case folding. With no paths it reads
+standard input; one path names the input and a second names the output.
+Use `-` for standard input or output. Input and output must be different files.
+For a frequency table, use `cat log | sort | uniq -c | sort -nr`.
 
 Examples of commands using static resolution:
 

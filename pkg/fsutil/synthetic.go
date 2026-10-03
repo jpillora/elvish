@@ -13,10 +13,11 @@ import (
 	"src.elv.sh/pkg/env"
 )
 
-// SyntheticCommands are in-process fallbacks for common filesystem commands.
+// SyntheticCommands are in-process fallbacks for common filesystem and text commands.
 // Keep this list in sync with eval.runSyntheticCommand.
 var SyntheticCommands = []string{
-	"cat", "cd", "cp", "dir", "head", "ls", "mkdir", "mv", "pwd", "rm", "rmdir", "tail", "touch", "wc",
+	"cat", "cd", "cp", "dir", "head", "ls", "mkdir", "mv",
+	"pwd", "rm", "rmdir", "sort", "tail", "touch", "uniq", "wc",
 }
 
 var syntheticPath = sync.OnceValue(func() string {
@@ -55,11 +56,18 @@ func AppendSyntheticPath() func() {
 	}
 }
 
-// LookPath resolves real programs first, then the in-process fallback at the
-// end of PATH. This preserves the user's installed commands on all platforms.
+// LookPath resolves installed programs before the in-process fallbacks.
+// On Windows, bare sort uses the fallback instead of the incompatible system
+// sort.exe utility; user-installed programs retain precedence.
 func LookPath(name string) (string, error) {
 	path, err := exec.LookPath(name)
 	if err == nil {
+		// Windows supplies a different sort.exe in its system directories.
+		// Bare sort should have Unix semantics; an explicit sort.exe still
+		// selects that utility. User-installed executables keep precedence.
+		if name == "sort" && isNativeWindowsSort(path) && hasSyntheticPath() {
+			return filepath.Join(SyntheticPath(), name), nil
+		}
 		return path, nil
 	}
 	if IsSyntheticPath(name) && hasSyntheticPath() {
@@ -69,6 +77,25 @@ func LookPath(name string) (string, error) {
 		return "", err
 	}
 	return filepath.Join(SyntheticPath(), name), nil
+}
+
+func isNativeWindowsSort(path string) bool {
+	if runtime.GOOS != "windows" {
+		return false
+	}
+	root := os.Getenv("SystemRoot")
+	if root == "" {
+		root = os.Getenv("WINDIR")
+	}
+	if root == "" {
+		return false
+	}
+	for _, dir := range []string{"System32", "SysWOW64", "Sysnative"} {
+		if samePath(path, filepath.Join(root, dir, "sort.exe")) {
+			return true
+		}
+	}
+	return false
 }
 
 // IsSyntheticPath reports whether path refers to one of the virtual commands.

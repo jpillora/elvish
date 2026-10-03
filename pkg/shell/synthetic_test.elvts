@@ -34,7 +34,22 @@ ef
 1 b
 3 total
 
+# Sorting and counting #
+~> elvish -c 'put (printf "pear\napple\npear\nbanana\npear\nbanana\n" | sort | uniq -c | sort -nr)'
+▶ '      3 pear'
+▶ '      2 banana'
+▶ '      1 apple'
+~> elvish -c 'printf "b\na\nb\n" > records; sort -o records records; uniq records deduped; cat deduped'
+a
+b
+~> elvish -c 'printf "10\n2\n2\n-3\n" | sort -nu'
+-3
+2
+10
+
 # Early pipeline cancellation #
 // A consumer that stops early must not leave the upstream pipeline hanging.
 ~> elvish -c 'range 100000 | each {|n| echo line } | head -n1'
 line
+~> elvish -c 'range 100000 | each {|n| echo $n } | uniq | head -n1'
+0
