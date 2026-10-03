@@ -16,7 +16,7 @@ import (
 // SyntheticCommands are in-process fallbacks for common filesystem commands.
 // Keep this list in sync with eval.runSyntheticCommand.
 var SyntheticCommands = []string{
-	"cat", "cd", "cp", "dir", "ls", "mkdir", "mv", "pwd", "rm", "rmdir", "touch",
+	"cat", "cd", "cp", "dir", "head", "ls", "mkdir", "mv", "pwd", "rm", "rmdir", "tail", "touch", "wc",
 }
 
 var syntheticPath = sync.OnceValue(func() string {

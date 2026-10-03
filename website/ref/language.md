@@ -1417,15 +1417,30 @@ is a single string literal, it is subject to **static resolution**:
         trigger a compilation error.
 
 When Elvish starts, it appends a virtual directory to `$E:PATH` containing
-in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `ls`, `mkdir`, `mv`, `pwd`,
-`rm`, `rmdir` and `touch`. A real executable found earlier in `$E:PATH` takes
-precedence. These fallbacks use Go's filesystem APIs and do not start a child
-process. `cd` is already an Elvish builtin and continues to resolve as one. The
-fallback commands implement common options, not every option of GNU or BSD
+in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `head`, `ls`, `mkdir`, `mv`,
+`pwd`, `rm`, `rmdir`, `tail`, `touch` and `wc`. A real executable found earlier
+in `$E:PATH` takes precedence. These fallbacks use Go's filesystem and stream
+APIs and do not start a child process. `cd` is already an Elvish builtin and
+continues to resolve as one. The fallback commands implement common options,
+not every option of GNU or BSD
 coreutils. Removing the virtual directory from `$E:PATH` disables them.
-Supported options are `ls`/`dir -a -A -l -d -1`, `cp -r -R`, `mkdir -p` and
-`rm -r -R -f`; the other fallbacks accept paths without options. Use `--` before
-a path beginning with `-`.
+Supported filesystem options are `ls`/`dir -a -A -l -d -1`, `cp -r -R`,
+`mkdir -p` and `rm -r -R -f`; the other filesystem fallbacks accept paths
+without options. Moves across filesystems preserve modification times.
+Use `--` before a path beginning with `-`.
+
+`head` and `tail` read files or standard input (`-`) and output ten lines by
+default. They accept `-n COUNT`/`--lines=COUNT`, `-c COUNT`/`--bytes=COUNT`,
+`-q`/`--quiet` to suppress file headers and `-v`/`--verbose` to always show
+headers. Attached counts such as `-n5` and the older form `-5` are accepted.
+`head -n -N` omits the last N lines; `tail -n +N` starts at line N, counting
+from one. The same count forms apply to bytes with `-c`.
+
+`wc` reads files or standard input and counts newline bytes, words and bytes
+by default. Select counts with `-l` (newlines), `-w` (words), `-c` (bytes) and
+`-m` (UTF-8 characters). Word boundaries use Unicode whitespace. With multiple
+files it also prints totals. These text commands work with Elvish byte
+pipelines, for example `cat log | tail -n20 | wc -l`.
 
 Examples of commands using static resolution:
 

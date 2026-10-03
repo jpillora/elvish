@@ -17,3 +17,24 @@ done
 ▶ $true
 ▶ $true
 ▶ $false
+
+# Text pipelines #
+// Text commands consume and produce bytes in ordinary pipelines.
+~> elvish -c 'printf "one\ntwo\nthree\n" | head -n2 | tail -n1'
+two
+~> elvish -c 'printf "one\ntwo\nthree\n" | tail -n+2 | head -n-1'
+two
+~> elvish -c 'echo (printf abcdef | head -c3); echo (printf abcdef | tail -c2)'
+abc
+ef
+~> elvish -c 'printf "café\n" | wc -mc'
+5 6
+~> elvish -c 'printf "one\ntwo\n" > a; printf "three\n" > b; wc -l a b'
+2 a
+1 b
+3 total
+
+# Early pipeline cancellation #
+// A consumer that stops early must not leave the upstream pipeline hanging.
+~> elvish -c 'range 100000 | each {|n| echo line } | head -n1'
+line
