@@ -6,7 +6,39 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
+
+func TestSyntheticCopyForMovePreservesModificationTimes(t *testing.T) {
+	dir := t.TempDir()
+	src, dst := filepath.Join(dir, "src"), filepath.Join(dir, "dst")
+	if err := os.Mkdir(src, 0755); err != nil {
+		t.Fatal(err)
+	}
+	file := filepath.Join(src, "file")
+	if err := os.WriteFile(file, []byte("data"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	wantFileTime := time.Unix(1000000000, 0)
+	wantDirTime := time.Unix(1100000000, 0)
+	for path, timestamp := range map[string]time.Time{file: wantFileTime, src: wantDirTime} {
+		if err := os.Chtimes(path, timestamp, timestamp); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := syntheticCopyPathWithTimes(src, dst, true, true); err != nil {
+		t.Fatal(err)
+	}
+	for path, timestamp := range map[string]time.Time{filepath.Join(dst, "file"): wantFileTime, dst: wantDirTime} {
+		info, err := os.Stat(path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !info.ModTime().Equal(timestamp) {
+			t.Errorf("%s: modification time = %v, want %v", path, info.ModTime(), timestamp)
+		}
+	}
+}
 
 func TestSyntheticCopyAndRemove(t *testing.T) {
 	dir := t.TempDir()

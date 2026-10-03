@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -175,9 +174,22 @@ func syntheticCp(args []string) error {
 }
 
 func syntheticCopyPath(src, dest string, recursive bool) error {
+	return syntheticCopyPathWithTimes(src, dest, recursive, false)
+}
+
+func syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool) (err error) {
 	info, err := os.Lstat(src)
 	if err != nil {
 		return err
+	}
+	// Rename preserves modification times; its cross-volume fallback must do
+	// the same. Do not follow symlinks when restoring metadata.
+	if preserveTimes && info.Mode()&os.ModeSymlink == 0 {
+		defer func() {
+			if err == nil {
+				err = os.Chtimes(dest, info.ModTime(), info.ModTime())
+			}
+		}()
 	}
 	if info.IsDir() {
 		if !recursive {
@@ -195,7 +207,7 @@ func syntheticCopyPath(src, dest string, recursive bool) error {
 		if err == nil && rel != ".." && !strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
 			return fmt.Errorf("cannot copy %s into itself", src)
 		}
-		return syntheticCopyDir(src, dest, info.Mode().Perm())
+		return syntheticCopyDir(src, dest, info.Mode().Perm(), preserveTimes)
 	}
 	if info.Mode()&os.ModeSymlink != 0 {
 		target, err := os.Readlink(src)
@@ -210,7 +222,7 @@ func syntheticCopyPath(src, dest string, recursive bool) error {
 	return syntheticCopyFile(src, dest, info.Mode().Perm())
 }
 
-func syntheticCopyDir(src, dest string, mode os.FileMode) error {
+func syntheticCopyDir(src, dest string, mode os.FileMode, preserveTimes bool) error {
 	if err := os.Mkdir(dest, mode|0700); err != nil && !os.IsExist(err) {
 		return err
 	}
@@ -219,7 +231,7 @@ func syntheticCopyDir(src, dest string, mode os.FileMode) error {
 		return err
 	}
 	for _, entry := range entries {
-		if err := syntheticCopyPath(filepath.Join(src, entry.Name()), filepath.Join(dest, entry.Name()), true); err != nil {
+		if err := syntheticCopyPathWithTimes(filepath.Join(src, entry.Name()), filepath.Join(dest, entry.Name()), true, preserveTimes); err != nil {
 			return err
 		}
 	}
@@ -274,10 +286,10 @@ func syntheticMv(args []string) error {
 		if err := os.Rename(src, target); err != nil {
 			// Rename can fail when moving between filesystems.
 			var linkErr *os.LinkError
-			if !errors.As(err, &linkErr) || !errors.Is(linkErr.Err, syscall.EXDEV) {
+			if !errors.As(err, &linkErr) || !isSyntheticCrossDeviceError(linkErr.Err) {
 				return fmt.Errorf("mv: %w", err)
 			}
-			if err := syntheticCopyPath(src, target, true); err != nil {
+			if err := syntheticCopyPathWithTimes(src, target, true, true); err != nil {
 				return fmt.Errorf("mv: %w", err)
 			}
 			if err := os.RemoveAll(src); err != nil {
