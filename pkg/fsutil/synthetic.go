@@ -16,7 +16,7 @@ import (
 // SyntheticCommands are in-process fallbacks for common filesystem and text commands.
 // Keep this list in sync with eval.runSyntheticCommand.
 var SyntheticCommands = []string{
-	"cat", "cd", "cp", "dir", "head", "ls", "mkdir", "mv",
+	"cat", "cd", "cp", "dir", "grep", "head", "ls", "mkdir", "mv",
 	"pwd", "rm", "rmdir", "sort", "tail", "touch", "uniq", "wc",
 }
 

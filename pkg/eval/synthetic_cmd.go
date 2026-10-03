@@ -39,6 +39,8 @@ func runSyntheticCommand(fm *Frame, name string, args []string) error {
 		return syntheticSort(fm.InputFile(), fm.ByteOutput(), args)
 	case "uniq":
 		return syntheticUniq(fm.InputFile(), fm.ByteOutput(), args)
+	case "grep":
+		return syntheticGrep(fm.InputFile(), fm.ByteOutput(), fm.ErrorFile(), args)
 	case "pwd":
 		if len(args) != 0 {
 			return fmt.Errorf("pwd: unexpected arguments: %v", args)

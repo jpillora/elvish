@@ -1417,7 +1417,7 @@ is a single string literal, it is subject to **static resolution**:
         trigger a compilation error.
 
 When Elvish starts, it appends a virtual directory to `$E:PATH` containing
-in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `head`, `ls`, `mkdir`, `mv`,
+in-process fallbacks for `cat`, `cd`, `cp`, `dir`, `grep`, `head`, `ls`, `mkdir`, `mv`,
 `pwd`, `rm`, `rmdir`, `sort`, `tail`, `touch`, `uniq` and `wc`. A real executable
 found earlier in `$E:PATH` takes precedence. On Windows, bare `sort` selects
 the fallback when lookup finds Windows's `sort.exe` in a system directory;
@@ -1462,6 +1462,26 @@ groups, and `-i`/`--ignore-case` for ASCII case folding. With no paths it reads
 standard input; one path names the input and a second names the output.
 Use `-` for standard input or output. Input and output must be different files.
 For a frequency table, use `cat log | sort | uniq -c | sort -nr`.
+
+`grep` filters lines from files or standard input (`-`). It accepts basic
+regular expressions by default, `-E` for extended expressions and `-F` for
+fixed strings. Use `-e PATTERN` or `-f FILE` to supply multiple patterns,
+`-i` to ignore case, `-v` to invert selection and `-x` to match whole lines.
+Output options are `-n` for line numbers, `-H`/`-h` to show/hide filenames,
+`-c` for selected-line counts, `-o` for nonempty matching portions, `-l`/`-L`
+for filenames with/without selected lines, and `-q` for quiet mode. The
+corresponding GNU long options are accepted. Status is 0 when a line is
+selected, 1 when none are selected, and 2 on error; a quiet match returns 0
+even if an earlier file failed to open. `-L` also bases status on selected
+lines, independently of the filenames printed.
+
+This fallback processes all input as text (`-a` is accepted). Patterns must
+be valid UTF-8 and use Go's RE2 engine, with common basic-regexp operators
+translated; backreferences, directional word boundaries, locale collation,
+and full GNU regexp compatibility are not supported. Input bytes are
+preserved. Recursive search, context lines and word matching (`-w`) are not
+implemented. For example, `cat log | grep -i error | tail -n20` filters the
+last twenty error lines.
 
 Examples of commands using static resolution:
 
