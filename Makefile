@@ -15,7 +15,7 @@ get:
 fmt:
 	find . -name '*.go' | xargs goimports -w
 	find . -name '*.go' | xargs gofmt -s -w
-	find . -name '*.md' | xargs go run src.elv.sh/cmd/elvmdfmt -w -width 80
+	find . -name '*.md' | xargs go run github.com/jpillora/elvish/cmd/elvmdfmt -w -width 80
 
 # Run unit tests, with race detection if the platform supports it.
 test:

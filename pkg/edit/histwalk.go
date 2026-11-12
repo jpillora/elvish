@@ -3,11 +3,11 @@ package edit
 import (
 	"errors"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/histutil"
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/eval"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/histutil"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/eval"
 )
 
 func initHistWalk(ed *Editor, ev *eval.Evaler, hs *histStore, nb eval.NsBuilder) {

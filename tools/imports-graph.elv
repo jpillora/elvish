@@ -2,7 +2,7 @@ use flag
 use re
 use str
 
-var prefix = src.elv.sh/
+var prefix = github.com/jpillora/elvish/
 
 fn keep-if {|p| each {|x| if ($p $x) { put $x }} }
 fn get {|x k def| if (has-key $x $k) { put $x[$k] } else { put $def } }

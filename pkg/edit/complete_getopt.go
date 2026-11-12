@@ -6,11 +6,11 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/getopt"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/getopt"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func completeGetopt(fm *eval.Frame, vArgs, vOpts, vArgHandlers any) error {

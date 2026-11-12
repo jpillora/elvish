@@ -8,9 +8,9 @@ import (
 	"syscall"
 	"testing"
 
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestExec_Argv0Argv(t *testing.T) {

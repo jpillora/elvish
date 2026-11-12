@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"src.elv.sh/pkg/mods/doc"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/mods/doc"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var Dedent = testutil.Dedent

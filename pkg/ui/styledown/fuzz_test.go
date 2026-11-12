@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui/styledown"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui/styledown"
 )
 
 func FuzzDerenderIsInverseOfRender(f *testing.F) {

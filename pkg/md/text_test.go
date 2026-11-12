@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"src.elv.sh/pkg/md"
+	"github.com/jpillora/elvish/pkg/md"
 )
 
 var textTests = []struct {

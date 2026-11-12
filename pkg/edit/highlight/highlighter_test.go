@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/tt"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/tt"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var any = anyMatcher{}

@@ -13,8 +13,8 @@ best way forward.
 
 Most tests against Elvish modules are written in `.elvts` files, which mimic
 transcripts of Elvish REPL sessions. See
-https://pkg.go.dev/src.elv.sh@master/pkg/transcript for the format of transcript
-files, and https://pkg.go.dev/src.elv.sh@master/pkg/eval/evaltest for details
+https://pkg.go.dev/github.com/jpillora/elvish@main/pkg/transcript for the format of transcript
+files, and https://pkg.go.dev/github.com/jpillora/elvish@main/pkg/eval/evaltest for details
 specific to using them as tests.
 
 If you use VS Code, the official Elvish extension allows you to simply press

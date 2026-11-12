@@ -7,10 +7,10 @@ import (
 	"syscall"
 	"unsafe"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
 )
 
 // Exception represents exceptions. It is both a Value accessible to Elvish

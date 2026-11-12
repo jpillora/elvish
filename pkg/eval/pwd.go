@@ -3,7 +3,7 @@ package eval
 import (
 	"os"
 
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 // NewPwdVar returns a variable who value is synchronized with the path of the

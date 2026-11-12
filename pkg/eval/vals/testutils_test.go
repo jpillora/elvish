@@ -1,7 +1,7 @@
 package vals
 
 import (
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 // Returns a tt.Matcher that matches using the Equal function.

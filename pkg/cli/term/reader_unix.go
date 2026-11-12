@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // reader reads terminal escape sequences and decodes them into events.

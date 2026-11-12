@@ -131,9 +131,9 @@ import (
 	"regexp"
 	"strings"
 
-	"src.elv.sh/pkg/elvdoc"
-	"src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/strutil"
 )
 
 // Node is the result of parsing transcripts. It can represent an .elvts file, a

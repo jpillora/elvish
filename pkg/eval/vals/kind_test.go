@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 type xtype int

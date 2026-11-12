@@ -3,7 +3,7 @@
 
 This file documents how Elvish's codebase is structured on a high level. You
 can read it either in a code editor, or in a godoc viewer such as
-https://pkg.go.dev/src.elv.sh@master/docs/architecture.
+https://pkg.go.dev/github.com/jpillora/elvish@main/docs/architecture.
 
 Elvish is a Go project. If you are not familiar with how Go code is
 organized, start with [how to write Go code].
@@ -24,21 +24,21 @@ README files to learn more.
 
 # Module, package and symbol names
 
-Elvish's module name is [src.elv.sh]. You can think of it as an alias to where
+Elvish's module name is [github.com/jpillora/elvish]. You can think of it as an alias to where
 the code is actually hosted (currently [github.com/elves/elvish]).
 
-The import paths of all the packages start with the module name [src.elv.sh].
+The import paths of all the packages start with the module name [github.com/jpillora/elvish].
 For example, the import path of the package in pkg/parse is
-[src.elv.sh/pkg/parse].
+[github.com/jpillora/elvish/pkg/parse].
 
 When referring to a symbol from a package, we'll use just the last component of
 the package's import path. For example, the Evaler type from the
-[src.elv.sh/pkg/eval] package is simply [eval.Evaler]. (This is consistent with
+[github.com/jpillora/elvish/pkg/eval] package is simply [eval.Evaler]. (This is consistent with
 Go's syntax.)
 
 # Entrypoints (cmd/elvish and pkg/prog)
 
-The default entrypoint of Elvish is [src.elv.sh/cmd/elvish]. It has a main
+The default entrypoint of Elvish is [github.com/jpillora/elvish/cmd/elvish]. It has a main
 function that does the following:
 
   - Assemble a "composite program" from multiple subprograms, most
@@ -46,9 +46,9 @@ function that does the following:
   - Call [prog.Run].
 
 You can read about the advantage of this approach in the godoc of
-[src.elv.sh/pkg/prog].
+[github.com/jpillora/elvish/pkg/prog].
 
-There are other main packages, like [src.elv.sh/cmd/withpprof/elvish]. They
+There are other main packages, like [github.com/jpillora/elvish/cmd/withpprof/elvish]. They
 follow the same structure and only differ in which subprograms they include.
 
 # The shell subprogram (pkg/shell)
@@ -58,16 +58,16 @@ non-interactive, depending on the command-line arguments. The doc for
 [shell.Program] contains more details.
 
 In both modes, the shell subprogram uses the interpreter implemented in
-[src.elv.sh/pkg/eval] to evaluate code.
+[github.com/jpillora/elvish/pkg/eval] to evaluate code.
 
 In interactive mode, the shell also uses the line editor implemented in
-[src.elv.sh/pkg/edit] to read commands interactively. Some features of the
+[github.com/jpillora/elvish/pkg/edit] to read commands interactively. Some features of the
 editor depend on persistent storage; the shell subprogram also takes care of
-initializing that, using [src.elv.sh/pkg/daemon].
+initializing that, using [github.com/jpillora/elvish/pkg/daemon].
 
 # The interpreter (pkg/eval)
 
-The [src.elv.sh/pkg/eval] package is perhaps the most important package in
+The [github.com/jpillora/elvish/pkg/eval] package is perhaps the most important package in
 Elvish, as it implements the Elvish language and the builtin module.
 
 The interpreter is represented by [eval.Evaler], which is created with
@@ -91,16 +91,16 @@ different package in future.
 
 Some other packages important for the interpreter are:
 
-  - [src.elv.sh/pkg/eval/vals] implements a standard set of operations for
+  - [github.com/jpillora/elvish/pkg/eval/vals] implements a standard set of operations for
     Elvish values.
-  - [src.elv.sh/pkg/persistent] implements Elvish's lists and maps, modeled
+  - [github.com/jpillora/elvish/pkg/persistent] implements Elvish's lists and maps, modeled
     after [Clojure's vectors and maps].
-  - Subdirectories of [src.elv.sh/pkg/mods] implement the various builtin
+  - Subdirectories of [github.com/jpillora/elvish/pkg/mods] implement the various builtin
     modules.
 
 # The parser (pkg/parse)
 
-The [src.elv.sh/pkg/parse] package implements parsing of Elvish code, with the
+The [github.com/jpillora/elvish/pkg/parse] package implements parsing of Elvish code, with the
 [parse.Parse] as the entrypoint.
 
 The parsing algorithm is a handwritten [recursive descent] one, with the
@@ -109,13 +109,13 @@ package's godoc for more details.
 
 # The editor (pkg/edit)
 
-The [src.elv.sh/pkg/edit] package contains Elvish's interactive line editor,
+The [github.com/jpillora/elvish/pkg/edit] package contains Elvish's interactive line editor,
 represented by [edit.Editor]. The traditional term "line editor" is a bit of a
 misnomer; modern line editors (including Elvish's) are similar to full-blown TUI
 applications like Vim, except that they usually restrict themselves to the last
 N lines of the terminal rather than the entire screen.
 
-The editor is built on top of the more low-level [src.elv.sh/pkg/cli] package
+The editor is built on top of the more low-level [github.com/jpillora/elvish/pkg/cli] package
 (which is also a bit of a misnomer), in particular the [cli.App] type.
 
 The entire TUI stack is due for a rewrite soon.
@@ -127,7 +127,7 @@ is done in pkg/shell, using pkg/daemon.
 # The storage daemon (pkg/daemon)
 
 Support for persistent storage is is currently provided by a storage daemon. The
-[src.elv.sh/pkg/daemon] packages implements two things:
+[github.com/jpillora/elvish/pkg/daemon] packages implements two things:
 
   - A subprogram implementing the storage daemon ([daemon.Program]).
   - A client to talk to the daemon (returned by [daemon.Activate]).
@@ -153,7 +153,7 @@ If you have questions, feel free to ask in the user group or DM xiaq.
 
 [how to write Go code]: https://go.dev/doc/code
 [github.com/elves/elvish]: https://github.com/elves/elvish
-[src.elv.sh]: https://src.elv.sh
+[github.com/jpillora/elvish]: https://github.com/jpillora/elvish
 [Clojure's vectors and maps]: https://clojure.org/reference/data_structures
 [recursive descent]: https://en.wikipedia.org/wiki/Recursive_descent_parser
 [bbolt]: https://github.com/etcd-io/bbolt
@@ -161,13 +161,13 @@ If you have questions, feel free to ask in the user group or DM xiaq.
 package architecture
 
 import (
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/daemon"
-	"src.elv.sh/pkg/edit"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/shell"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/daemon"
+	"github.com/jpillora/elvish/pkg/edit"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/shell"
 )
 
 var (

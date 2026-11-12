@@ -10,12 +10,12 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/jpillora/elvish/pkg/mods/doc"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/testutil"
 	"github.com/sourcegraph/jsonrpc2"
 	lsp "pkg.nimblebun.works/go-lsp"
-	"src.elv.sh/pkg/mods/doc"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/testutil"
 )
 
 var bgCtx = context.Background()

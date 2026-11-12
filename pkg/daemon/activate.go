@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/daemon/internal/api"
-	"src.elv.sh/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/daemon/internal/api"
+	"github.com/jpillora/elvish/pkg/fsutil"
 )
 
 var (

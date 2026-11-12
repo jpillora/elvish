@@ -1,10 +1,10 @@
 package edit
 
 import (
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 func initInsertAPI(appSpec *cli.AppSpec, nt notifier, ev *eval.Evaler, nb eval.NsBuilder) {

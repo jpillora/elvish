@@ -3,11 +3,11 @@ package edit
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestCompletionAddon(t *testing.T) {

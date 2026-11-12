@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestTempDir_DirIsValid(t *testing.T) {

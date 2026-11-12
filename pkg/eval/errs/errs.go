@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // OutOfRange encodes an error where a value is out of its valid range.

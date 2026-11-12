@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"syscall"
 
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/sys/eunix"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/sys/eunix"
 )
 
 // ErrNotInSameProcessGroup is thrown when the process IDs passed to fg are not

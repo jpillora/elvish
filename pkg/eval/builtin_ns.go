@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"syscall"
 
-	"src.elv.sh/pkg/buildinfo"
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/buildinfo"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 var builtinNs = BuildNsNamed("").AddVars(map[string]vars.Var{

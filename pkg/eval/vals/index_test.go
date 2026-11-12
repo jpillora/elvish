@@ -4,9 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 var (

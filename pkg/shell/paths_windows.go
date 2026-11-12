@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/jpillora/elvish/pkg/env"
 	"golang.org/x/sys/windows"
-	"src.elv.sh/pkg/env"
 )
 
 var (

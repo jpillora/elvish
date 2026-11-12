@@ -3,10 +3,10 @@ package modes
 import (
 	"fmt"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/store/storedefs"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Histlist is a mode for browsing history and selecting entries to insert. It

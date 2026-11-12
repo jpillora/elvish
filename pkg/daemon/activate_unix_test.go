@@ -8,9 +8,9 @@ import (
 	"os/user"
 	"testing"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/daemon/internal/api"
-	"src.elv.sh/pkg/must"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/daemon/internal/api"
+	"github.com/jpillora/elvish/pkg/must"
 )
 
 func TestActivate_InterruptsOutdatedServerAndSpawnsNewServer(t *testing.T) {

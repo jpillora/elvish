@@ -1,6 +1,6 @@
 package histutil
 
-import "src.elv.sh/pkg/store/storedefs"
+import "github.com/jpillora/elvish/pkg/store/storedefs"
 
 // NewHybridStore returns a store that provides a view of all the commands that
 // exists in the database, plus a in-memory session history.

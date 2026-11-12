@@ -5,11 +5,11 @@ import (
 	"io/fs"
 	"testing"
 
-	"src.elv.sh/pkg/elvdoc"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/mods/doc"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/mods/doc"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 //go:embed fakepkg

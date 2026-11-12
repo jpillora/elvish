@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/ui"
-	"src.elv.sh/pkg/ui/styledown"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui/styledown"
 )
 
 var errStyledSegmentArgType = errors.New("argument to styled-segment must be a string or a styled segment")

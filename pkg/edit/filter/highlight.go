@@ -3,10 +3,10 @@ package filter
 import (
 	"strings"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/parse/cmpd"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse/cmpd"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func Highlight(q string) (ui.Text, []ui.Text) {

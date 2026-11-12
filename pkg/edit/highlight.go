@@ -5,12 +5,12 @@ import (
 	"os/exec"
 	"strings"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/edit/highlight"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/fsutil"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/edit/highlight"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func initHighlighter(appSpec *cli.AppSpec, ed *Editor, ev *eval.Evaler, nb eval.NsBuilder) {

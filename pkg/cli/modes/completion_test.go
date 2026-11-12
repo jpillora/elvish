@@ -3,11 +3,11 @@ package modes
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli"
-	. "src.elv.sh/pkg/cli/clitest"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	. "github.com/jpillora/elvish/pkg/cli/clitest"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestCompletion_Filter(t *testing.T) {

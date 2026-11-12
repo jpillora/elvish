@@ -122,8 +122,8 @@ invalid
 
 ## dump stack trace on USR1 ##
 //kill-wait-in-global
-~> elvish -c 'kill -USR1 $pid; sleep '$kill-wait &check-stderr-contains='src.elv.sh/pkg/shell'
-[stderr contains "src.elv.sh/pkg/shell"] true
+~> elvish -c 'kill -USR1 $pid; sleep '$kill-wait &check-stderr-contains='github.com/jpillora/elvish/pkg/shell'
+[stderr contains "github.com/jpillora/elvish/pkg/shell"] true
 
 ## ignore but log CHLD ##
 //in-temp-dir

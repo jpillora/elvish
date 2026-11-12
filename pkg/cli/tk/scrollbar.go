@@ -1,8 +1,8 @@
 package tk
 
 import (
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // VScrollbarContainer is a Renderer consisting of content and a vertical

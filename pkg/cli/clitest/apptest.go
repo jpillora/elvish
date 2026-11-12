@@ -4,9 +4,9 @@ package clitest
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Styles defines a common stylesheet for unit tests.

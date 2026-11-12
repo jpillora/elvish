@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Prompt implements a prompt that is executed asynchronously.

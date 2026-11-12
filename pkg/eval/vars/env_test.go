@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestEnvVariable(t *testing.T) {

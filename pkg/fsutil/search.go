@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"src.elv.sh/pkg/env"
+	"github.com/jpillora/elvish/pkg/env"
 )
 
 // DontSearch determines whether the path to an external command should be

@@ -5,11 +5,11 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/strutil"
-	"src.elv.sh/pkg/wcwidth"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/wcwidth"
 )
 
 func initBufferBuiltins(app cli.App, nb eval.NsBuilder) {

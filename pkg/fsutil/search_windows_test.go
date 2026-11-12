@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestEachExternal(t *testing.T) {

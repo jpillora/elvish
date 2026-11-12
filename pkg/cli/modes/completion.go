@@ -4,10 +4,10 @@ import (
 	"errors"
 	"strings"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Completion is a mode specialized for viewing and inserting completion

@@ -3,7 +3,7 @@ package main
 import (
 	"strings"
 
-	"src.elv.sh/pkg/md"
+	"github.com/jpillora/elvish/pkg/md"
 )
 
 // Adds the implicit destination for [`foo`]().

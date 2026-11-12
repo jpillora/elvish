@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 // Lists and maps.

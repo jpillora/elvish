@@ -4,10 +4,10 @@ package main
 import (
 	"fmt"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/tk"
 )
 
 func main() {

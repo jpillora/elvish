@@ -8,7 +8,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/diag"
+	"github.com/jpillora/elvish/pkg/diag"
 )
 
 // parser maintains some mutable states of parsing.

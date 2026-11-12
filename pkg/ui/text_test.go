@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestT(t *testing.T) {

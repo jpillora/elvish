@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"strings"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/fsutil"
-	"src.elv.sh/pkg/glob"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/glob"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // An operation that produces values.

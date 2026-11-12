@@ -1,11 +1,11 @@
 package edit
 
 import (
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func initInstant(ed *Editor, ev *eval.Evaler, nb eval.NsBuilder) {

@@ -4,7 +4,7 @@ package parseutil
 import (
 	"strings"
 
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // Wordify turns a piece of source code into words.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sort"
 
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 // Stream manipulation.

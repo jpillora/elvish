@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"unsafe"
 
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
 )
 
 // Ns is the runtime representation of a namespace. The zero value of Ns is an

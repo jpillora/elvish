@@ -4,11 +4,11 @@ import (
 	"errors"
 	"testing"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/clitest"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/tt"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/clitest"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/tt"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var Args = tt.Args

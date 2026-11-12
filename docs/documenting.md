@@ -12,7 +12,7 @@ appropriate section. You can find the document at the root of the repo (called
 
 Reference docs are written as "elvdocs", comment blocks before unindented `fn`
 or `var` declarations in Elvish files. A
-[large subset](https://pkg.go.dev/src.elv.sh/pkg/md@master) of
+[large subset](https://pkg.go.dev/github.com/jpillora/elvish/pkg/md@main) of
 [CommonMark](https://commonmark.org) is supported. Examples:
 
 ````elvish

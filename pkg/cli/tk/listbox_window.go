@@ -1,6 +1,6 @@
 package tk
 
-import "src.elv.sh/pkg/wcwidth"
+import "github.com/jpillora/elvish/pkg/wcwidth"
 
 // The number of lines the listing mode keeps between the current selected item
 // and the top and bottom edges of the window, unless the available height is

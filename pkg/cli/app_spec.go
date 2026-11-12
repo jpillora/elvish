@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // AppSpec specifies the configuration and initial state for an App.

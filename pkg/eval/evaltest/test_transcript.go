@@ -5,7 +5,7 @@
 //
 //	import (
 //		"embed"
-//		"src.elv.sh/pkg/eval/evaltest"
+//		"github.com/jpillora/elvish/pkg/eval/evaltest"
 //	)
 //
 //	//go:embed *.elv *.elvts
@@ -15,7 +15,7 @@
 //		evaltest.TestTranscriptsInFS(t, transcripts)
 //	}
 //
-// See [src.elv.sh/pkg/transcript] for how transcript sessions are discovered.
+// See [github.com/jpillora/elvish/pkg/transcript] for how transcript sessions are discovered.
 //
 // # Setup functions
 //
@@ -129,16 +129,16 @@ import (
 	"strings"
 	"testing"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/diff"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/mods"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/transcript"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/diff"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/mods"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/transcript"
 )
 
 // TestTranscriptsInFS extracts all Elvish transcript sessions from .elv and

@@ -7,9 +7,9 @@ import (
 	"testing"
 	"unsafe"
 
-	"src.elv.sh/pkg/persistent/hash"
-	"src.elv.sh/pkg/persistent/hashmap"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 type hasher struct{}

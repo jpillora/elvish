@@ -3,7 +3,7 @@ package edit
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/term"
 )
 
 func TestMinibuf(t *testing.T) {

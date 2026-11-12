@@ -2,7 +2,7 @@
 
 // Command ttyshot generates a ttyshot HTML image from a ttyshot specification.
 //
-// See documentation in http://src.elv.sh/website#ttyshots.
+// See documentation in http://github.com/jpillora/elvish/website#ttyshots.
 package main
 
 import (

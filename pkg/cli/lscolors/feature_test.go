@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 type opt struct {

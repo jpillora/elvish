@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/cli/clitest"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/clitest"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestPrompt_ValueOutput(t *testing.T) {

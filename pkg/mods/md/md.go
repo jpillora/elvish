@@ -1,11 +1,11 @@
-// Package md exposes functionality from src.elv.sh/pkg/md.
+// Package md exposes functionality from github.com/jpillora/elvish/pkg/md.
 package md
 
 import (
-	"src.elv.sh/pkg/elvdoc"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/sys"
+	"github.com/jpillora/elvish/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/sys"
 )
 
 // Ns is the namespace for the md: module.

@@ -5,10 +5,10 @@ import (
 	"net"
 	"sync"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/daemon/internal/api"
-	"src.elv.sh/pkg/rpc"
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/daemon/internal/api"
+	"github.com/jpillora/elvish/pkg/rpc"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 const retriesOnShutdown = 3

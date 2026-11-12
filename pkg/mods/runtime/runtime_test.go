@@ -5,10 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/mods/runtime"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/mods/runtime"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 //go:embed *.elvts

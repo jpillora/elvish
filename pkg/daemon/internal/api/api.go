@@ -3,7 +3,7 @@
 package api
 
 import (
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // Version is the API version. It should be bumped any time the API changes.

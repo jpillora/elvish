@@ -1,8 +1,8 @@
 package eval
 
 import (
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 // Basic predicate commands.

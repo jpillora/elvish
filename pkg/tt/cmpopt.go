@@ -5,8 +5,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"src.elv.sh/pkg/persistent/hashmap"
-	"src.elv.sh/pkg/persistent/vector"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/persistent/vector"
 )
 
 // CommonCmpOpt is cmp.Option shared between tt and evaltest.

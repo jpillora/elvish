@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var readEventTests = []struct {

@@ -5,14 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/edit/complete"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/mods/doc"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse/np"
 	"github.com/sourcegraph/jsonrpc2"
 	lsp "pkg.nimblebun.works/go-lsp"
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/edit/complete"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/mods/doc"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/parse/np"
 )
 
 var (

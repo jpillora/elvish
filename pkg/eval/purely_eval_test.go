@@ -3,12 +3,12 @@ package eval_test
 import (
 	"testing"
 
-	. "src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/testutil"
+	. "github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/testutil"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func TestPurelyEvalCompound(t *testing.T) {

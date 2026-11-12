@@ -4,9 +4,9 @@ package daemon
 import (
 	"strconv"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 // Ns makes the daemon: namespace.

@@ -1,6 +1,6 @@
 // Package progtest contains utilities for wrapping [prog.Program] instances
 // into Elvish functions, so that they can be tested using the
-// [src.elv.sh/pkg/eval/evaltest] framework.
+// [github.com/jpillora/elvish/pkg/eval/evaltest] framework.
 package progtest
 
 import (
@@ -9,9 +9,9 @@ import (
 	"os"
 	"strings"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/prog"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/prog"
 )
 
 // ElvishInGlobal returns a setup function suitable for the evaltest framework,

@@ -5,8 +5,8 @@ import (
 	"context"
 	"os"
 
+	"github.com/jpillora/elvish/pkg/prog"
 	"github.com/sourcegraph/jsonrpc2"
-	"src.elv.sh/pkg/prog"
 )
 
 // Program is the LSP subprogram.

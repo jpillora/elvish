@@ -1,9 +1,18 @@
 # Elvish
 
-[![CI status](https://github.com/elves/elvish/workflows/CI/badge.svg)](https://github.com/elves/elvish/actions?query=workflow%3ACI)
+This fork is available as the Go module `github.com/jpillora/elvish`. Import
+packages such as `github.com/jpillora/elvish/pkg/shell` directly; no `replace`
+directive is needed. It includes portable filesystem and text command fallbacks
+for embedding in applications such as sshd-lite.
+
+Install the fork with `go install github.com/jpillora/elvish/cmd/elvish@main`.
+Tags from before the module-path migration still use the upstream module path;
+pin `main` or a commit after the migration when using this fork.
+
+[![CI status](https://github.com/jpillora/elvish/workflows/CI/badge.svg)](https://github.com/jpillora/elvish/actions?query=workflow%3ACI)
 [![FreeBSD & gccgo test status](https://img.shields.io/cirrus/github/elves/elvish?logo=Cirrus%20CI&label=CI2)](https://cirrus-ci.com/github/elves/elvish/master)
 [![Test Coverage](https://img.shields.io/codecov/c/github/elves/elvish/master.svg?logo=Codecov&label=coverage)](https://app.codecov.io/gh/elves/elvish/tree/master)
-[![Go Reference](https://pkg.go.dev/badge/src.elv.sh@master.svg)](https://pkg.go.dev/src.elv.sh@master)
+[![Go Reference](https://pkg.go.dev/badge/github.com/jpillora/elvish@main.svg)](https://pkg.go.dev/github.com/jpillora/elvish@main)
 [![Packaging status](https://repology.org/badge/tiny-repos/elvish.svg)](https://repology.org/project/elvish/versions)
 
 [![Forum](https://img.shields.io/badge/forum-bbs.elv.sh-5b5.svg?logo=discourse)](https://bbs.elv.sh)

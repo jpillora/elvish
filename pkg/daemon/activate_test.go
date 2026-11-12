@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestActivate_ConnectsToExistingServer(t *testing.T) {

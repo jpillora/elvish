@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	. "src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/testutil"
+	. "github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 // The spec contains some tests where non-ASCII characters get escaped in URLs.

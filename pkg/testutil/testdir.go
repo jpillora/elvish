@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/must"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/must"
 )
 
 // TempDir creates a temporary directory for testing that will be removed

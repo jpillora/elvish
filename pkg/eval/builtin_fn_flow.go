@@ -9,9 +9,9 @@ import (
 
 	"golang.org/x/sync/semaphore"
 
-	"src.elv.sh/pkg/errutil"
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/errutil"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 // Flow control.

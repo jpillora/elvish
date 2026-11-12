@@ -4,7 +4,7 @@
 // [contributor's manual] on how to use it.
 //
 // For general information about the Markdown implementation used by this
-// command, see [src.elv.sh/pkg/md].
+// command, see [github.com/jpillora/elvish/pkg/md].
 //
 // [contributor's manual]: https://github.com/elves/elvish/blob/master/CONTRIBUTING.md#formatting
 package main
@@ -16,8 +16,8 @@ import (
 	"io"
 	"os"
 
-	"src.elv.sh/pkg/diff"
-	"src.elv.sh/pkg/md"
+	"github.com/jpillora/elvish/pkg/diff"
+	"github.com/jpillora/elvish/pkg/md"
 )
 
 var (

@@ -3,7 +3,7 @@ package histutil
 import (
 	"errors"
 
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // Store is an abstract interface for history store.

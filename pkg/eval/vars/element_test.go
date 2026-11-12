@@ -3,7 +3,7 @@ package vars
 import (
 	"testing"
 
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 var elementTests = []struct {

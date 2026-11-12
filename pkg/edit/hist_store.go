@@ -3,8 +3,8 @@ package edit
 import (
 	"sync"
 
-	"src.elv.sh/pkg/cli/histutil"
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/cli/histutil"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // A wrapper of histutil.Store that is concurrency-safe and supports an

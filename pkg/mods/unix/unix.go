@@ -6,9 +6,9 @@
 package unix
 
 import (
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/logutil"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/logutil"
 )
 
 // ExposeUnixNs indicate whether this module should be exposed as a usable

@@ -3,8 +3,8 @@ package strutil_test
 import (
 	"testing"
 
-	"src.elv.sh/pkg/strutil"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 var Args = tt.Args

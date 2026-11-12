@@ -1,8 +1,8 @@
 package store
 
 import (
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 func Ns(s storedefs.Store) *eval.Ns {

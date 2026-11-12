@@ -4,8 +4,8 @@ import (
 	"regexp"
 	"strings"
 
-	"src.elv.sh/pkg/edit/highlight"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/edit/highlight"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // With an empty highlight.Config, this highlighter does not check for
@@ -31,7 +31,7 @@ func HighlightCodeBlock(info, code string) ui.Text {
 // Pattern for the prefix of the first line of Elvish code in a transcript.
 var ps1Pattern = regexp.MustCompile(`^[~/][^ ]*> `)
 
-// TODO: Ideally this should use the parser in [src.elv.sh/pkg/transcript],
+// TODO: Ideally this should use the parser in [github.com/jpillora/elvish/pkg/transcript],
 func highlightTranscript(code string) ui.Text {
 	var tb ui.TextBuilder
 	lines := strings.Split(code, "\n")

@@ -1,11 +1,11 @@
-module src.elv.sh/website
+module github.com/jpillora/elvish/website
 
 go 1.22
 
 require (
 	github.com/BurntSushi/toml v1.4.0
 	github.com/creack/pty v1.1.23
-	src.elv.sh v0.21.0
+	github.com/jpillora/elvish v0.0.0
 )
 
 require (
@@ -14,4 +14,4 @@ require (
 	golang.org/x/sys v0.24.0 // indirect
 )
 
-replace src.elv.sh => ../
+replace github.com/jpillora/elvish => ../

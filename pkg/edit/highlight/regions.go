@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/parse/cmpd"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse/cmpd"
 )
 
 var sourceText = parse.SourceText

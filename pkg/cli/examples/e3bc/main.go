@@ -7,13 +7,13 @@ import (
 	"io"
 	"unicode"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/cli/examples/e3bc/bc"
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/cli/examples/e3bc/bc"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // A highlighter for bc code. Currently this just makes all digits green.

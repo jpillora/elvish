@@ -6,9 +6,9 @@ import (
 	"regexp"
 	"strings"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 // Ns is the namespace for the re: module.

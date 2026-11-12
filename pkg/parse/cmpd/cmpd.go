@@ -4,7 +4,7 @@ package cmpd
 import (
 	"fmt"
 
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // Primary returns a primary node and true if that's the only child of the

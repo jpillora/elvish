@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math/big"
 
-	. "src.elv.sh/pkg/eval"
+	. "github.com/jpillora/elvish/pkg/eval"
 )
 
 type someOptions struct {

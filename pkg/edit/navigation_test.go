@@ -4,11 +4,11 @@ import (
 	"path/filepath"
 	"testing"
 
-	"src.elv.sh/pkg/cli/lscolors"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/lscolors"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestNavigation(t *testing.T) {

@@ -3,9 +3,9 @@ package transcript_test
 import (
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
-	. "src.elv.sh/pkg/transcript"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/testutil"
+	. "github.com/jpillora/elvish/pkg/transcript"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 type Dir = testutil.Dir

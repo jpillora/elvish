@@ -1,7 +1,7 @@
 package vals
 
 import (
-	"src.elv.sh/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
 )
 
 // HasKeyer wraps the HasKey method.

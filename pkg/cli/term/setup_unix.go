@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/jpillora/elvish/pkg/errutil"
+	"github.com/jpillora/elvish/pkg/sys/eunix"
 	"golang.org/x/sys/unix"
-	"src.elv.sh/pkg/errutil"
-	"src.elv.sh/pkg/sys/eunix"
 )
 
 func setupForTUIOnce(in, _ *os.File) func() {

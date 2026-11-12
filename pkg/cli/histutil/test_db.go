@@ -3,7 +3,7 @@ package histutil
 import (
 	"strings"
 
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // FaultyInMemoryDB is an in-memory DB implementation that can be injected

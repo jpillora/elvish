@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	"src.elv.sh/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/elvdoc"
 )
 
 func writeElvdocSections(w io.Writer, docs elvdoc.Docs) {

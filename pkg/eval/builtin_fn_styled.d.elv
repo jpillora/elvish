@@ -126,7 +126,7 @@ fn styled {|object @style-transformer| }
 # Renders Styledown markup into a styled text.
 #
 # For the styledown markup format, see
-# <https://pkg.go.dev/src.elv.sh@master/pkg/ui/styledown>.
+# <https://pkg.go.dev/github.com/jpillora/elvish@main/pkg/ui/styledown>.
 #
 # Examples:
 #
@@ -152,7 +152,7 @@ fn render-styledown {|s| }
 # itself.
 #
 # For the Styledown markup format, see
-# <https://pkg.go.dev/src.elv.sh@master/pkg/ui/styledown>.
+# <https://pkg.go.dev/github.com/jpillora/elvish@main/pkg/ui/styledown>.
 #
 # Examples:
 #

@@ -3,8 +3,8 @@ package vars
 import (
 	"testing"
 
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestNewReadOnly(t *testing.T) {

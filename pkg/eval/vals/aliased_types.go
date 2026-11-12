@@ -3,8 +3,8 @@ package vals
 import (
 	"os"
 
-	"src.elv.sh/pkg/persistent/hashmap"
-	"src.elv.sh/pkg/persistent/vector"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/persistent/vector"
 )
 
 // File is an alias for *os.File.

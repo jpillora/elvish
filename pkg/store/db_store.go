@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jpillora/elvish/pkg/logutil"
+	. "github.com/jpillora/elvish/pkg/store/storedefs"
 	bolt "go.etcd.io/bbolt"
-	"src.elv.sh/pkg/logutil"
-	. "src.elv.sh/pkg/store/storedefs"
 )
 
 var logger = logutil.GetLogger("[store] ")

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/errs"
 )
 
 // WrongType is returned by ScanToGo if the source value doesn't have a

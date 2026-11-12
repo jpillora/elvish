@@ -17,8 +17,8 @@ import (
 	"time"
 
 	"github.com/creack/pty"
-	"src.elv.sh/pkg/sys/eunix"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/sys/eunix"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 const (

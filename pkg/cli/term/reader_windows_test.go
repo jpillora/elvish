@@ -4,9 +4,9 @@ import (
 	"testing"
 	"unicode/utf16"
 
-	"src.elv.sh/pkg/sys/ewindows"
-	"src.elv.sh/pkg/tt"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/sys/ewindows"
+	"github.com/jpillora/elvish/pkg/tt"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestConvertEvent(t *testing.T) {

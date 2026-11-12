@@ -27,7 +27,7 @@
 // # Double-width characters
 //
 // Characters in text and style lines are matched up using their visual
-// width, as calculated by [src.elv.sh/pkg/wcwidth.OfRune]. This means that
+// width, as calculated by [github.com/jpillora/elvish/pkg/wcwidth.OfRune]. This means that
 // double-width characters need to have their style character doubled:
 //
 //	好 foo
@@ -50,7 +50,7 @@
 //	G inverse fg-green
 //
 // Each line consists of the style character and one or more stylings as
-// recognized by [src.elv.sh/pkg/ui.ParseStyling], separated by whitespaces. The
+// recognized by [github.com/jpillora/elvish/pkg/ui.ParseStyling], separated by whitespaces. The
 // character must be a single Unicode codepoint and have a visual width of 1.
 //
 // The configuration stanza can also contain additional options, and there's
@@ -86,8 +86,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/ui"
-	"src.elv.sh/pkg/wcwidth"
+	"github.com/jpillora/elvish/pkg/ui"
+	"github.com/jpillora/elvish/pkg/wcwidth"
 )
 
 // Render renders Styledown markup. If the markup has parse errors, the error

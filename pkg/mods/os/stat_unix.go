@@ -5,7 +5,7 @@ package os
 import (
 	"syscall"
 
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 var extraStatFields = map[string]func(*syscall.Stat_t) uint64{}

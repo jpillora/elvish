@@ -2,21 +2,21 @@
 package mods
 
 import (
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/mods/doc"
-	"src.elv.sh/pkg/mods/epm"
-	"src.elv.sh/pkg/mods/file"
-	"src.elv.sh/pkg/mods/flag"
-	"src.elv.sh/pkg/mods/math"
-	"src.elv.sh/pkg/mods/md"
-	"src.elv.sh/pkg/mods/os"
-	"src.elv.sh/pkg/mods/path"
-	"src.elv.sh/pkg/mods/platform"
-	"src.elv.sh/pkg/mods/re"
-	readline_binding "src.elv.sh/pkg/mods/readline-binding"
-	"src.elv.sh/pkg/mods/runtime"
-	"src.elv.sh/pkg/mods/str"
-	"src.elv.sh/pkg/mods/unix"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/mods/doc"
+	"github.com/jpillora/elvish/pkg/mods/epm"
+	"github.com/jpillora/elvish/pkg/mods/file"
+	"github.com/jpillora/elvish/pkg/mods/flag"
+	"github.com/jpillora/elvish/pkg/mods/math"
+	"github.com/jpillora/elvish/pkg/mods/md"
+	"github.com/jpillora/elvish/pkg/mods/os"
+	"github.com/jpillora/elvish/pkg/mods/path"
+	"github.com/jpillora/elvish/pkg/mods/platform"
+	"github.com/jpillora/elvish/pkg/mods/re"
+	readline_binding "github.com/jpillora/elvish/pkg/mods/readline-binding"
+	"github.com/jpillora/elvish/pkg/mods/runtime"
+	"github.com/jpillora/elvish/pkg/mods/str"
+	"github.com/jpillora/elvish/pkg/mods/unix"
 )
 
 // AddTo adds all standard library modules to the Evaler.

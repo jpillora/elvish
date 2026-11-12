@@ -5,9 +5,9 @@ Go application.
 
 ## Enhancing version information
 
-You can set some variables in the `src.elv.sh/pkg/buildinfo` package using
+You can set some variables in the `github.com/jpillora/elvish/pkg/buildinfo` package using
 linker flags to enhance the Elvish's version information. See the
-[package's API doc](https://pkg.go.dev/src.elv.sh@master/pkg/buildinfo) for
+[package's API doc](https://pkg.go.dev/github.com/jpillora/elvish@main/pkg/buildinfo) for
 details.
 
 They don't affect any other aspect of Elvish's behavior, so it's infeasible to

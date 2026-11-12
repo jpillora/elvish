@@ -29,8 +29,8 @@ import (
 	"regexp"
 	"strings"
 
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/strutil"
 )
 
 // Docs records doc comments.

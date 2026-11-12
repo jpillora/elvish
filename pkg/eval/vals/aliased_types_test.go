@@ -3,8 +3,8 @@ package vals
 import (
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 var Args = tt.Args

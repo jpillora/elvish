@@ -3,7 +3,7 @@ package lscolors
 import (
 	"os"
 
-	"src.elv.sh/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/fsutil"
 )
 
 type feature int

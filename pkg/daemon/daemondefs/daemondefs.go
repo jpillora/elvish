@@ -7,7 +7,7 @@ package daemondefs
 import (
 	"io"
 
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // Client represents a daemon client.

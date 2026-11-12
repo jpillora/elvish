@@ -4,10 +4,10 @@ package highlight
 import (
 	"time"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Config keeps configuration for highlighting code.

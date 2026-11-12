@@ -1,7 +1,7 @@
 package tk
 
 import (
-	"src.elv.sh/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/term"
 )
 
 // ComboBox is a Widget that combines a ListBox and a CodeArea.

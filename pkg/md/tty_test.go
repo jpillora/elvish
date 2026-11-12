@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	. "src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/ui"
+	. "github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var stylesheet = ui.RuneStylesheet{

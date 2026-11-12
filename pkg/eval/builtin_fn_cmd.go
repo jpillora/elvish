@@ -3,8 +3,8 @@ package eval
 import (
 	"os"
 
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/fsutil"
 )
 
 // Command and process control.

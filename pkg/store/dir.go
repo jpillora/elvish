@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strconv"
 
+	. "github.com/jpillora/elvish/pkg/store/storedefs"
 	bolt "go.etcd.io/bbolt"
-	. "src.elv.sh/pkg/store/storedefs"
 )
 
 // Parameters for directory history scores.

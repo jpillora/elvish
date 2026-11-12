@@ -5,10 +5,10 @@ import (
 	"io"
 	"strings"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/prog"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/prog"
 )
 
 // compiler maintains the set of states needed when compiling a single source

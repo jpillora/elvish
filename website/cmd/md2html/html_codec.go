@@ -7,9 +7,9 @@ import (
 	"regexp"
 	"strings"
 
-	"src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/strutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // A wrapper of [md.HTMLCodec] implementing generic additional features.

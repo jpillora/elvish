@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/errutil"
+	"github.com/jpillora/elvish/pkg/errutil"
 )
 
 var (

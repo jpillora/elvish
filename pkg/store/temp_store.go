@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/jpillora/elvish/pkg/testutil"
 	bolt "go.etcd.io/bbolt"
-	"src.elv.sh/pkg/testutil"
 )
 
 // MustTempStore returns a Store backed by a temporary file for testing. The

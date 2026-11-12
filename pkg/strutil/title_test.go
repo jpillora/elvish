@@ -3,7 +3,7 @@ package strutil
 import (
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestTitle(t *testing.T) {

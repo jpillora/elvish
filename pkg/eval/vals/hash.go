@@ -5,8 +5,8 @@ import (
 	"math/big"
 	"reflect"
 
-	"src.elv.sh/pkg/persistent/hash"
-	"src.elv.sh/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
 )
 
 // Hasher wraps the Hash method.

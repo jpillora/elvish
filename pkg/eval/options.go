@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"slices"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // UnknownOption is thrown by a native function when called with an unknown option.

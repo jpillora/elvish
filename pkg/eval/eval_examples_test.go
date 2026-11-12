@@ -3,9 +3,9 @@ package eval_test
 import (
 	"fmt"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func ExampleEvaler_Eval_usingPortsFromStdFiles() {

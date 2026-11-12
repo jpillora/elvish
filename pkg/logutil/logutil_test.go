@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"testing"
 
-	"src.elv.sh/pkg/must"
+	"github.com/jpillora/elvish/pkg/must"
 )
 
 func TestLogger(t *testing.T) {

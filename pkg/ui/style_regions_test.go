@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var styleRegionsTests = []struct {

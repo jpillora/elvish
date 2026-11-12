@@ -1,7 +1,7 @@
 package highlight
 
 import (
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var stylingFor = map[string]ui.Styling{

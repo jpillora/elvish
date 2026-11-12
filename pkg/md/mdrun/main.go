@@ -8,7 +8,7 @@ import (
 	"os"
 	"runtime/pprof"
 
-	"src.elv.sh/pkg/md"
+	"github.com/jpillora/elvish/pkg/md"
 )
 
 var (

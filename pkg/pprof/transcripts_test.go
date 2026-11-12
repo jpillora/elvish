@@ -5,10 +5,10 @@ import (
 	"os"
 	"testing"
 
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/pprof"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/prog/progtest"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/pprof"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/prog/progtest"
 )
 
 //go:embed *.elvts

@@ -10,15 +10,15 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/daemon"
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/prog/progtest"
-	"src.elv.sh/pkg/shell"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/daemon"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/prog/progtest"
+	"github.com/jpillora/elvish/pkg/shell"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 //go:embed *.elvts

@@ -14,7 +14,7 @@ This directory contains developer documentation:
 If you'd like to contribute to Elvish:
 
 -   🏢
-    [Architecture overview](https://pkg.go.dev/src.elv.sh@master/docs/architecture)
+    [Architecture overview](https://pkg.go.dev/github.com/jpillora/elvish@main/docs/architecture)
 
     This document is written as a godoc comment. You can also read the Go source
     [architecture/doc.go](architecture/doc.go).

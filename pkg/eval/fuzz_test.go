@@ -3,7 +3,7 @@ package eval
 import (
 	"testing"
 
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func FuzzCheck(f *testing.F) {

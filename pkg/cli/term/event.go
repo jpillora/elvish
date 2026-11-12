@@ -1,7 +1,7 @@
 package term
 
 import (
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Event represents an event that can be read from the terminal.

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"src.elv.sh/pkg/env"
+	"github.com/jpillora/elvish/pkg/env"
 )
 
 // Scaled returns d scaled by $E:ELVISH_TEST_TIME_SCALE. If the environment

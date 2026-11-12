@@ -4,9 +4,9 @@ import (
 	"sort"
 	"strings"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func match(markdown string, qs []string) ([]matchedBlock, bool) {

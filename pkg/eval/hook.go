@@ -3,8 +3,8 @@ package eval
 import (
 	"fmt"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 // CallHook runs all the functions in the list "hook", with "args".

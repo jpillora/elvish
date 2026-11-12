@@ -3,7 +3,7 @@ package eval
 import (
 	"strings"
 
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func (ev *Evaler) PurelyEvalCompound(cn *parse.Compound) (string, bool) {

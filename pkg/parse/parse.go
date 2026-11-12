@@ -24,7 +24,7 @@ import (
 	"math"
 	"unicode"
 
-	"src.elv.sh/pkg/diag"
+	"github.com/jpillora/elvish/pkg/diag"
 )
 
 // Tree represents a parsed tree.

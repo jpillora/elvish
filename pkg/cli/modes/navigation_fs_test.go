@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var (

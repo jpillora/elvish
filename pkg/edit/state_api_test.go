@@ -3,7 +3,7 @@ package edit
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/cli/tk"
 )
 
 func TestInsertAtDot(t *testing.T) {

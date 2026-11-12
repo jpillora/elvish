@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"src.elv.sh/pkg/diff"
-	"src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/diff"
+	"github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 // Most of the parser behavior is tested indirectly via the HTML output. This

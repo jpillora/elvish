@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"strings"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 var osHostname = os.Hostname // to allow mocking in unit tests

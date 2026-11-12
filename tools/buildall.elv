@@ -46,7 +46,7 @@ If the sha256sum command is available, this script also creates a sha256sum
 file for each binary and archive file, and puts it in the same directory.
 
 The value of $variant will be used to override
-src.elv.sh/pkg/buildinfo.BuildVariant.
+github.com/jpillora/elvish/pkg/buildinfo.BuildVariant.
 '
 
 fn main {|go-pkg dst-dir &name=elvish &variant='' &keep-bin=$false|
@@ -71,7 +71,7 @@ fn main {|go-pkg dst-dir &name=elvish &variant='' &keep-bin=$false|
     try {
       go build ^
         -trimpath ^
-        -ldflags '-X src.elv.sh/pkg/buildinfo.BuildVariant='$variant ^
+        -ldflags '-X github.com/jpillora/elvish/pkg/buildinfo.BuildVariant='$variant ^
         -o $bin-dir/$bin-name-in-archive ^
         $go-pkg
     } catch e {

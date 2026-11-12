@@ -3,9 +3,9 @@ package eval_test
 import (
 	"testing"
 
-	. "src.elv.sh/pkg/eval"
+	. "github.com/jpillora/elvish/pkg/eval"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestSplitSigil(t *testing.T) {

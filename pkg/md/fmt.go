@@ -8,7 +8,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/wcwidth"
+	"github.com/jpillora/elvish/pkg/wcwidth"
 )
 
 // FmtCodec is a codec that formats Markdown in a specific style.

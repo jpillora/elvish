@@ -5,9 +5,9 @@ import (
 	"errors"
 	"testing"
 
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/mods/platform"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/mods/platform"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 //go:embed *.elvts

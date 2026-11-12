@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/tt"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/tt"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var Args = tt.Args

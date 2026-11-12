@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 // An implementation for Concatter that accepts strings, returns a special

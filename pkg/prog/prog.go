@@ -52,8 +52,8 @@ provide alternative main packages that include or exclude a certain
 subprogram. For example, profiling support requires importing a lot of
 additional packages from the standard library, which increases the binary
 size. As a result, the profiling subprogram is not included in the default
-main package [src.elv.sh/cmd/elvish], but it is included in the alternative
-main package [src.elv.sh/cmd/withpprof/elvish]. Binaries built from the
+main package [github.com/jpillora/elvish/cmd/elvish], but it is included in the alternative
+main package [github.com/jpillora/elvish/cmd/withpprof/elvish]. Binaries built from the
 former main package is meaningfully smaller than the latter.
 
 # Elvish-specific flag handling
@@ -76,7 +76,7 @@ import (
 	"io"
 	"os"
 
-	"src.elv.sh/pkg/logutil"
+	"github.com/jpillora/elvish/pkg/logutil"
 )
 
 // DeprecationLevel is a global flag that controls which deprecations to show.

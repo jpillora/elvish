@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/cli/lscolors"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/lscolors"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // NavigationCursor represents a cursor for navigating in a potentially virtual

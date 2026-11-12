@@ -4,7 +4,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/diag"
+	"github.com/jpillora/elvish/pkg/diag"
 )
 
 func FuzzParse_CrashOrVerySlow(f *testing.F) {

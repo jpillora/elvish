@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestFileReader_ReadByteWithTimeout(t *testing.T) {

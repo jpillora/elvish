@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/prog"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/prog"
 )
 
 func rcPath() (string, error) {

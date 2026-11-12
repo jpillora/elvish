@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestWriter(t *testing.T) {

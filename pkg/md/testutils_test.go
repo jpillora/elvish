@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"src.elv.sh/pkg/must"
+	"github.com/jpillora/elvish/pkg/must"
 )
 
 type testCase struct {

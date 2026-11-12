@@ -5,9 +5,9 @@ import (
 	"unicode/utf8"
 
 	"github.com/google/go-cmp/cmp"
-	"src.elv.sh/pkg/diag"
-	. "src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/diag"
+	. "github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 var autofixTests = []struct {

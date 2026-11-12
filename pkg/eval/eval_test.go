@@ -4,10 +4,10 @@ import (
 	"sync"
 	"testing"
 
-	. "src.elv.sh/pkg/eval"
+	. "github.com/jpillora/elvish/pkg/eval"
 
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func TestEval_AlternativeGlobal(t *testing.T) {

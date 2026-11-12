@@ -7,12 +7,12 @@ import (
 	"strings"
 	"sync"
 
-	"src.elv.sh/pkg"
-	"src.elv.sh/pkg/elvdoc"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/sys"
+	"github.com/jpillora/elvish/pkg"
+	"github.com/jpillora/elvish/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/sys"
 )
 
 var Ns = eval.BuildNsNamed("doc").

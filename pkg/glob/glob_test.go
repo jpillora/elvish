@@ -8,7 +8,7 @@ import (
 	"sort"
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 var (

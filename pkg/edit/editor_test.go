@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/store/storedefs"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 func TestEditor_AddsHistoryAfterAccepting(t *testing.T) {

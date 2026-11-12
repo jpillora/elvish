@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/testutil"
 	"golang.org/x/sys/unix"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/testutil"
 )
 
 func injectTimeAfterWithSIGINTOrSkip(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"sync"
 
-	"src.elv.sh/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/strutil"
 )
 
 // PseudoMap may be implemented by a type to support map-like introspection. The

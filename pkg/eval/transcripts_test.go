@@ -10,14 +10,14 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/fsutil"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/transcript"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/transcript"
 )
 
 var (

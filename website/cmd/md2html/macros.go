@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"src.elv.sh/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/elvdoc"
 )
 
 // Unlike Elvish's builtin documentation which embeds all the relevant .elv

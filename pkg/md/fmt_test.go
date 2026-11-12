@@ -9,9 +9,9 @@ import (
 	"unicode/utf8"
 
 	"github.com/google/go-cmp/cmp"
-	. "src.elv.sh/pkg/md"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/wcwidth"
+	. "github.com/jpillora/elvish/pkg/md"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/wcwidth"
 )
 
 var supplementalFmtCases = []testCase{

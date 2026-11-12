@@ -1,7 +1,7 @@
 package vars
 
 import (
-	"src.elv.sh/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/errs"
 )
 
 type readOnly struct {

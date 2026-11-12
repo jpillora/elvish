@@ -3,8 +3,8 @@
 package np
 
 import (
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // Path is a path from a leaf in a parse tree to the root.

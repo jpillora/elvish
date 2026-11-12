@@ -3,7 +3,7 @@ package tk
 import (
 	"fmt"
 
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // ListBoxState keeps the mutable state ListBox.

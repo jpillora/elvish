@@ -5,7 +5,7 @@
 package tk
 
 import (
-	"src.elv.sh/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/term"
 )
 
 // Widget is the basic component of UI; it knows how to handle events and how to

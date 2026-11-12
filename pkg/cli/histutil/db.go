@@ -1,7 +1,7 @@
 package histutil
 
 import (
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // DB is the interface of the storage database.

@@ -3,8 +3,8 @@ package filter_test
 import (
 	"testing"
 
-	"src.elv.sh/pkg/edit/filter"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/edit/filter"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func TestCompile(t *testing.T) {

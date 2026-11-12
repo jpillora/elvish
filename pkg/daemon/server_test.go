@@ -6,12 +6,12 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/daemon/internal/api"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/store/storetest"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/daemon/internal/api"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/store/storetest"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestProgram_ServesClientRequests(t *testing.T) {

@@ -3,9 +3,9 @@
 // To use this package, call [Render] with one of the [Codec] implementations:
 //
 //   - [HTMLCodec] converts Markdown to HTML. This is used in
-//     [src.elv.sh/website/cmd/md2html], part of Elvish's website toolchain.
+//     [github.com/jpillora/elvish/website/cmd/md2html], part of Elvish's website toolchain.
 //
-//   - [FmtCodec] formats Markdown. This is used in [src.elv.sh/cmd/elvmdfmt],
+//   - [FmtCodec] formats Markdown. This is used in [github.com/jpillora/elvish/cmd/elvmdfmt],
 //     used for formatting Markdown files in the Elvish repo.
 //
 //   - [TTYCodec] renders Markdown in the terminal. This will be used in a help

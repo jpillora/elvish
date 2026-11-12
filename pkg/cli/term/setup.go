@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"src.elv.sh/pkg/sys"
-	"src.elv.sh/pkg/wcwidth"
+	"github.com/jpillora/elvish/pkg/sys"
+	"github.com/jpillora/elvish/pkg/wcwidth"
 )
 
 // SetupForTUIOnce sets up the terminal once for a whole interactive session. It

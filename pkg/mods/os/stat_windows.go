@@ -3,7 +3,7 @@ package os
 import (
 	"syscall"
 
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 // Taken from

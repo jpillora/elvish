@@ -1,9 +1,9 @@
 package complete
 
 import (
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // PlainItem is a simple implementation of RawItem.

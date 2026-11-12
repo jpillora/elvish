@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"strings"
 
-	"src.elv.sh/pkg/env"
+	"github.com/jpillora/elvish/pkg/env"
 )
 
 // GetHome finds the home directory of a specified user. When given an empty

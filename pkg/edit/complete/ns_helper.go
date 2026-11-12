@@ -4,10 +4,10 @@ import (
 	"os"
 	"strings"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/parse/cmpd"
-	"src.elv.sh/pkg/parse/np"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse/cmpd"
+	"github.com/jpillora/elvish/pkg/parse/np"
 )
 
 var environ = os.Environ

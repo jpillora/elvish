@@ -6,7 +6,7 @@ import (
 	"io"
 	"testing"
 
-	"src.elv.sh/pkg/must"
+	"github.com/jpillora/elvish/pkg/must"
 )
 
 func TestWaitForRead(t *testing.T) {

@@ -3,7 +3,7 @@ package ui
 import (
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestStyleSGR(t *testing.T) {

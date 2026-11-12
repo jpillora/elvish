@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/edit/filter"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/edit/filter"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var highlightTests = []struct {

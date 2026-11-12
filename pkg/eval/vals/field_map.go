@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"sync"
 
-	"src.elv.sh/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/strutil"
 )
 
 // IsFieldMap returns whether a value is a field map.

@@ -3,7 +3,7 @@ package diag
 import (
 	"testing"
 
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 var dedent = testutil.Dedent

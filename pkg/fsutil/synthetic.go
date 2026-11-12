@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync"
 
-	"src.elv.sh/pkg/env"
+	"github.com/jpillora/elvish/pkg/env"
 )
 
 // SyntheticCommands are in-process fallbacks for common filesystem and text commands.

@@ -4,7 +4,7 @@ import (
 	"embed"
 	"testing"
 
-	"src.elv.sh/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
 )
 
 //go:embed *.elvts *.elv

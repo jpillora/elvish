@@ -3,8 +3,8 @@ package tk
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var listBoxRenderVerticalTests = []renderTest{

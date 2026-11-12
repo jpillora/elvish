@@ -7,10 +7,10 @@ import (
 	"syscall"
 	"testing"
 
-	. "src.elv.sh/pkg/cli/clitest"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	. "github.com/jpillora/elvish/pkg/cli/clitest"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestNavigation_NoPreviewForNamedPipes(t *testing.T) {

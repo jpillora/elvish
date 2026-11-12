@@ -3,7 +3,7 @@ package modes
 import (
 	"strings"
 
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // FilterSpec specifies the configuration for the filter in listing modes.

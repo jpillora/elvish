@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"sync"
 
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/logutil"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/logutil"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 var logger = logutil.GetLogger("[eval] ")

@@ -4,14 +4,14 @@ import (
 	"errors"
 	"testing"
 
-	"src.elv.sh/pkg/cli"
-	. "src.elv.sh/pkg/cli/clitest"
-	"src.elv.sh/pkg/cli/lscolors"
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli"
+	. "github.com/jpillora/elvish/pkg/cli/clitest"
+	"github.com/jpillora/elvish/pkg/cli/lscolors"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var testDir = testutil.Dir{

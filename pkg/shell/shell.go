@@ -10,17 +10,17 @@ import (
 	"strconv"
 	"time"
 
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/daemon/daemondefs"
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/fsutil"
-	"src.elv.sh/pkg/logutil"
-	"src.elv.sh/pkg/mods"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/sys"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/daemon/daemondefs"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/logutil"
+	"github.com/jpillora/elvish/pkg/mods"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/sys"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var logger = logutil.GetLogger("[shell] ")

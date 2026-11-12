@@ -33,7 +33,7 @@ The Markdown formatter is [`cmd/elvmdfmt`](../cmd/elvmdfmt), which lives inside
 this repo. Run it like this:
 
 ```sh
-go run src.elv.sh/cmd/elvmdfmt -width 80 -w $filename
+go run github.com/jpillora/elvish/cmd/elvmdfmt -width 80 -w $filename
 ```
 
 To format Markdown files automatically on save, configure your editor to run the
@@ -51,7 +51,7 @@ file:
     "commands": [
         {
             "match": "\\.md$",
-            "cmd": "go run src.elv.sh/cmd/elvmdfmt -width 80 -w ${file}"
+            "cmd": "go run github.com/jpillora/elvish/cmd/elvmdfmt -width 80 -w ${file}"
         }
     ]
 }
@@ -61,7 +61,7 @@ file:
 implementation in the repo, but it incurs a small performance penalty since the
 Go toolchain does not cache binary files and has to rebuild it every time. If
 this is a problem (for example, if your editor runs the command synchronously),
-you can speed up the command by installing `src.elv.sh/cmd/elvmdfmt` and using
+you can speed up the command by installing `github.com/jpillora/elvish/cmd/elvmdfmt` and using
 the installed `elvmdfmt`. However, if you do this, you must re-install
 `elvmdfmt` whenever there is a change in its implementation that impacts the
 output.

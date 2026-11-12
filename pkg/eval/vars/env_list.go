@@ -9,8 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"src.elv.sh/pkg/errutil"
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/errutil"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 var (

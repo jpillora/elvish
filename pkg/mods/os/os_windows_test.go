@@ -3,9 +3,9 @@ package os_test
 import (
 	"testing"
 
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 	"golang.org/x/sys/windows"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
 )
 
 func mkFifoOrSkip(t *testing.T, _ string) {

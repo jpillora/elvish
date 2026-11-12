@@ -6,7 +6,7 @@ import (
 	"os"
 	"runtime/pprof"
 
-	"src.elv.sh/pkg/prog"
+	"github.com/jpillora/elvish/pkg/prog"
 )
 
 // Program adds support for the -cpuprofile flag.

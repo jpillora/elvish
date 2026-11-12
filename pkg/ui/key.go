@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
 )
 
 // Key represents a single keyboard input, typically assembled from a escape

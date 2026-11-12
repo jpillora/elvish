@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"src.elv.sh/pkg/transcript"
+	"github.com/jpillora/elvish/pkg/transcript"
 )
 
 const (

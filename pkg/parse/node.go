@@ -1,6 +1,6 @@
 package parse
 
-import "src.elv.sh/pkg/diag"
+import "github.com/jpillora/elvish/pkg/diag"
 
 // Node represents a parse tree as well as an AST.
 type Node interface {

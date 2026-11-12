@@ -3,8 +3,8 @@ package parse_test
 import (
 	"testing"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func TestSourceAsMap(t *testing.T) {

@@ -9,17 +9,17 @@ import (
 	"sync"
 	"unicode/utf8"
 
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/cli/tk"
-	"src.elv.sh/pkg/edit/complete"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/persistent/hash"
-	"src.elv.sh/pkg/strutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/edit/complete"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 type complexCandidateOpts struct {

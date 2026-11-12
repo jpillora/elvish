@@ -10,9 +10,9 @@ import (
 	"regexp"
 	"strings"
 
-	"src.elv.sh/pkg/errutil"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/parse/cmpd"
+	"github.com/jpillora/elvish/pkg/errutil"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse/cmpd"
 )
 
 // Compile parses and compiles a filter.

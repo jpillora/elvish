@@ -5,9 +5,9 @@ import (
 	"go/token"
 	"strings"
 
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/elvdoc"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // Augments elvdoc.HighlightCodeBlock with additional syntax highlighting that

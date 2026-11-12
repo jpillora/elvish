@@ -3,9 +3,9 @@ package edit
 import (
 	"testing"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
 )
 
 // The happy path of bindingHelp is tested in modes that use bindingHelp.

@@ -3,7 +3,7 @@ package ui
 import (
 	"sort"
 
-	"src.elv.sh/pkg/diag"
+	"github.com/jpillora/elvish/pkg/diag"
 )
 
 // StylingRegion represents a region to apply styling.

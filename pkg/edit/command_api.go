@@ -3,8 +3,8 @@ package edit
 // Implementation of the editor "command" mode.
 
 import (
-	"src.elv.sh/pkg/cli/modes"
-	"src.elv.sh/pkg/eval"
+	"github.com/jpillora/elvish/pkg/cli/modes"
+	"github.com/jpillora/elvish/pkg/eval"
 )
 
 func initCommandAPI(ed *Editor, ev *eval.Evaler, nb eval.NsBuilder) {

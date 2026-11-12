@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"testing"
 
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 //go:embed *.elvts

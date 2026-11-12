@@ -4,11 +4,11 @@ import (
 	"embed"
 	"testing"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 //go:embed *.elvts
@@ -20,7 +20,7 @@ const buildScript = `
 #
 # Note: Using "-o $workdir/" instead of "-o $workdir/elvish" here gets us the
 # correct file extension on Windows
-go build (if (not-eq $E:GOCOVERDIR '') { put -cover }) -o $workdir/ src.elv.sh/$entrypoint
+go build (if (not-eq $E:GOCOVERDIR '') { put -cover }) -o $workdir/ github.com/jpillora/elvish/$entrypoint
 `
 
 func TestTranscripts_Default(t *testing.T) {

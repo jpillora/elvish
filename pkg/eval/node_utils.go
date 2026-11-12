@@ -1,9 +1,9 @@
 package eval
 
 import (
-	"src.elv.sh/pkg/diag"
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/parse/cmpd"
+	"github.com/jpillora/elvish/pkg/diag"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/parse/cmpd"
 )
 
 // Utilities for working with nodes.

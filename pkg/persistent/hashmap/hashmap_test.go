@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	"src.elv.sh/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
 )
 
 const (

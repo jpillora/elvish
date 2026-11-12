@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"src.elv.sh/pkg/elvdoc"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/elvdoc"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var Dedent = testutil.Dedent

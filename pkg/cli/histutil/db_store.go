@@ -1,7 +1,7 @@
 package histutil
 
 import (
-	"src.elv.sh/pkg/store/storedefs"
+	"github.com/jpillora/elvish/pkg/store/storedefs"
 )
 
 // NewDBStore returns a Store backed by a database with the view of all

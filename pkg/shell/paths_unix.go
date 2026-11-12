@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/fsutil"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/fsutil"
 )
 
 func defaultConfigHome() (string, error) { return homePath(".config") }

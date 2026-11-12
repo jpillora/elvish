@@ -8,13 +8,13 @@ import (
 	"testing"
 	"time"
 
-	"src.elv.sh/pkg/edit/highlight"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/ui"
-	"src.elv.sh/pkg/ui/styledown"
+	"github.com/jpillora/elvish/pkg/edit/highlight"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui/styledown"
 )
 
 //go:embed *.elvts

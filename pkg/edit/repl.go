@@ -4,10 +4,10 @@ package edit
 // information about the most recently executed interactive command.
 
 import (
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/eval/vars"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func initRepl(ed *Editor, ev *eval.Evaler, nb eval.NsBuilder) {

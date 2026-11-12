@@ -5,11 +5,11 @@ import (
 	"os"
 	"testing"
 
-	"src.elv.sh/pkg/cli"
-	"src.elv.sh/pkg/edit"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/evaltest"
-	"src.elv.sh/pkg/mods"
+	"github.com/jpillora/elvish/pkg/cli"
+	"github.com/jpillora/elvish/pkg/edit"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/evaltest"
+	"github.com/jpillora/elvish/pkg/mods"
 )
 
 //go:embed *.elvts

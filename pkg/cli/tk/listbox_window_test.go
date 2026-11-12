@@ -3,7 +3,7 @@ package tk
 import (
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestGetVerticalWindow(t *testing.T) {

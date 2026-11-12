@@ -3,7 +3,7 @@ package vals
 import (
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 type dissocer struct{}

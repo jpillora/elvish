@@ -59,7 +59,7 @@ Benchmarked on an MacBook Air (M1, 2020), with Go 1.17.5:
 ```
 goos: darwin
 goarch: arm64
-pkg: src.elv.sh/pkg/persistent/hashmap
+pkg: github.com/jpillora/elvish/pkg/persistent/hashmap
 BenchmarkSequentialConjNative1-8              620540          1900 ns/op
 BenchmarkSequentialConjNative2-8               22918         52209 ns/op
 BenchmarkSequentialConjNative3-8                 567       2115886 ns/op

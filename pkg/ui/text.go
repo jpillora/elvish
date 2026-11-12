@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/wcwidth"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/wcwidth"
 )
 
 // Text contains of a list of styled Segments.

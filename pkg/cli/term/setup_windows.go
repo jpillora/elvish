@@ -3,8 +3,8 @@ package term
 import (
 	"os"
 
+	"github.com/jpillora/elvish/pkg/errutil"
 	"golang.org/x/sys/windows"
-	"src.elv.sh/pkg/errutil"
 )
 
 const (

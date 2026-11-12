@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 
-	"src.elv.sh/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 )
 
 var typeNames = map[fs.FileMode]string{

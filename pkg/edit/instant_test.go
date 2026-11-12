@@ -3,8 +3,8 @@ package edit
 import (
 	"testing"
 
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/cli/tk"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/tk"
 )
 
 func TestInstantAddon_ValueOutput(t *testing.T) {

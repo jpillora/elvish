@@ -46,10 +46,10 @@
 // Markdown's shortcut link feature and let a simple [`put`] have an implicit
 // target of builtin.html#put. Doing this has two prerequisites:
 //
-//   - The [src.elv.sh/pkg/md] package must be modified to support shortcut
+//   - The [github.com/jpillora/elvish/pkg/md] package must be modified to support shortcut
 //     links.
 //
-//   - The [src.elv.sh/pkg/elvdoc] package must be modified to add declarations
+//   - The [github.com/jpillora/elvish/pkg/elvdoc] package must be modified to add declarations
 //     of these shortcut targets. This is because shortcut links in Markdown
 //     must be declared, otherwise [`put`] is just literal [<code>put</code>].
 //
@@ -66,7 +66,7 @@ import (
 	"os"
 	"strings"
 
-	"src.elv.sh/pkg/md"
+	"github.com/jpillora/elvish/pkg/md"
 )
 
 func main() {

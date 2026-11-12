@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"reflect"
 
-	"src.elv.sh/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
 )
 
 // Equaler wraps the Equal method.

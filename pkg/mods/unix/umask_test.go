@@ -8,8 +8,8 @@ import (
 	"sync"
 	"testing"
 
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestUmaskGetRace(t *testing.T) {

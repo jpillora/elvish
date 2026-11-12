@@ -10,8 +10,8 @@ import (
 
 	"golang.org/x/sys/windows"
 
-	"src.elv.sh/pkg/sys/ewindows"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/sys/ewindows"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 type reader struct {

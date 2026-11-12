@@ -3,7 +3,7 @@
 // Exported string variables may be set during compilation using a linker flag
 // like this:
 //
-//	go build -ldflags '-X src.elv.sh/pkg/buildinfo.NAME=VALUE' ./cmd/elvish
+//	go build -ldflags '-X github.com/jpillora/elvish/pkg/buildinfo.NAME=VALUE' ./cmd/elvish
 //
 // This mechanism can be used by packagers to enhance Elvish's version
 // information. The variables that can be set are documented below.
@@ -17,7 +17,7 @@
 // packaging Elvish, possibly plus the revision of the package. Example for
 // revision 1 of a Debian package:
 //
-//	go build -ldflags '-X src.elv.sh/pkg/buildinfo.BuildVariant=deb1' ./cmd/elvish
+//	go build -ldflags '-X github.com/jpillora/elvish/pkg/buildinfo.BuildVariant=deb1' ./cmd/elvish
 //
 // Supposing that [VersionBase] is "0.233.0", this causes "elvish -version" to
 // print out "0.233.0+deb1".
@@ -46,7 +46,7 @@
 // In that case, [VCSOverride] can be set to to supply the $time-$commit
 // information:
 //
-//	go build -ldflags '-X src.elv.sh/pkg/buildinfo.VCSOverride=20220320172241-5dc8c02a32cf' ./cmd/elvish
+//	go build -ldflags '-X github.com/jpillora/elvish/pkg/buildinfo.VCSOverride=20220320172241-5dc8c02a32cf' ./cmd/elvish
 //
 // Setting this variable is only necessary when building development commits and
 // the VCS information is not available.
@@ -63,8 +63,8 @@ import (
 	"strings"
 	"time"
 
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/prog"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/prog"
 )
 
 // VersionBase identifies the version of Elvish.
@@ -123,7 +123,7 @@ func devVersion(next, vcsOverride string) string {
 	}
 	// If the main module's version is known, use it, but without the "v"
 	// prefix. This is the case when Elvish is built with "go install
-	// src.elv.sh/cmd/elvish@version".
+	// github.com/jpillora/elvish/cmd/elvish@version".
 	if v := bi.Main.Version; v != "" && v != "(devel)" {
 		return strings.TrimPrefix(v, "v")
 	}

@@ -3,8 +3,8 @@ package vals
 import (
 	"testing"
 
-	"src.elv.sh/pkg/persistent/hash"
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/persistent/hash"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 type fieldMap struct {

@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/jpillora/elvish/pkg/eval/errs"
+	"github.com/jpillora/elvish/pkg/eval/vals"
 	"golang.org/x/sys/unix"
-	"src.elv.sh/pkg/eval/errs"
-	"src.elv.sh/pkg/eval/vals"
 )
 
 type rlimitsVar struct{}

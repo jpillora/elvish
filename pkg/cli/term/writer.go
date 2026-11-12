@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 var logWriterDetail = false

@@ -1,7 +1,7 @@
 package vals
 
 import (
-	"src.elv.sh/pkg/persistent/vector"
+	"github.com/jpillora/elvish/pkg/persistent/vector"
 )
 
 // Lener wraps the Len method.

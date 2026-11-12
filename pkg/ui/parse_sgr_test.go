@@ -3,7 +3,7 @@ package ui
 import (
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 func TestParseSGREscapedText(t *testing.T) {

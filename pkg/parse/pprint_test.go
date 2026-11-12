@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"src.elv.sh/pkg/tt"
+	"github.com/jpillora/elvish/pkg/tt"
 )
 
 var n = mustParse("ls $x[0]$y[1];echo done >/redir-dest")

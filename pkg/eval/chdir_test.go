@@ -4,10 +4,10 @@ import (
 	"os"
 	"testing"
 
-	"src.elv.sh/pkg/env"
-	. "src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/must"
-	"src.elv.sh/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/env"
+	. "github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/must"
+	"github.com/jpillora/elvish/pkg/testutil"
 )
 
 func TestChdir(t *testing.T) {

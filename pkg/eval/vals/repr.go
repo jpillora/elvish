@@ -8,8 +8,8 @@ import (
 	"sort"
 	"strconv"
 
-	"src.elv.sh/pkg/parse"
-	"src.elv.sh/pkg/persistent/hashmap"
+	"github.com/jpillora/elvish/pkg/parse"
+	"github.com/jpillora/elvish/pkg/persistent/hashmap"
 )
 
 // Reprer wraps the Repr method.

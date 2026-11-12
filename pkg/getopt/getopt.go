@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"strings"
 
-	"src.elv.sh/pkg/errutil"
+	"github.com/jpillora/elvish/pkg/errutil"
 )
 
 // Config configures the parsing behavior.

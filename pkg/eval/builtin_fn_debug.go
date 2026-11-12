@@ -3,8 +3,8 @@ package eval
 import (
 	"runtime"
 
-	"src.elv.sh/pkg/logutil"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/logutil"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 func init() {

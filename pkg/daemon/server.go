@@ -11,11 +11,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"src.elv.sh/pkg/daemon/internal/api"
-	"src.elv.sh/pkg/logutil"
-	"src.elv.sh/pkg/prog"
-	"src.elv.sh/pkg/rpc"
-	"src.elv.sh/pkg/store"
+	"github.com/jpillora/elvish/pkg/daemon/internal/api"
+	"github.com/jpillora/elvish/pkg/logutil"
+	"github.com/jpillora/elvish/pkg/prog"
+	"github.com/jpillora/elvish/pkg/rpc"
+	"github.com/jpillora/elvish/pkg/store"
 )
 
 var logger = logutil.GetLogger("[daemon] ")

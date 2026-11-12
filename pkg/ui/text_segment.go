@@ -5,8 +5,8 @@ import (
 	"math/big"
 	"strings"
 
-	"src.elv.sh/pkg/eval/vals"
-	"src.elv.sh/pkg/parse"
+	"github.com/jpillora/elvish/pkg/eval/vals"
+	"github.com/jpillora/elvish/pkg/parse"
 )
 
 // Segment is a string that has some style applied to it.

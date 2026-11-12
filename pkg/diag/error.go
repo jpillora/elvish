@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"src.elv.sh/pkg/strutil"
+	"github.com/jpillora/elvish/pkg/strutil"
 )
 
 // Error represents an error with context that can be showed.

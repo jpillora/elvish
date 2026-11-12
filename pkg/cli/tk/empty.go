@@ -1,7 +1,7 @@
 package tk
 
 import (
-	"src.elv.sh/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/cli/term"
 )
 
 // Empty is an empty widget.

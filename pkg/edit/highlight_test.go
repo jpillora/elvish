@@ -6,12 +6,12 @@ import (
 	"runtime"
 	"testing"
 
-	"src.elv.sh/pkg/cli/term"
-	"src.elv.sh/pkg/env"
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/testutil"
-	"src.elv.sh/pkg/tt"
-	"src.elv.sh/pkg/ui"
+	"github.com/jpillora/elvish/pkg/cli/term"
+	"github.com/jpillora/elvish/pkg/env"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/testutil"
+	"github.com/jpillora/elvish/pkg/tt"
+	"github.com/jpillora/elvish/pkg/ui"
 )
 
 // High-level sanity test.

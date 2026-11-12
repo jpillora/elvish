@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"src.elv.sh/pkg/eval"
-	"src.elv.sh/pkg/eval/vars"
-	osmod "src.elv.sh/pkg/mods/os"
+	"github.com/jpillora/elvish/pkg/eval"
+	"github.com/jpillora/elvish/pkg/eval/vars"
+	osmod "github.com/jpillora/elvish/pkg/mods/os"
 )
 
 // Ns is the namespace for the path: module.

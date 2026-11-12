@@ -7,13 +7,15 @@ To build Elvish from source, you need
 
 -   Go >= 1.21.0.
 
-To build Elvish from source, run one of the following commands:
+To install this fork from its latest commit, run:
 
 ```sh
-go install src.elv.sh/cmd/elvish@master # Install latest commit
-go install src.elv.sh/cmd/elvish@latest # Install latest released version
-go install src.elv.sh/cmd/elvish@v0.18.0 # Install a specific version
+go install github.com/jpillora/elvish/cmd/elvish@main
 ```
+
+To pin a version, replace `@main` with a tag or commit after the migration to
+the `github.com/jpillora/elvish` module path. Older tags still declare the
+upstream `src.elv.sh` module path and cannot be installed using the fork path.
 
 ## Controlling the installation location
 
@@ -32,7 +34,7 @@ directory already in `$PATH`.
 
 ## Building an alternative entrypoint
 
-In additional to `src.elv.sh/cmd/elvish` (which corresponds to the
+In additional to `github.com/jpillora/elvish/cmd/elvish` (which corresponds to the
 [`cmd/elvish`](./cmd/elvish) directory in the repo), there are a few alternative
 entrypoints, all named liked `cmd/*/elvish`, with slightly different feature
 sets. (From the perspective of Go, these are just different `main` packages.)
@@ -42,7 +44,7 @@ For example, install the `cmd/withpprof/elvish` entrypoint to get
 to get different versions):
 
 ```sh
-go install src.elv.sh/cmd/withpprof/elvish@master
+go install github.com/jpillora/elvish/cmd/withpprof/elvish@main
 ```
 
 ## Building from a local source tree
@@ -55,7 +57,7 @@ the following from the root of the source tree:
 go install ./cmd/elvish
 ```
 
-There is no need to specify a version like `@master`; when inside a source tree,
+There is no need to specify a version like `@main`; when inside a source tree,
 `go install` will always use the whatever source code is present.
 
 See [contributing.md](contributing.md) for more notes for contributors.
