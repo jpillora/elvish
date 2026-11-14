@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"runtime"
 
 	"github.com/jpillora/elvish/pkg/ui"
 )
@@ -86,7 +87,14 @@ func (w *writer) UpdateBuffer(msg ui.Text, buf *Buffer, fullRefresh bool) error 
 	output.WriteString(hideCursor)
 
 	// Rewind cursor.
-	if pLine := w.curBuf.Dot.Line; pLine > 0 {
+	pLine := w.curBuf.Dot.Line
+	if runtime.GOOS == "windows" && buf.Width > 0 && buf.Width < w.curBuf.Width {
+		// ConPTY reflows existing rows when shrinking, even with autowrap
+		// disabled. Rewind over those new physical rows before erasing the
+		// old editor, or its first rows remain above a duplicated prompt.
+		pLine = reflowedCursorLine(w.curBuf, buf.Width)
+	}
+	if pLine > 0 {
 		fmt.Fprintf(output, "\033[%dA", pLine)
 	}
 	output.WriteString("\r")
@@ -193,6 +201,14 @@ func (w *writer) UpdateBuffer(msg ui.Text, buf *Buffer, fullRefresh bool) error 
 
 	w.curBuf = buf
 	return nil
+}
+
+func reflowedCursorLine(buf *Buffer, width int) int {
+	line := 0
+	for _, cells := range buf.Lines[:buf.Dot.Line] {
+		line += max(1, (cellsWidth(cells)+width-1)/width)
+	}
+	return line + buf.Dot.Col/width
 }
 
 func (w *writer) HideCursor() {
