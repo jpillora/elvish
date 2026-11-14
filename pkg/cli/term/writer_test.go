@@ -42,3 +42,14 @@ func TestReflowedCursorLine(t *testing.T) {
 		})
 	}
 }
+
+func TestStreamWriterRewindsReflowedRowsOnEveryHost(t *testing.T) {
+	var out strings.Builder
+	w := NewStreamWriter(&out)
+	w.UpdateBuffer(nil, NewBufferBuilder(90).Write(strings.Repeat("x", 89)).SetDotHere().Buffer(), true)
+	out.Reset()
+	w.UpdateBuffer(nil, NewBufferBuilder(40).Write(strings.Repeat("x", 89)).SetDotHere().Buffer(), true)
+	if !strings.HasPrefix(out.String(), hideCursor+"\x1b[2A\r") {
+		t.Fatalf("did not rewind reflowed rows: %q", out.String())
+	}
+}

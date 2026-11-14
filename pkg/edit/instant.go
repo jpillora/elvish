@@ -1,6 +1,7 @@
 package edit
 
 import (
+	"context"
 	"github.com/jpillora/elvish/pkg/cli"
 	"github.com/jpillora/elvish/pkg/cli/modes"
 	"github.com/jpillora/elvish/pkg/cli/tk"
@@ -25,7 +26,13 @@ func instantStart(app cli.App, ev *eval.Evaler, bindings tk.Bindings) {
 		if err != nil {
 			return nil, err
 		}
-		ctx, done := eval.ListenInterrupts()
+		var ctx context.Context
+		var done func()
+		if ev.Process != nil {
+			ctx, done = context.WithCancel(ev.Process.Context())
+		} else {
+			ctx, done = eval.ListenInterrupts()
+		}
 		err = ev.Eval(
 			parse.Source{Name: "[instant]", Code: code},
 			eval.EvalCfg{Ports: []*eval.Port{nil, outPort}, Interrupts: ctx})

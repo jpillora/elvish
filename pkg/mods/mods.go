@@ -26,16 +26,18 @@ import (
 func AddTo(ev *eval.Evaler) {
 	ev.AddModule("runtime", runtime.Ns(ev))
 	ev.AddModule("math", math.Ns)
-	ev.AddModule("path", path.Ns)
+	ev.AddModule("path", path.NsForProcess(ev.Process))
 	ev.AddModule("platform", platform.Ns)
 	ev.AddModule("re", re.Ns)
 	ev.AddModule("str", str.Ns)
-	ev.AddModule("file", file.Ns)
+	ev.AddModule("file", file.NsForProcess(ev.Process))
 	ev.AddModule("flag", flag.Ns)
 	ev.AddModule("doc", doc.Ns)
-	ev.AddModule("os", os.Ns)
+	ev.AddModule("os", os.NsForProcess(ev.Process))
 	ev.AddModule("md", md.Ns)
-	if unix.ExposeUnixNs {
+	// OS-wide umask, resource limits and foreground job control do not belong
+	// to a virtual root process. Never expose the host-mutating namespace.
+	if unix.ExposeUnixNs && ev.Process == nil {
 		ev.AddModule("unix", unix.Ns)
 	}
 	ev.BundledModules["epm"] = epm.Code

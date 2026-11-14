@@ -53,7 +53,7 @@ type Frame struct {
 // returns the altered local namespace, function that can be called to actuate
 // the evaluation, and a nil error.
 func (fm *Frame) PrepareEval(src parse.Source, r diag.Ranger, ns *Ns) (*Ns, func() Exception, error) {
-	tree, err := parse.Parse(src, parse.Config{WarningWriter: fm.ErrorFile()})
+	tree, err := parse.Parse(src, parse.Config{WarningWriter: fm.ErrorOutput()})
 	if err != nil {
 		return nil, nil, err
 	}
@@ -67,7 +67,7 @@ func (fm *Frame) PrepareEval(src parse.Source, r diag.Ranger, ns *Ns) (*Ns, func
 	}
 	newFm := &Frame{
 		fm.Evaler, fm.ctx, fm.ports, traceback, fm.background, src, local, new(Ns), nil}
-	op, _, err := compile(fm.Evaler.Builtin().static(), local.static(), nil, tree, fm.ErrorFile())
+	op, _, err := compile(fm.Evaler.Builtin().static(), local.static(), nil, tree, fm.ErrorOutput())
 	if err != nil {
 		return nil, nil, err
 	}
@@ -97,6 +97,15 @@ func (fm *Frame) InputFile() *os.File {
 	return fm.ports[0].File
 }
 
+// ByteInput returns the input stream, including streams without an OS file.
+func (fm *Frame) ByteInput() io.Reader {
+	r := fm.ports[0].input()
+	if cr, ok := r.(ContextReader); ok {
+		return contextInput{fm.ctx, cr}
+	}
+	return r
+}
+
 // ValueOutput returns a handle for writing value outputs.
 func (fm *Frame) ValueOutput() ValueOutput {
 	p := fm.ports[1]
@@ -105,13 +114,15 @@ func (fm *Frame) ValueOutput() ValueOutput {
 
 // ByteOutput returns a handle for writing byte outputs.
 func (fm *Frame) ByteOutput() ByteOutput {
-	return byteOutput{fm.ports[1].File}
+	return byteOutput{fm.ports[1].output()}
 }
 
 // ErrorFile returns a file onto which error messages can be written.
 func (fm *Frame) ErrorFile() *os.File {
 	return fm.ports[2].File
 }
+
+func (fm *Frame) ErrorOutput() ByteOutput { return byteOutput{fm.ports[2].output()} }
 
 // Port returns port i. If the port doesn't exist, it returns nil
 //
@@ -131,7 +142,7 @@ func (fm *Frame) IterateInputs(f func(any)) {
 
 	wg.Add(2)
 	go func() {
-		linesToChan(fm.InputFile(), inputs)
+		linesToChan(fm.ByteInput(), inputs)
 		wg.Done()
 	}()
 	go func() {
@@ -256,7 +267,7 @@ func (fm *Frame) Deprecate(msg string, ctx *diag.Context, minLevel int) {
 	}
 	if fm.Evaler.registerDeprecation(deprecation{ctx.Name, ctx.Ranging, msg}) {
 		err := diag.Error[deprecationTag]{Message: msg, Context: *ctx}
-		fm.ErrorFile().WriteString(err.Show("") + "\n")
+		fm.ErrorOutput().WriteString(err.Show("") + "\n")
 	}
 }
 

@@ -82,7 +82,7 @@ func repeat(fm *Frame, n int, v any) error {
 }
 
 func readBytes(fm *Frame, max int) (string, error) {
-	in := fm.InputFile()
+	in := fm.ByteInput()
 	buf := make([]byte, max)
 	read := 0
 	for read < max {
@@ -101,7 +101,7 @@ func readUpto(fm *Frame, terminator string) (string, error) {
 	if err := checkTerminator(terminator); err != nil {
 		return "", err
 	}
-	in := fm.InputFile()
+	in := fm.ByteInput()
 	var buf []byte
 	for {
 		var b [1]byte
@@ -294,7 +294,7 @@ func onlyBytes(fm *Frame) error {
 	// Make sure the goroutine has finished before returning.
 	defer func() { <-valuesDone }()
 
-	_, err := io.Copy(fm.ByteOutput(), fm.InputFile())
+	_, err := io.Copy(fm.ByteOutput(), fm.ByteInput())
 	return err
 }
 
@@ -303,7 +303,7 @@ func onlyValues(fm *Frame) error {
 	bytesDone := make(chan struct{})
 	go func() {
 		// Ignore the error
-		_, _ = io.Copy(blackholeWriter{}, fm.InputFile())
+		_, _ = io.Copy(blackholeWriter{}, fm.ByteInput())
 		close(bytesDone)
 	}()
 	// Wait for the goroutine to finish before returning.
@@ -325,12 +325,12 @@ type blackholeWriter struct{}
 func (blackholeWriter) Write(p []byte) (int, error) { return len(p), nil }
 
 func slurp(fm *Frame) (string, error) {
-	b, err := io.ReadAll(fm.InputFile())
+	b, err := io.ReadAll(fm.ByteInput())
 	return string(b), err
 }
 
 func fromLines(fm *Frame) error {
-	filein := bufio.NewReader(fm.InputFile())
+	filein := bufio.NewReader(fm.ByteInput())
 	out := fm.ValueOutput()
 	for {
 		line, err := filein.ReadString('\n')
@@ -350,7 +350,7 @@ func fromLines(fm *Frame) error {
 }
 
 func fromJSON(fm *Frame) error {
-	in := fm.InputFile()
+	in := fm.ByteInput()
 	out := fm.ValueOutput()
 
 	dec := json.NewDecoder(in)
@@ -424,7 +424,7 @@ func fromTerminated(fm *Frame, terminator string) error {
 		return err
 	}
 
-	filein := bufio.NewReader(fm.InputFile())
+	filein := bufio.NewReader(fm.ByteInput())
 	out := fm.ValueOutput()
 	for {
 		line, err := filein.ReadString(terminator[0])

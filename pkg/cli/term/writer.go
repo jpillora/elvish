@@ -30,13 +30,19 @@ type Writer interface {
 
 // writer renders the editor UI.
 type writer struct {
-	file   io.Writer
-	curBuf *Buffer
+	file           io.Writer
+	curBuf         *Buffer
+	reflowOnShrink bool
 }
 
 // NewWriter returns a Writer that writes VT100 sequences to the given io.Writer.
 func NewWriter(f io.Writer) Writer {
-	return &writer{f, &Buffer{}}
+	return &writer{file: f, curBuf: &Buffer{}, reflowOnShrink: runtime.GOOS == "windows"}
+}
+
+// NewStreamWriter writes directly to a remote VT terminal, bypassing ConPTY.
+func NewStreamWriter(f io.Writer) Writer {
+	return &writer{file: f, curBuf: &Buffer{}, reflowOnShrink: true}
 }
 
 func (w *writer) Buffer() *Buffer {
@@ -88,8 +94,8 @@ func (w *writer) UpdateBuffer(msg ui.Text, buf *Buffer, fullRefresh bool) error 
 
 	// Rewind cursor.
 	pLine := w.curBuf.Dot.Line
-	if runtime.GOOS == "windows" && buf.Width > 0 && buf.Width < w.curBuf.Width {
-		// ConPTY reflows existing rows when shrinking, even with autowrap
+	if w.reflowOnShrink && buf.Width > 0 && buf.Width < w.curBuf.Width {
+		// ConPTY and remote terminals such as tmux reflow rows when shrinking, even with autowrap
 		// disabled. Rewind over those new physical rows before erasing the
 		// old editor, or its first rows remain above a duplicated prompt.
 		pLine = reflowedCursorLine(w.curBuf, buf.Width)

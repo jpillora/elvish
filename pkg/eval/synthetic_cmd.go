@@ -16,36 +16,36 @@ import (
 func runSyntheticCommand(fm *Frame, name string, args []string) error {
 	switch name {
 	case "ls", "dir":
-		return syntheticLs(fm.ByteOutput(), args)
+		return fm.Evaler.Process.syntheticLs(fm.ByteOutput(), args)
 	case "cp":
-		return syntheticCp(args)
+		return fm.Evaler.Process.syntheticCp(args)
 	case "mv":
-		return syntheticMv(args)
+		return fm.Evaler.Process.syntheticMv(args)
 	case "rm":
-		return syntheticRm(args)
+		return fm.Evaler.Process.syntheticRm(args)
 	case "mkdir":
-		return syntheticMkdir(args)
+		return fm.Evaler.Process.syntheticMkdir(args)
 	case "rmdir":
-		return syntheticRmdir(args)
+		return fm.Evaler.Process.syntheticRmdir(args)
 	case "touch":
-		return syntheticTouch(args)
+		return fm.Evaler.Process.syntheticTouch(args)
 	case "cat":
-		return syntheticCat(fm.InputFile(), fm.ByteOutput(), args)
+		return fm.Evaler.Process.syntheticCat(fm.ByteInput(), fm.ByteOutput(), args)
 	case "head", "tail":
-		return syntheticSliceText(name, fm.InputFile(), fm.ByteOutput(), args)
+		return fm.Evaler.Process.syntheticSliceText(name, fm.ByteInput(), fm.ByteOutput(), args)
 	case "wc":
-		return syntheticWc(fm.InputFile(), fm.ByteOutput(), args)
+		return fm.Evaler.Process.syntheticWc(fm.ByteInput(), fm.ByteOutput(), args)
 	case "sort":
-		return syntheticSort(fm.InputFile(), fm.ByteOutput(), args)
+		return fm.Evaler.Process.syntheticSort(fm.ByteInput(), fm.ByteOutput(), args)
 	case "uniq":
-		return syntheticUniq(fm.InputFile(), fm.ByteOutput(), args)
+		return fm.Evaler.Process.syntheticUniq(fm.ByteInput(), fm.ByteOutput(), args)
 	case "grep":
-		return syntheticGrep(fm.InputFile(), fm.ByteOutput(), fm.ErrorFile(), args)
+		return fm.Evaler.Process.syntheticGrep(fm.ByteInput(), fm.ByteOutput(), fm.ErrorOutput(), args)
 	case "pwd":
 		if len(args) != 0 {
 			return fmt.Errorf("pwd: unexpected arguments: %v", args)
 		}
-		wd, err := os.Getwd()
+		wd, err := fm.Evaler.Process.Getwd()
 		if err != nil {
 			return err
 		}
@@ -81,7 +81,7 @@ func syntheticFlags(command string, args []string, allowed string) (map[rune]boo
 	return flags, operands, nil
 }
 
-func syntheticLs(out io.Writer, args []string) error {
+func (vproc *Process) syntheticLs(out io.Writer, args []string) error {
 	flags, paths, err := syntheticFlags("ls", args, "aAld1")
 	if err != nil {
 		return err
@@ -90,7 +90,7 @@ func syntheticLs(out io.Writer, args []string) error {
 		paths = []string{"."}
 	}
 	for i, path := range paths {
-		info, err := os.Lstat(path)
+		info, err := os.Lstat(vproc.Path(path))
 		if err != nil {
 			return err
 		}
@@ -105,22 +105,22 @@ func syntheticLs(out io.Writer, args []string) error {
 			}
 		}
 		if !info.IsDir() || flags['d'] {
-			if err := syntheticLsEntry(out, path, filepath.Base(path), info, flags['l']); err != nil {
+			if err := vproc.syntheticLsEntry(out, path, filepath.Base(path), info, flags['l']); err != nil {
 				return err
 			}
 			continue
 		}
-		entries, err := os.ReadDir(path)
+		entries, err := os.ReadDir(vproc.Path(path))
 		if err != nil {
 			return err
 		}
 		if flags['a'] {
 			for _, name := range []string{".", ".."} {
-				stat, err := os.Lstat(filepath.Join(path, name))
+				stat, err := os.Lstat(vproc.Path(filepath.Join(path, name)))
 				if err != nil {
 					return err
 				}
-				if err := syntheticLsEntry(out, filepath.Join(path, name), name, stat, flags['l']); err != nil {
+				if err := vproc.syntheticLsEntry(out, filepath.Join(path, name), name, stat, flags['l']); err != nil {
 					return err
 				}
 			}
@@ -133,7 +133,7 @@ func syntheticLs(out io.Writer, args []string) error {
 			if err != nil {
 				return err
 			}
-			if err := syntheticLsEntry(out, filepath.Join(path, entry.Name()), entry.Name(), stat, flags['l']); err != nil {
+			if err := vproc.syntheticLsEntry(out, filepath.Join(path, entry.Name()), entry.Name(), stat, flags['l']); err != nil {
 				return err
 			}
 		}
@@ -141,14 +141,14 @@ func syntheticLs(out io.Writer, args []string) error {
 	return nil
 }
 
-func syntheticLsEntry(out io.Writer, path, name string, info os.FileInfo, long bool) error {
+func (vproc *Process) syntheticLsEntry(out io.Writer, path, name string, info os.FileInfo, long bool) error {
 	if long {
 		if _, err := fmt.Fprintf(out, "%s %8d %s ", info.Mode(), info.Size(), info.ModTime().Format("Jan _2 15:04")); err != nil {
 			return err
 		}
 	}
 	if info.Mode()&os.ModeSymlink != 0 && long {
-		target, err := os.Readlink(path)
+		target, err := os.Readlink(vproc.Path(path))
 		if err == nil {
 			name += " -> " + target
 		}
@@ -157,7 +157,7 @@ func syntheticLsEntry(out io.Writer, path, name string, info os.FileInfo, long b
 	return err
 }
 
-func syntheticCp(args []string) error {
+func (vproc *Process) syntheticCp(args []string) error {
 	flags, paths, err := syntheticFlags("cp", args, "rR")
 	if err != nil {
 		return err
@@ -167,7 +167,7 @@ func syntheticCp(args []string) error {
 	}
 	dest := paths[len(paths)-1]
 	sources := paths[:len(paths)-1]
-	destInfo, destErr := os.Stat(dest)
+	destInfo, destErr := os.Stat(vproc.Path(dest))
 	if len(sources) > 1 && (destErr != nil || !destInfo.IsDir()) {
 		return errors.New("cp: destination must be a directory for multiple sources")
 	}
@@ -176,19 +176,19 @@ func syntheticCp(args []string) error {
 		if destErr == nil && destInfo.IsDir() {
 			target = filepath.Join(dest, filepath.Base(src))
 		}
-		if err := syntheticCopyPath(src, target, flags['r'] || flags['R']); err != nil {
+		if err := vproc.syntheticCopyPath(src, target, flags['r'] || flags['R']); err != nil {
 			return fmt.Errorf("cp: %w", err)
 		}
 	}
 	return nil
 }
 
-func syntheticCopyPath(src, dest string, recursive bool) error {
-	return syntheticCopyPathWithTimes(src, dest, recursive, false)
+func (vproc *Process) syntheticCopyPath(src, dest string, recursive bool) error {
+	return vproc.syntheticCopyPathWithTimes(src, dest, recursive, false)
 }
 
-func syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool) (err error) {
-	info, err := os.Lstat(src)
+func (vproc *Process) syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool) (err error) {
+	info, err := os.Lstat(vproc.Path(src))
 	if err != nil {
 		return err
 	}
@@ -197,7 +197,7 @@ func syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool)
 	if preserveTimes && info.Mode()&os.ModeSymlink == 0 {
 		defer func() {
 			if err == nil {
-				err = os.Chtimes(dest, info.ModTime(), info.ModTime())
+				err = os.Chtimes(vproc.Path(dest), info.ModTime(), info.ModTime())
 			}
 		}()
 	}
@@ -205,11 +205,11 @@ func syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool)
 		if !recursive {
 			return fmt.Errorf("%s is a directory (use -r)", src)
 		}
-		absSrc, err := filepath.Abs(src)
+		absSrc, err := vproc.Abs(src)
 		if err != nil {
 			return err
 		}
-		absDest, err := filepath.Abs(dest)
+		absDest, err := vproc.Abs(dest)
 		if err != nil {
 			return err
 		}
@@ -217,51 +217,51 @@ func syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool)
 		if err == nil && rel != ".." && !strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
 			return fmt.Errorf("cannot copy %s into itself", src)
 		}
-		return syntheticCopyDir(src, dest, info.Mode().Perm(), preserveTimes)
+		return vproc.syntheticCopyDir(src, dest, info.Mode().Perm(), preserveTimes)
 	}
 	if info.Mode()&os.ModeSymlink != 0 {
-		target, err := os.Readlink(src)
+		target, err := os.Readlink(vproc.Path(src))
 		if err != nil {
 			return err
 		}
-		return os.Symlink(target, dest)
+		return os.Symlink(target, vproc.Path(dest))
 	}
 	if !info.Mode().IsRegular() {
 		return fmt.Errorf("cannot copy special file %s", src)
 	}
-	return syntheticCopyFile(src, dest, info.Mode().Perm())
+	return vproc.syntheticCopyFile(src, dest, info.Mode().Perm())
 }
 
-func syntheticCopyDir(src, dest string, mode os.FileMode, preserveTimes bool) error {
-	if err := os.Mkdir(dest, mode|0700); err != nil && !os.IsExist(err) {
+func (vproc *Process) syntheticCopyDir(src, dest string, mode os.FileMode, preserveTimes bool) error {
+	if err := os.Mkdir(vproc.Path(dest), mode|0700); err != nil && !os.IsExist(err) {
 		return err
 	}
-	entries, err := os.ReadDir(src)
+	entries, err := os.ReadDir(vproc.Path(src))
 	if err != nil {
 		return err
 	}
 	for _, entry := range entries {
-		if err := syntheticCopyPathWithTimes(filepath.Join(src, entry.Name()), filepath.Join(dest, entry.Name()), true, preserveTimes); err != nil {
+		if err := vproc.syntheticCopyPathWithTimes(filepath.Join(src, entry.Name()), filepath.Join(dest, entry.Name()), true, preserveTimes); err != nil {
 			return err
 		}
 	}
-	return os.Chmod(dest, mode)
+	return os.Chmod(vproc.Path(dest), mode)
 }
 
 // syntheticCopyFile adapts CopyFile from github.com/gookit/goutil/fsutil,
 // published under the MIT license. See SYNTHETIC_LICENSE.md.
-func syntheticCopyFile(srcPath, dstPath string, mode os.FileMode) (err error) {
-	srcFile, err := os.OpenFile(srcPath, os.O_RDONLY, 0)
+func (vproc *Process) syntheticCopyFile(srcPath, dstPath string, mode os.FileMode) (err error) {
+	srcFile, err := os.OpenFile(vproc.Path(srcPath), os.O_RDONLY, 0)
 	if err != nil {
 		return err
 	}
 	defer srcFile.Close()
-	if dstInfo, err := os.Stat(dstPath); err == nil {
+	if dstInfo, err := os.Stat(vproc.Path(dstPath)); err == nil {
 		if srcInfo, err := srcFile.Stat(); err == nil && os.SameFile(srcInfo, dstInfo) {
 			return fmt.Errorf("%s and %s are the same file", srcPath, dstPath)
 		}
 	}
-	dstFile, err := os.OpenFile(dstPath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, mode)
+	dstFile, err := os.OpenFile(vproc.Path(dstPath), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, mode)
 	if err != nil {
 		return err
 	}
@@ -274,7 +274,7 @@ func syntheticCopyFile(srcPath, dstPath string, mode os.FileMode) (err error) {
 	return err
 }
 
-func syntheticMv(args []string) error {
+func (vproc *Process) syntheticMv(args []string) error {
 	_, paths, err := syntheticFlags("mv", args, "")
 	if err != nil {
 		return err
@@ -284,7 +284,7 @@ func syntheticMv(args []string) error {
 	}
 	dest := paths[len(paths)-1]
 	sources := paths[:len(paths)-1]
-	destInfo, destErr := os.Stat(dest)
+	destInfo, destErr := os.Stat(vproc.Path(dest))
 	if len(sources) > 1 && (destErr != nil || !destInfo.IsDir()) {
 		return errors.New("mv: destination must be a directory for multiple sources")
 	}
@@ -293,16 +293,16 @@ func syntheticMv(args []string) error {
 		if destErr == nil && destInfo.IsDir() {
 			target = filepath.Join(dest, filepath.Base(src))
 		}
-		if err := os.Rename(src, target); err != nil {
+		if err := os.Rename(vproc.Path(src), vproc.Path(target)); err != nil {
 			// Rename can fail when moving between filesystems.
 			var linkErr *os.LinkError
 			if !errors.As(err, &linkErr) || !isSyntheticCrossDeviceError(linkErr.Err) {
 				return fmt.Errorf("mv: %w", err)
 			}
-			if err := syntheticCopyPathWithTimes(src, target, true, true); err != nil {
+			if err := vproc.syntheticCopyPathWithTimes(src, target, true, true); err != nil {
 				return fmt.Errorf("mv: %w", err)
 			}
-			if err := os.RemoveAll(src); err != nil {
+			if err := os.RemoveAll(vproc.Path(src)); err != nil {
 				return fmt.Errorf("mv: %w", err)
 			}
 		}
@@ -310,7 +310,7 @@ func syntheticMv(args []string) error {
 	return nil
 }
 
-func syntheticRm(args []string) error {
+func (vproc *Process) syntheticRm(args []string) error {
 	flags, paths, err := syntheticFlags("rm", args, "rRf")
 	if err != nil {
 		return err
@@ -323,7 +323,7 @@ func syntheticRm(args []string) error {
 		if clean == "." || clean == ".." || filepath.Dir(clean) == clean {
 			return fmt.Errorf("rm: refusing to remove %s", path)
 		}
-		info, err := os.Lstat(path)
+		info, err := os.Lstat(vproc.Path(path))
 		if err != nil {
 			if flags['f'] && os.IsNotExist(err) {
 				continue
@@ -334,9 +334,9 @@ func syntheticRm(args []string) error {
 			return fmt.Errorf("rm: %s is a directory (use -r)", path)
 		}
 		if flags['r'] || flags['R'] {
-			err = os.RemoveAll(path)
+			err = os.RemoveAll(vproc.Path(path))
 		} else {
-			err = os.Remove(path)
+			err = os.Remove(vproc.Path(path))
 		}
 		if err != nil {
 			return err
@@ -345,7 +345,7 @@ func syntheticRm(args []string) error {
 	return nil
 }
 
-func syntheticMkdir(args []string) error {
+func (vproc *Process) syntheticMkdir(args []string) error {
 	flags, paths, err := syntheticFlags("mkdir", args, "p")
 	if err != nil {
 		return err
@@ -355,9 +355,9 @@ func syntheticMkdir(args []string) error {
 	}
 	for _, path := range paths {
 		if flags['p'] {
-			err = os.MkdirAll(path, 0755)
+			err = os.MkdirAll(vproc.Path(path), 0755)
 		} else {
-			err = os.Mkdir(path, 0755)
+			err = os.Mkdir(vproc.Path(path), 0755)
 		}
 		if err != nil {
 			return err
@@ -366,7 +366,7 @@ func syntheticMkdir(args []string) error {
 	return nil
 }
 
-func syntheticRmdir(args []string) error {
+func (vproc *Process) syntheticRmdir(args []string) error {
 	_, paths, err := syntheticFlags("rmdir", args, "")
 	if err != nil {
 		return err
@@ -375,21 +375,21 @@ func syntheticRmdir(args []string) error {
 		return errors.New("rmdir: path required")
 	}
 	for _, path := range paths {
-		info, err := os.Lstat(path)
+		info, err := os.Lstat(vproc.Path(path))
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() {
 			return fmt.Errorf("rmdir: %s is not a directory", path)
 		}
-		if err := os.Remove(path); err != nil {
+		if err := os.Remove(vproc.Path(path)); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func syntheticTouch(args []string) error {
+func (vproc *Process) syntheticTouch(args []string) error {
 	_, paths, err := syntheticFlags("touch", args, "")
 	if err != nil {
 		return err
@@ -398,7 +398,7 @@ func syntheticTouch(args []string) error {
 		return errors.New("touch: path required")
 	}
 	for _, path := range paths {
-		f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0666)
+		f, err := os.OpenFile(vproc.Path(path), os.O_CREATE|os.O_WRONLY, 0666)
 		if err != nil {
 			return err
 		}
@@ -406,14 +406,14 @@ func syntheticTouch(args []string) error {
 			return err
 		}
 		now := time.Now()
-		if err := os.Chtimes(path, now, now); err != nil {
+		if err := os.Chtimes(vproc.Path(path), now, now); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func syntheticCat(in io.Reader, out io.Writer, args []string) error {
+func (vproc *Process) syntheticCat(in io.Reader, out io.Writer, args []string) error {
 	_, paths, err := syntheticFlags("cat", args, "")
 	if err != nil {
 		return err
@@ -428,7 +428,7 @@ func syntheticCat(in io.Reader, out io.Writer, args []string) error {
 			}
 			continue
 		}
-		f, err := os.Open(path)
+		f, err := os.Open(vproc.Path(path))
 		if err != nil {
 			return err
 		}
@@ -442,4 +442,55 @@ func syntheticCat(in io.Reader, out io.Writer, args []string) error {
 		}
 	}
 	return nil
+}
+func syntheticLs(out io.Writer, args []string) error {
+	return (*Process)(nil).syntheticLs(out, args)
+}
+
+func syntheticLsEntry(out io.Writer, path, name string, info os.FileInfo, long bool) error {
+	return (*Process)(nil).syntheticLsEntry(out, path, name, info, long)
+}
+
+func syntheticCp(args []string) error {
+	return (*Process)(nil).syntheticCp(args)
+}
+
+func syntheticCopyPath(src, dest string, recursive bool) error {
+	return (*Process)(nil).syntheticCopyPath(src, dest, recursive)
+}
+
+func syntheticCopyPathWithTimes(src, dest string, recursive, preserveTimes bool) (err error) {
+	return (*Process)(nil).syntheticCopyPathWithTimes(src, dest, recursive, preserveTimes)
+}
+
+func syntheticCopyDir(src, dest string, mode os.FileMode, preserveTimes bool) error {
+	return (*Process)(nil).syntheticCopyDir(src, dest, mode, preserveTimes)
+}
+
+func syntheticCopyFile(srcPath, dstPath string, mode os.FileMode) (err error) {
+	return (*Process)(nil).syntheticCopyFile(srcPath, dstPath, mode)
+}
+
+func syntheticMv(args []string) error {
+	return (*Process)(nil).syntheticMv(args)
+}
+
+func syntheticRm(args []string) error {
+	return (*Process)(nil).syntheticRm(args)
+}
+
+func syntheticMkdir(args []string) error {
+	return (*Process)(nil).syntheticMkdir(args)
+}
+
+func syntheticRmdir(args []string) error {
+	return (*Process)(nil).syntheticRmdir(args)
+}
+
+func syntheticTouch(args []string) error {
+	return (*Process)(nil).syntheticTouch(args)
+}
+
+func syntheticCat(in io.Reader, out io.Writer, args []string) error {
+	return (*Process)(nil).syntheticCat(in, out, args)
 }

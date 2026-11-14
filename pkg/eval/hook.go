@@ -21,6 +21,10 @@ func CallHook(ev *Evaler, evalCfg *EvalCfg, name string, hook vals.List, args ..
 		return
 	}
 
+	if evalCfg == nil && ev.Process != nil {
+		evalCfg = &EvalCfg{Ports: ev.Process.DefaultPorts}
+		evalCfg.fillDefaults()
+	}
 	if evalCfg == nil {
 		ports, cleanup := PortsFromStdFiles(ev.ValuePrefix())
 		defer cleanup()
@@ -30,7 +34,7 @@ func CallHook(ev *Evaler, evalCfg *EvalCfg, name string, hook vals.List, args ..
 	callCfg := CallCfg{Args: args, From: "[hook " + name + "]"}
 
 	i := -1
-	stderr := evalCfg.Ports[2].File
+	stderr := evalCfg.Ports[2].output()
 	for it := hook.Iterator(); it.HasElem(); it.Next() {
 		i++
 		fn, ok := it.Elem().(Callable)

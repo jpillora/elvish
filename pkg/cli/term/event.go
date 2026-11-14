@@ -37,6 +37,11 @@ type PasteSetting bool
 // The current dimensions are obtained from the TTY when redrawing.
 type ResizeEvent struct{}
 
+// InterruptEvent clears pending editor input in stream order.
+type InterruptEvent struct{}
+
+func (InterruptEvent) isEvent() {}
+
 // FatalErrorEvent represents an error that affects the Reader's ability to
 // continue reading events. After sending a FatalError, the Reader makes no more
 // attempts at continuing to read events and wait for Stop to be called.

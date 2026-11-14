@@ -90,6 +90,12 @@ func (op *pipelineOp) exec(fm *Frame) Exception {
 	if op.bg {
 		fm = fm.Fork()
 		fm.ctx = context.Background()
+		if fm.Evaler.Process != nil {
+			fm.ctx = fm.Evaler.Process.Context()
+			fm.Evaler.Process.jobs.Add(1)
+			// Background jobs must not compete with the editor for terminal input.
+			fm.ports[0] = DummyInputPort
+		}
 		fm.background = true
 		fm.Evaler.addNumBgJobs(1)
 	}
@@ -159,6 +165,9 @@ func (op *pipelineOp) exec(fm *Frame) Exception {
 	if op.bg {
 		// Background job, wait for form termination asynchronously.
 		go func() {
+			if p := fm.Evaler.Process; p != nil {
+				defer p.jobs.Done()
+			}
 			wg.Wait()
 			fm.Evaler.addNumBgJobs(-1)
 			if notify := fm.Evaler.BgJobNotify; notify != nil {
@@ -448,7 +457,7 @@ func (op *redirOp) exec(fm *Frame, fops *[]formOwnedPort) Exception {
 	}
 	switch src := src.(type) {
 	case string:
-		f, err := os.OpenFile(src, op.flag, defaultFileRedirPerm)
+		f, err := os.OpenFile(fm.Evaler.Process.Path(src), op.flag, defaultFileRedirPerm)
 		if err != nil {
 			return fm.errorpf(op, "failed to open file %s: %s", vals.ReprPlain(src), err)
 		}

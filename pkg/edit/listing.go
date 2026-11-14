@@ -1,8 +1,6 @@
 package edit
 
 import (
-	"os"
-
 	"github.com/jpillora/elvish/pkg/cli"
 	"github.com/jpillora/elvish/pkg/cli/histutil"
 	"github.com/jpillora/elvish/pkg/cli/modes"
@@ -124,7 +122,7 @@ func initLocation(ed *Editor, ev *eval.Evaler, st storedefs.Store, commonBinding
 				startMode(ed.app, w, err)
 			}))
 	ev.AfterChdir = append(ev.AfterChdir, func(string) {
-		wd, err := os.Getwd()
+		wd, err := ev.Process.Getwd()
 		if err != nil {
 			// TODO(xiaq): Surface the error.
 			return
@@ -219,7 +217,7 @@ func (d dirStore) Dirs(blacklist map[string]struct{}) ([]storedefs.Dir, error) {
 }
 
 func (d dirStore) Getwd() (string, error) {
-	return os.Getwd()
+	return d.ev.Process.Getwd()
 }
 
 func startMode(app cli.App, w tk.Widget, err error) {

@@ -248,7 +248,7 @@ type syntheticGrepWriteError struct{ err error }
 
 func (e syntheticGrepWriteError) Error() string { return e.err.Error() }
 
-func syntheticGrep(in io.Reader, out, diagnostic io.Writer, args []string) error {
+func (vproc *Process) syntheticGrep(in io.Reader, out, diagnostic io.Writer, args []string) error {
 	fail := func(err error) error {
 		if _, writeErr := fmt.Fprintln(diagnostic, err); writeErr != nil {
 			return writeErr
@@ -263,7 +263,7 @@ func syntheticGrep(in io.Reader, out, diagnostic io.Writer, args []string) error
 	for _, source := range options.sources {
 		if source.file {
 			path := source.value
-			if err := syntheticTextInput(in, path, func(reader io.Reader) error {
+			if err := vproc.syntheticTextInput(in, path, func(reader io.Reader) error {
 				return syntheticReadLines(reader, func(line string) error {
 					patterns = append(patterns, line)
 					return nil
@@ -305,7 +305,7 @@ func syntheticGrep(in io.Reader, out, diagnostic io.Writer, args []string) error
 			}
 			return nil
 		}
-		err := syntheticTextInput(in, path, func(reader io.Reader) error {
+		err := vproc.syntheticTextInput(in, path, func(reader io.Reader) error {
 			opened = true
 			return syntheticReadLines(reader, func(line string) error {
 				lineNo++
@@ -385,4 +385,7 @@ func syntheticGrep(in io.Reader, out, diagnostic io.Writer, args []string) error
 		return syntheticCommandExit("grep", 1)
 	}
 	return nil
+}
+func syntheticGrep(in io.Reader, out, diagnostic io.Writer, args []string) error {
+	return (*Process)(nil).syntheticGrep(in, out, diagnostic, args)
 }

@@ -23,8 +23,8 @@ var getwd func() (string, error) = os.Getwd
 
 // Get returns the current working directory. It returns "/unknown/pwd" when
 // it cannot be determined.
-func (pwdVar) Get() any {
-	pwd, err := getwd()
+func (v pwdVar) Get() any {
+	pwd, err := v.ev.Process.Getwd()
 	if err != nil {
 		// This should really use the path separator appropriate for the
 		// platform but in practice this hardcoded string works fine. Both

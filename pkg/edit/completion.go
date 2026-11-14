@@ -122,8 +122,12 @@ func initCompletion(ed *Editor, ev *eval.Evaler, nb eval.NsBuilder) {
 		return complete.GenerateForSudo(args, ev, cfg())
 	}
 	nb.AddGoFns(map[string]any{
-		"complete-filename": wrapArgGenerator(complete.GenerateFileNames),
-		"complete-dirname":  wrapArgGenerator(complete.GenerateDirNames),
+		"complete-filename": wrapArgGenerator(func(args []string) ([]complete.RawItem, error) {
+			return complete.GenerateFileNamesForProcess(ev.Process, args)
+		}),
+		"complete-dirname": wrapArgGenerator(func(args []string) ([]complete.RawItem, error) {
+			return complete.GenerateDirNamesForProcess(ev.Process, args)
+		}),
 		"complete-getopt":   completeGetopt,
 		"complete-sudo":     wrapArgGenerator(generateForSudo),
 		"complex-candidate": complexCandidate,
@@ -350,7 +354,7 @@ func adaptArgGeneratorMap(ev *eval.Evaler, m vals.Map) complete.ArgGenerator {
 			return nil, fmt.Errorf("arg completer for %s not a function", args[0])
 		}
 		if gen == nil {
-			return complete.GenerateFileNames(args)
+			return complete.GenerateFileNamesForProcess(ev.Process, args)
 		}
 		argValues := make([]any, len(args))
 		for i, arg := range args {

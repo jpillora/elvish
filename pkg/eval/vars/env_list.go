@@ -31,12 +31,17 @@ var (
 // os.PathListSeparator or \0; attempting to put any in its elements will result in
 // an error.
 func NewEnvListVar(name string) Var {
-	return &envListVar{envName: name}
+	return NewEnvListVarWithEnv(name, osEnvironment{})
+}
+
+func NewEnvListVarWithEnv(name string, env Environment) Var {
+	return &envListVar{envName: name, env: env, cacheValue: vals.EmptyList}
 }
 
 type envListVar struct {
 	sync.RWMutex
 	envName    string
+	env        Environment
 	cacheFor   string
 	cacheValue any
 }
@@ -46,7 +51,7 @@ func (envli *envListVar) Get() any {
 	envli.Lock()
 	defer envli.Unlock()
 
-	value := os.Getenv(envli.envName)
+	value, _ := envli.env.LookupEnv(envli.envName)
 	if value == envli.cacheFor {
 		return envli.cacheValue
 	}
@@ -86,6 +91,5 @@ func (envli *envListVar) Set(v any) error {
 
 	envli.Lock()
 	defer envli.Unlock()
-	os.Setenv(envli.envName, strings.Join(paths, pathListSeparator))
-	return nil
+	return envli.env.Setenv(envli.envName, strings.Join(paths, pathListSeparator))
 }

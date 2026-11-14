@@ -4,7 +4,10 @@ import "errors"
 
 var errNotSupportedOnWindows = errors.New("not supported on Windows")
 
-func execFn(...any) error {
+func execFn(fm *Frame, args ...any) error {
+	if fm.Evaler.Process != nil {
+		return virtualExec(fm, args...)
+	}
 	return errNotSupportedOnWindows
 }
 

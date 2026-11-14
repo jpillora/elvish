@@ -1,6 +1,8 @@
 package eval
 
-import "syscall"
+import (
+	"syscall"
+)
 
 // Nop on Windows.
 func putSelfInFg() error { return nil }

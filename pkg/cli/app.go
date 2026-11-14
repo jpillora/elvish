@@ -222,6 +222,12 @@ func (a *app) handle(e event) {
 		case sys.SIGWINCH:
 			a.RedrawFull()
 		}
+	case term.FatalErrorEvent:
+		a.loop.Return("", e.Err)
+	case term.InterruptEvent:
+		a.resetAllStates()
+		a.triggerPrompts(true)
+		a.reqRead <- struct{}{}
 	case term.ResizeEvent:
 		a.RedrawFull()
 		a.reqRead <- struct{}{}

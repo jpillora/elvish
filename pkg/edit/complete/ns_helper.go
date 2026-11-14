@@ -21,11 +21,15 @@ func eachVariableInNs(ev *eval.Evaler, p np.Path, ns string, f func(s string)) {
 		ev.Builtin().IterateKeysString(f)
 		eachDefinedVariable(p[len(p)-1], p[0].Range().From, f)
 	case "e:":
-		eachExternal(func(cmd string) {
+		externalGenerator(ev.Process)(func(cmd string) {
 			f(cmd + eval.FnSuffix)
 		})
 	case "E:":
-		for _, s := range environ() {
+		env := environ()
+		if ev.Process != nil {
+			env = ev.Process.Environ()
+		}
+		for _, s := range env {
 			if i := strings.IndexByte(s, '='); i > 0 {
 				f(s[:i])
 			}

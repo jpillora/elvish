@@ -2,6 +2,7 @@ package term
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/jpillora/elvish/pkg/sys"
@@ -37,6 +38,11 @@ const (
 // setupVT performs setup for VT-like terminals.
 func setupVT(out *os.File) error {
 	_, width := sys.WinSize(out)
+	return SetupStream(out, width)
+}
+
+// SetupStream initializes a remote VT terminal without changing OS console modes.
+func SetupStream(out io.Writer, width int) error {
 
 	s := ""
 	/*
@@ -81,12 +87,15 @@ func setupVT(out *os.File) error {
 	// Enable bracketed paste.
 	s += "\033[?2004h"
 
-	_, err := out.WriteString(s)
+	_, err := io.WriteString(out, s)
 	return err
 }
 
 // restoreVT performs restore for VT-like terminals.
-func restoreVT(out *os.File) error {
+func restoreVT(out *os.File) error { return RestoreStream(out) }
+
+// RestoreStream restores terminal modes after a line has been read.
+func RestoreStream(out io.Writer) error {
 	s := ""
 	// Turn on autowrap.
 	s += "\033[?7h"
@@ -102,6 +111,6 @@ func restoreVT(out *os.File) error {
 	// are not in the first column, which can mess up with tabs. See
 	// https://src.elv.sh/pkg/issues/629 for an example.
 	s += "\r"
-	_, err := out.WriteString(s)
+	_, err := io.WriteString(out, s)
 	return err
 }

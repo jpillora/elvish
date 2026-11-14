@@ -23,6 +23,9 @@ var ErrNotInSameProcessGroup = errors.New("not in the same process group")
 var syscallExec = syscall.Exec
 
 func execFn(fm *Frame, args ...any) error {
+	if fm.Evaler.Process != nil {
+		return virtualExec(fm, args...)
+	}
 	var argstrings []string
 	if len(args) == 0 {
 		argstrings = []string{"elvish"}

@@ -233,13 +233,17 @@ func stringToSegments(s string) []glob.Segment {
 }
 
 func doGlob(ctx context.Context, gp globPattern) ([]any, error) {
+	return doGlobFrom(ctx, gp, "")
+}
+
+func doGlobFrom(ctx context.Context, gp globPattern, dir string) ([]any, error) {
 	but := make(map[string]struct{})
 	for _, s := range gp.Buts {
 		but[s] = struct{}{}
 	}
 
 	vs := make([]any, 0)
-	if !gp.Glob(func(pathInfo glob.PathInfo) bool {
+	if !gp.GlobFrom(dir, func(pathInfo glob.PathInfo) bool {
 		select {
 		case <-ctx.Done():
 			logger.Println("glob aborted")

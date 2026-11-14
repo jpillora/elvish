@@ -94,7 +94,7 @@ func initNavigation(ed *Editor, ev *eval.Evaler, nb eval.NsBuilder) {
 			"start": func() {
 				w, err := modes.NewNavigation(app, modes.NavigationSpec{
 					Bindings: bindings,
-					Cursor:   modes.NewOSNavigationCursor(ev.Chdir),
+					Cursor:   modes.NewOSNavigationCursorWithAbs(ev.Chdir, ev.Process.Abs),
 					WidthRatio: func() [3]int {
 						return convertNavWidthRatio(widthRatioVar.Get())
 					},

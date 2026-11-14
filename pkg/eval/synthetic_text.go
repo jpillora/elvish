@@ -108,11 +108,11 @@ func syntheticSliceArgs(command string, args []string) (syntheticSliceOptions, [
 
 // syntheticTextInput only owns readers opened for named files. In particular,
 // it never closes the frame's stdin, which may appear more than once as "-".
-func syntheticTextInput(in io.Reader, path string, process func(io.Reader) error) error {
+func (vproc *Process) syntheticTextInput(in io.Reader, path string, process func(io.Reader) error) error {
 	if path == "-" {
 		return process(in)
 	}
-	f, err := os.Open(path)
+	f, err := os.Open(vproc.Path(path))
 	if err != nil {
 		return err
 	}
@@ -124,7 +124,7 @@ func syntheticTextInput(in io.Reader, path string, process func(io.Reader) error
 	return closeErr
 }
 
-func syntheticSliceText(command string, in io.Reader, out io.Writer, args []string) error {
+func (vproc *Process) syntheticSliceText(command string, in io.Reader, out io.Writer, args []string) error {
 	options, paths, err := syntheticSliceArgs(command, args)
 	if err != nil {
 		return err
@@ -134,7 +134,7 @@ func syntheticSliceText(command string, in io.Reader, out io.Writer, args []stri
 	}
 	headers := options.headers > 0 || options.headers == 0 && len(paths) > 1
 	for i, path := range paths {
-		if err := syntheticTextInput(in, path, func(reader io.Reader) error {
+		if err := vproc.syntheticTextInput(in, path, func(reader io.Reader) error {
 			if headers {
 				if i > 0 {
 					if _, err := fmt.Fprintln(out); err != nil {
@@ -328,7 +328,7 @@ func syntheticCountWords(in io.Reader) (syntheticWordCounts, error) {
 	}
 }
 
-func syntheticWc(in io.Reader, out io.Writer, args []string) error {
+func (vproc *Process) syntheticWc(in io.Reader, out io.Writer, args []string) error {
 	flags, paths, err := syntheticFlags("wc", args, "lwcm")
 	if err != nil {
 		return err
@@ -359,7 +359,7 @@ func syntheticWc(in io.Reader, out io.Writer, args []string) error {
 	var total syntheticWordCounts
 	for _, path := range paths {
 		var counts syntheticWordCounts
-		if err := syntheticTextInput(in, path, func(reader io.Reader) error {
+		if err := vproc.syntheticTextInput(in, path, func(reader io.Reader) error {
 			var err error
 			counts, err = syntheticCountWords(reader)
 			return err
@@ -382,4 +382,15 @@ func syntheticWc(in io.Reader, out io.Writer, args []string) error {
 		return printCounts(total, "total")
 	}
 	return nil
+}
+func syntheticTextInput(in io.Reader, path string, process func(io.Reader) error) error {
+	return (*Process)(nil).syntheticTextInput(in, path, process)
+}
+
+func syntheticSliceText(command string, in io.Reader, out io.Writer, args []string) error {
+	return (*Process)(nil).syntheticSliceText(command, in, out, args)
+}
+
+func syntheticWc(in io.Reader, out io.Writer, args []string) error {
+	return (*Process)(nil).syntheticWc(in, out, args)
 }

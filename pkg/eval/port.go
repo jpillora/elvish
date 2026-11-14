@@ -17,7 +17,11 @@ import (
 // Port conveys data stream. It always consists of a byte band and a channel band.
 type Port struct {
 	File *os.File
-	Chan chan any
+	// Reader and Writer are used for an embedded session's streams. File is
+	// retained for OS files, redirections and pipeline descriptors.
+	Reader io.Reader
+	Writer io.Writer
+	Chan   chan any
 
 	// The following two fields are populated as an additional control mechanism
 	// for output ports. When no more value should be send on Chan, sendError is
@@ -31,6 +35,38 @@ type Port struct {
 	// This is used to check if an external command killed by SIGPIPE is caused
 	// by the termination of the reader of the pipe.
 	readerGone *atomic.Bool
+}
+
+func (p *Port) input() io.Reader {
+	if p.Reader != nil {
+		return p.Reader
+	}
+	return p.File
+}
+func (p *Port) output() io.Writer {
+	if p.Writer != nil {
+		return p.Writer
+	}
+	return p.File
+}
+
+// PortsFromStreams connects an evaluator directly to application-owned I/O.
+// Cleanup drains value output; it does not close the supplied streams.
+func PortsFromStreams(in io.Reader, out, errOut io.Writer, prefix string) ([]*Port, func()) {
+	makeOutput := func(w io.Writer) (*Port, func()) {
+		ch := make(chan any, filePortChanSize)
+		done := make(chan struct{})
+		go func() {
+			defer close(done)
+			for v := range ch {
+				fmt.Fprintln(w, prefix+vals.ReprPlain(v))
+			}
+		}()
+		return &Port{Writer: w, Chan: ch}, func() { close(ch); <-done }
+	}
+	outPort, outDone := makeOutput(out)
+	errPort, errDone := makeOutput(errOut)
+	return []*Port{{Reader: in, Chan: ClosedChan}, outPort, errPort}, func() { outDone(); errDone() }
 }
 
 // ErrPortDoesNotSupportValueOutput is thrown when writing to a port that does
@@ -307,7 +343,7 @@ type ByteOutput interface {
 }
 
 type byteOutput struct {
-	f *os.File
+	f io.Writer
 }
 
 func (bo byteOutput) Write(p []byte) (int, error) {
@@ -316,7 +352,7 @@ func (bo byteOutput) Write(p []byte) (int, error) {
 }
 
 func (bo byteOutput) WriteString(s string) (int, error) {
-	n, err := bo.f.WriteString(s)
+	n, err := io.WriteString(bo.f, s)
 	return n, convertReaderGone(err)
 }
 

@@ -1,6 +1,7 @@
 package eval
 
 import (
+	"errors"
 	"os"
 
 	"github.com/jpillora/elvish/pkg/eval/errs"
@@ -15,11 +16,16 @@ func init() {
 	addBuiltinFns(map[string]any{
 		// Command resolution
 		"external":        external,
-		"has-external":    hasExternal,
-		"search-external": searchExternal,
+		"has-external":    func(fm *Frame, cmd string) bool { _, err := fm.Evaler.Process.LookPath(cmd); return err == nil },
+		"search-external": func(fm *Frame, cmd string) (string, error) { return fm.Evaler.Process.LookPath(cmd) },
 
 		// Process control
-		"fg":   fg,
+		"fg": func(fm *Frame, pids ...int) error {
+			if fm.Evaler.Process != nil {
+				return errors.New("fg requires a standalone shell process")
+			}
+			return fg(pids...)
+		},
 		"exec": execFn,
 		"exit": exit,
 	})
@@ -49,6 +55,9 @@ func exit(fm *Frame, codes ...int) error {
 		code = codes[0]
 	default:
 		return errs.ArityMismatch{What: "arguments", ValidLow: 0, ValidHigh: 1, Actual: len(codes)}
+	}
+	if fm.Evaler.Process != nil {
+		return fm.Evaler.Process.Exit(code)
 	}
 
 	fm.Evaler.PreExit()

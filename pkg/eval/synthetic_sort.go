@@ -32,11 +32,11 @@ func syntheticReadLines(in io.Reader, process func(string) error) error {
 	}
 }
 
-func syntheticTextOutput(out io.Writer, path string, process func(io.Writer) error) error {
+func (vproc *Process) syntheticTextOutput(out io.Writer, path string, process func(io.Writer) error) error {
 	if path == "" {
 		return process(out)
 	}
-	f, err := os.Create(path)
+	f, err := os.Create(vproc.Path(path))
 	if err != nil {
 		return err
 	}
@@ -164,7 +164,7 @@ type syntheticSortLine struct {
 	number    *big.Rat
 }
 
-func syntheticSort(in io.Reader, out io.Writer, args []string) error {
+func (vproc *Process) syntheticSort(in io.Reader, out io.Writer, args []string) error {
 	options, paths, err := syntheticSortArgs(args)
 	if err != nil {
 		return err
@@ -174,7 +174,7 @@ func syntheticSort(in io.Reader, out io.Writer, args []string) error {
 	}
 	var lines []syntheticSortLine
 	for _, path := range paths {
-		if err := syntheticTextInput(in, path, func(reader io.Reader) error {
+		if err := vproc.syntheticTextInput(in, path, func(reader io.Reader) error {
 			return syntheticReadLines(reader, func(text string) error {
 				line := syntheticSortLine{text: text, key: text}
 				if options.blanks {
@@ -211,7 +211,7 @@ func syntheticSort(in io.Reader, out io.Writer, args []string) error {
 	})
 	// Open the output only after every input has been read successfully. This
 	// supports sort -o FILE FILE without truncating the source first.
-	return syntheticTextOutput(out, options.output, func(writer io.Writer) error {
+	return vproc.syntheticTextOutput(out, options.output, func(writer io.Writer) error {
 		for i, line := range lines {
 			if options.unique && i > 0 && compare(line, lines[i-1]) == 0 {
 				continue
@@ -224,7 +224,7 @@ func syntheticSort(in io.Reader, out io.Writer, args []string) error {
 	})
 }
 
-func syntheticUniq(in io.Reader, out io.Writer, args []string) error {
+func (vproc *Process) syntheticUniq(in io.Reader, out io.Writer, args []string) error {
 	// Expand long options before the shared short-option parser, respecting --.
 	aliases := map[string]string{"--count": "-c", "--repeated": "-d", "--unique": "-u", "--ignore-case": "-i"}
 	normalized := append([]string(nil), args...)
@@ -254,14 +254,14 @@ func syntheticUniq(in io.Reader, out io.Writer, args []string) error {
 		output = ""
 	}
 	if input != "-" && output != "" && output != "-" {
-		inputInfo, inErr := os.Stat(input)
-		outputInfo, outErr := os.Stat(output)
+		inputInfo, inErr := os.Stat(vproc.Path(input))
+		outputInfo, outErr := os.Stat(vproc.Path(output))
 		if inErr == nil && outErr == nil && os.SameFile(inputInfo, outputInfo) {
 			return errors.New("uniq: input and output are the same file")
 		}
 	}
-	return syntheticTextInput(in, input, func(reader io.Reader) error {
-		return syntheticTextOutput(out, output, func(writer io.Writer) error {
+	return vproc.syntheticTextInput(in, input, func(reader io.Reader) error {
+		return vproc.syntheticTextOutput(out, output, func(writer io.Writer) error {
 			var current, key string
 			var count int64
 			flush := func() error {
@@ -295,4 +295,15 @@ func syntheticUniq(in io.Reader, out io.Writer, args []string) error {
 			return flush()
 		})
 	})
+}
+func syntheticTextOutput(out io.Writer, path string, process func(io.Writer) error) error {
+	return (*Process)(nil).syntheticTextOutput(out, path, process)
+}
+
+func syntheticSort(in io.Reader, out io.Writer, args []string) error {
+	return (*Process)(nil).syntheticSort(in, out, args)
+}
+
+func syntheticUniq(in io.Reader, out io.Writer, args []string) error {
+	return (*Process)(nil).syntheticUniq(in, out, args)
 }

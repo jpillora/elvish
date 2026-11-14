@@ -5,6 +5,23 @@ packages such as `github.com/jpillora/elvish/pkg/shell` directly; no `replace`
 directive is needed. It includes portable filesystem and text command fallbacks
 for embedding in applications such as sshd-lite.
 
+For an in-process shell, use [`shell.NewSession`](pkg/shell/session.go) with an
+explicit directory, environment snapshot and output streams. Feed stdin using
+`Write`, signal stdin EOF with `CloseInput`, and call `Run` with Elvish code or
+nil for the interactive editor. `Close` cancels the session; `Resize` and
+`Interrupt` affect only that session. No `main` hook or OS signal handler is
+needed. The root's cwd, environment, `$pid` and exit status are virtual.
+
+External commands are real children with explicit cwd/env. An embedder can
+supply `SessionConfig.RunExternal` for PTY/ConPTY execution; the default runner
+uses ordinary pipes. `PrepareVirtualChild` and `OwnVirtualChild` provide process
+group/job ownership for custom runners. The host owns transport closure.
+
+Virtual sessions omit the process-wide `unix` module, `fg`, native Go plugins
+and process-wide debug builtins. `exec` runs a child then exits the virtual root.
+This is session state isolation, not a filesystem, privilege or memory sandbox.
+The standalone CLI retains its original OS-process behavior.
+
 Install the fork with `go install github.com/jpillora/elvish/cmd/elvish@main`.
 Tags from before the module-path migration still use the upstream module path;
 pin `main` or a commit after the migration when using this fork.

@@ -23,19 +23,25 @@ var eachExternal = fsutil.EachExternal
 // GenerateFileNames returns filename candidates that are suitable for completing
 // the last argument. It can be used in Config.ArgGenerator.
 func GenerateFileNames(args []string) ([]RawItem, error) {
+	return GenerateFileNamesForProcess(nil, args)
+}
+
+func GenerateFileNamesForProcess(p *eval.Process, args []string) ([]RawItem, error) {
 	if len(args) == 0 {
 		return nil, nil
 	}
-	return generateFileNames(args[len(args)-1], nil)
+	return generateFileNamesForProcess(p, args[len(args)-1], nil)
 }
 
 // GenerateFileNames returns directory name candidates that are suitable for
 // completing the last argument. It can be used in Config.ArgGenerator.
-func GenerateDirNames(args []string) ([]RawItem, error) {
+func GenerateDirNames(args []string) ([]RawItem, error) { return GenerateDirNamesForProcess(nil, args) }
+
+func GenerateDirNamesForProcess(p *eval.Process, args []string) ([]RawItem, error) {
 	if len(args) == 0 {
 		return nil, nil
 	}
-	return generateFileNames(args[len(args)-1], fs.FileInfo.IsDir)
+	return generateFileNamesForProcess(p, args[len(args)-1], fs.FileInfo.IsDir)
 }
 
 // GenerateForSudo generates candidates for sudo.
@@ -45,7 +51,7 @@ func GenerateForSudo(args []string, ev *eval.Evaler, cfg Config) ([]RawItem, err
 		return nil, errNoCompletion
 	case len(args) == 2:
 		// Complete external commands.
-		return generateExternalCommands(args[1])
+		return generateExternalCommandsForProcess(ev.Process, args[1])
 	default:
 		return cfg.ArgGenerator(args[1:])
 	}
@@ -92,9 +98,14 @@ func generateArgs(args []string, ev *eval.Evaler, p np.Path, cfg Config) ([]RawI
 }
 
 func generateExternalCommands(seed string) ([]RawItem, error) {
+	return generateExternalCommandsForProcess(nil, seed)
+}
+
+func generateExternalCommandsForProcess(p *eval.Process, seed string) ([]RawItem, error) {
+	eachExternal := externalGenerator(p)
 	if fsutil.DontSearch(seed) {
 		// Completing a local external command name.
-		return generateFileNames(seed, executableOrDir)
+		return generateFileNamesForProcess(p, seed, executableOrDir)
 	}
 	var items []RawItem
 	eachExternal(func(s string) { items = append(items, PlainItem(s)) })
@@ -102,9 +113,10 @@ func generateExternalCommands(seed string) ([]RawItem, error) {
 }
 
 func generateCommands(seed string, ev *eval.Evaler, p np.Path) ([]RawItem, error) {
+	eachExternal := externalGenerator(ev.Process)
 	if fsutil.DontSearch(seed) {
 		// Completing a local external command name.
-		return generateFileNames(seed, executableOrDir)
+		return generateFileNamesForProcess(ev.Process, seed, executableOrDir)
 	}
 
 	var cands []RawItem
@@ -143,7 +155,18 @@ func generateCommands(seed string, ev *eval.Evaler, p np.Path) ([]RawItem, error
 	return cands, nil
 }
 
+func externalGenerator(p *eval.Process) func(func(string)) {
+	if p == nil {
+		return eachExternal
+	}
+	return p.EachExternal
+}
+
 func generateFileNames(seed string, statPred func(fs.FileInfo) bool) ([]RawItem, error) {
+	return generateFileNamesForProcess(nil, seed, statPred)
+}
+
+func generateFileNamesForProcess(p *eval.Process, seed string, statPred func(fs.FileInfo) bool) ([]RawItem, error) {
 	var items []RawItem
 
 	dir, fileprefix := filepath.Split(seed)
@@ -152,7 +175,7 @@ func generateFileNames(seed string, statPred func(fs.FileInfo) bool) ([]RawItem,
 		dirToRead = "."
 	}
 
-	files, err := os.ReadDir(dirToRead)
+	files, err := os.ReadDir(p.Path(dirToRead))
 	if err != nil {
 		return nil, fmt.Errorf("cannot list directory %s: %v", dirToRead, err)
 	}
@@ -186,7 +209,7 @@ func generateFileNames(seed string, statPred func(fs.FileInfo) bool) ([]RawItem,
 			full += pathSeparator
 			suffix = ""
 		} else if stat.Mode()&os.ModeSymlink != 0 {
-			stat, err := os.Stat(full)
+			stat, err := os.Stat(p.Path(full))
 			if err == nil && stat.IsDir() { // symlink to directory
 				full += pathSeparator
 				suffix = ""
@@ -196,7 +219,7 @@ func generateFileNames(seed string, statPred func(fs.FileInfo) bool) ([]RawItem,
 		items = append(items, ComplexItem{
 			Stem:       full,
 			CodeSuffix: suffix,
-			Display:    ui.T(full, ui.StylingFromSGR(lsColor.GetStyle(full))),
+			Display:    ui.T(full, ui.StylingFromSGR(lsColor.GetStyle(p.Path(full)))),
 		})
 	}
 

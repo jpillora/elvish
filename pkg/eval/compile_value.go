@@ -48,7 +48,7 @@ func (cp *compiler) compoundOp(n *parse.Compound) valuesOp {
 type loneTildeOp struct{ diag.Ranging }
 
 func (op loneTildeOp) exec(fm *Frame) ([]any, Exception) {
-	home, err := getHome("")
+	home, err := fm.Evaler.Process.GetHome("")
 	if err != nil {
 		return nil, fm.errorp(op, err)
 	}
@@ -90,7 +90,7 @@ func (op compoundOp) exec(fm *Frame) ([]any, Exception) {
 	if op.tilde {
 		newvs := make([]any, len(vs))
 		for i, v := range vs {
-			tilded, err := doTilde(v)
+			tilded, err := doTildeWithHome(v, fm.Evaler.Process.GetHome)
 			if err != nil {
 				return nil, fm.errorp(op, err)
 			}
@@ -109,7 +109,11 @@ func (op compoundOp) exec(fm *Frame) ([]any, Exception) {
 		newvs := make([]any, 0, len(vs))
 		for _, v := range vs {
 			if gp, ok := v.(globPattern); ok {
-				results, err := doGlob(fm.Context(), gp)
+				dir := ""
+				if fm.Evaler.Process != nil {
+					dir, _ = fm.Evaler.Process.Getwd()
+				}
+				results, err := doGlobFrom(fm.Context(), gp, dir)
 				if err != nil {
 					return nil, fm.errorp(op, err)
 				}
@@ -144,7 +148,9 @@ var (
 	ErrCannotDetermineUsername = errors.New("cannot determine user name from glob pattern")
 )
 
-func doTilde(v any) (any, error) {
+func doTilde(v any) (any, error) { return doTildeWithHome(v, getHome) }
+
+func doTildeWithHome(v any, getHome func(string) (string, error)) (any, error) {
 	switch v := v.(type) {
 	case string:
 		s := v

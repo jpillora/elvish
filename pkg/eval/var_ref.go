@@ -145,7 +145,7 @@ func derefBase(fm *Frame, ref *varRef) (vars.Var, []string) {
 	case builtinScope:
 		return fm.Evaler.Builtin().slots[ref.index], ref.subNames
 	case envScope:
-		return vars.FromEnv(ref.subNames[0]), nil
+		return vars.FromEnvWithEnv(ref.subNames[0], fm.Evaler.Process), nil
 	case externalScope:
 		return vars.NewReadOnly(NewExternalCmd(ref.subNames[0])), nil
 	default:

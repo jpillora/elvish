@@ -73,8 +73,13 @@ func getDefaultPrompt(isRoot bool) eval.Callable {
 	if isRoot {
 		p = ui.T("# ", ui.FgRed)
 	}
-	return eval.NewGoFn("default prompt", func() ui.Text {
-		return ui.Concat(ui.T(fsutil.Getwd()), p)
+	return eval.NewGoFn("default prompt", func(fm *eval.Frame) ui.Text {
+		wd := fsutil.Getwd()
+		if proc := fm.Evaler.Process; proc != nil {
+			wd, _ = proc.Getwd()
+			wd = proc.TildeAbbr(wd)
+		}
+		return ui.Concat(ui.T(wd), p)
 	})
 }
 

@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"os"
 	"strconv"
 	"sync"
 
@@ -39,6 +38,8 @@ const (
 // persisted between evaluation of different pieces of code. An Evaler is safe
 // to use concurrently.
 type Evaler struct {
+	// Process is nil for the standalone shell, or a virtual root for embedding.
+	Process *Process
 	// The following fields must only be set before the Evaler is used to
 	// evaluate any code; mutating them afterwards may cause race conditions.
 
@@ -249,7 +250,7 @@ func (ev *Evaler) Chdir(path string) error {
 		hook(path)
 	}
 
-	err := os.Chdir(path)
+	err := ev.Process.Chdir(path)
 	if err != nil {
 		return err
 	}
@@ -258,12 +259,12 @@ func (ev *Evaler) Chdir(path string) error {
 		hook(path)
 	}
 
-	pwd, err := os.Getwd()
+	pwd, err := ev.Process.Getwd()
 	if err != nil {
 		logger.Println("getwd after cd:", err)
 		return nil
 	}
-	os.Setenv(env.PWD, pwd)
+	ev.Process.Setenv(env.PWD, pwd)
 
 	return nil
 }
@@ -303,7 +304,7 @@ func (cfg *EvalCfg) fillDefaults() {
 // returned error may be a parse error, compilation error or exception.
 func (ev *Evaler) Eval(src parse.Source, cfg EvalCfg) error {
 	cfg.fillDefaults()
-	errFile := cfg.Ports[2].File
+	errFile := cfg.Ports[2].output()
 
 	tree, err := parse.Parse(src, parse.Config{WarningWriter: errFile})
 	if err != nil {
@@ -379,15 +380,26 @@ func (ev *Evaler) prepareFrame(src parse.Source, cfg EvalCfg) (*Frame, func()) {
 	if intCtx == nil {
 		intCtx = context.Background()
 	}
+	stopRoot := func() bool { return true }
+	finishContext := func() {}
+	if ev.Process != nil {
+		intCtx, finishContext = context.WithCancel(intCtx)
+		stopRoot = context.AfterFunc(ev.Process.Context(), finishContext)
+		if ev.Process.Context().Err() != nil {
+			finishContext()
+		}
+	}
 
 	ports := fillDefaultDummyPorts(cfg.Ports)
 
 	fm := &Frame{ev, intCtx, ports, nil, false, src, cfg.Global, new(Ns), nil}
 	return fm, func() {
-		if cfg.PutInFg {
+		stopRoot()
+		finishContext()
+		if cfg.PutInFg && ev.Process == nil {
 			err := putSelfInFg()
 			if err != nil {
-				fmt.Fprintln(ports[2].File,
+				fmt.Fprintln(ports[2].output(),
 					"failed to put myself in foreground:", err)
 			}
 		}

@@ -3,7 +3,9 @@ package glob
 
 import (
 	"os"
+	"path/filepath"
 	"runtime"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -23,6 +25,38 @@ type PathInfo struct {
 // Glob returns a list of file names satisfying the given pattern.
 func Glob(p string, cb func(PathInfo) bool) bool {
 	return Parse(p).Glob(cb)
+}
+
+// GlobFrom resolves relative patterns in dir without changing the OS cwd.
+func (p Pattern) GlobFrom(dir string, cb func(PathInfo) bool) bool {
+	if dir == "" || p.DirOverride != "" || len(p.Segments) == 0 {
+		return p.Glob(cb)
+	}
+	if IsSlash(p.Segments[0]) {
+		if runtime.GOOS == "windows" {
+			// Root-relative patterns inherit the session's volume, not the host's.
+			volume := filepath.VolumeName(dir)
+			p.DirOverride = volume
+			return p.Glob(func(info PathInfo) bool { info.Path = strings.TrimPrefix(info.Path, volume); return cb(info) })
+		}
+		return p.Glob(cb)
+	}
+	if first, ok := p.Segments[0].(Literal); ok && filepath.VolumeName(first.Data) != "" {
+		// A drive-qualified absolute pattern is already independent of the cwd.
+		if len(p.Segments) > 1 && IsSlash(p.Segments[1]) {
+			return p.Glob(cb)
+		}
+		volume := filepath.VolumeName(first.Data)
+		base := volume + "/"
+		if strings.EqualFold(volume, filepath.VolumeName(dir)) {
+			base = strings.TrimRight(dir, `/\`) + "/"
+		}
+		p.Segments = append([]Segment(nil), p.Segments...)
+		p.Segments[0] = Literal{Data: strings.TrimPrefix(first.Data, volume)}
+		return glob(p.Segments, base, func(info PathInfo) bool { info.Path = volume + strings.TrimPrefix(info.Path, base); return cb(info) })
+	}
+	prefix := strings.TrimRight(dir, `/\`) + "/"
+	return glob(p.Segments, prefix, func(info PathInfo) bool { info.Path = strings.TrimPrefix(info.Path, prefix); return cb(info) })
 }
 
 // Glob returns a list of file names satisfying the Pattern.

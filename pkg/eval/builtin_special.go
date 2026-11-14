@@ -277,7 +277,7 @@ type delEnvVarOp struct {
 }
 
 func (op delEnvVarOp) exec(fm *Frame) Exception {
-	return fm.errorp(op, os.Unsetenv(op.name))
+	return fm.errorp(op, fm.Evaler.Process.Unsetenv(op.name))
 }
 
 func newDelElementOp(ref *varRef, begin, headEnd int, indexOps []valuesOp) effectOp {
@@ -418,7 +418,7 @@ func use(fm *Frame, spec string, r diag.Ranger) (*Ns, error) {
 			dir = filepath.Dir(fm.src.Name)
 		} else {
 			var err error
-			dir, err = os.Getwd()
+			dir, err = fm.Evaler.Process.Getwd()
 			if err != nil {
 				return nil, err
 			}
@@ -454,11 +454,12 @@ func use(fm *Frame, spec string, r diag.Ranger) (*Ns, error) {
 
 // TODO: Make access to fm.Evaler.modules concurrency-safe.
 func useFromFile(fm *Frame, spec, path string, r diag.Ranger) (*Ns, error) {
+	path = fm.Evaler.Process.Path(path)
 	if ns, ok := fm.Evaler.modules[path]; ok {
 		return ns, nil
 	}
 	_, err := os.Stat(path + ".so")
-	if err != nil {
+	if err != nil || fm.Evaler.Process != nil {
 		code, err := readFileUTF8(path + ".elv")
 		if err != nil {
 			if os.IsNotExist(err) {

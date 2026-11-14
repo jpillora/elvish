@@ -49,7 +49,14 @@ func isTTY(fm *eval.Frame, file any) (bool, error) {
 
 func isTTYPort(fm *eval.Frame, portNum int) bool {
 	p := fm.Port(portNum)
-	return p != nil && sys.IsATTY(p.File.Fd())
+	if proc := fm.Evaler.Process; proc != nil {
+		for _, terminal := range proc.TerminalPorts {
+			if p != nil && p == terminal {
+				return true
+			}
+		}
+	}
+	return p != nil && p.File != nil && sys.IsATTY(p.File.Fd())
 }
 
 func open(name string) (vals.File, error) {

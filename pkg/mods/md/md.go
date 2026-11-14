@@ -23,7 +23,11 @@ func (*showOpts) SetDefaultOptions() {}
 func show(fm *eval.Frame, opts showOpts, markdown string) error {
 	width := opts.Width
 	if width <= 0 {
-		_, width = sys.WinSize(fm.Port(1).File)
+		if p := fm.Evaler.Process; p != nil && p.TerminalSize != nil {
+			_, width = p.TerminalSize()
+		} else if f := fm.Port(1).File; f != nil {
+			_, width = sys.WinSize(f)
+		}
 		if width <= 0 {
 			width = 80
 		}

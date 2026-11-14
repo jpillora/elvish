@@ -1,12 +1,16 @@
 package eval
 
 import (
+	"context"
 	"errors"
+	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/jpillora/elvish/pkg/eval/errs"
 	"github.com/jpillora/elvish/pkg/eval/vals"
@@ -60,7 +64,7 @@ func (e externalCmd) Call(fm *Frame, argVals []any, opts map[string]any) error {
 		return ErrExternalCmdOpts
 	}
 	if fsutil.DontSearch(e.Name) {
-		stat, err := os.Stat(e.Name)
+		stat, err := os.Stat(fm.Evaler.Process.Path(e.Name))
 		if err == nil && stat.IsDir() {
 			// implicit cd
 			if len(argVals) > 0 {
@@ -85,7 +89,7 @@ func (e externalCmd) Call(fm *Frame, argVals []any, opts map[string]any) error {
 		args[i+1] = vals.ToString(a)
 	}
 
-	path, err := fsutil.LookPath(e.Name)
+	path, err := fm.Evaler.Process.LookPath(e.Name)
 	if err != nil {
 		return err
 	}
@@ -106,6 +110,32 @@ func (e externalCmd) Call(fm *Frame, argVals []any, opts map[string]any) error {
 	}
 
 	args[0] = path
+	if p := fm.Evaler.Process; p != nil {
+		dir, _ := p.Getwd()
+		cmd := exec.Command(path, args[1:]...)
+		cmd.Dir, cmd.Env = dir, p.Environ()
+		cmd.Stdin, cmd.Stdout, cmd.Stderr = fm.ByteInput(), fm.ByteOutput(), fm.ErrorOutput()
+		terminal := len(p.TerminalPorts) == 3 && len(fm.ports) == 3
+		if terminal {
+			for i := range fm.ports {
+				if fm.ports[i] != p.TerminalPorts[i] {
+					terminal = false
+				}
+			}
+		}
+		run := p.RunExternal
+		if run == nil {
+			run = RunVirtualChild
+		}
+		state, err := run(fm.Context(), cmd, terminal)
+		if fm.Canceled() {
+			return ErrInterrupted
+		}
+		if err != nil {
+			return err
+		}
+		return NewExternalCmdExit(e.Name, state.Sys().(syscall.WaitStatus), state.Pid())
+	}
 
 	sys := makeSysProcAttr(fm.background)
 	proc, err := os.StartProcess(path, args, &os.ProcAttr{Files: files, Sys: sys})
@@ -129,4 +159,96 @@ func (e externalCmd) Call(fm *Frame, argVals []any, opts map[string]any) error {
 		}
 	}
 	return NewExternalCmdExit(e.Name, state.Sys().(syscall.WaitStatus), proc.Pid)
+}
+
+// ContextReader can stop a pending read without closing a shared session stream.
+type ContextReader interface {
+	ReadContext(context.Context, []byte) (int, error)
+}
+
+type contextInput struct {
+	ctx    context.Context
+	reader ContextReader
+}
+
+func (r contextInput) Read(b []byte) (int, error) { return r.reader.ReadContext(r.ctx, b) }
+func (r contextInput) ReadContext(ctx context.Context, b []byte) (int, error) {
+	ctx, cancel := context.WithCancel(ctx)
+	stop := context.AfterFunc(r.ctx, cancel)
+	defer stop()
+	defer cancel()
+	return r.reader.ReadContext(ctx, b)
+}
+
+// RunVirtualChild runs a real child with explicit session environment and cwd.
+func RunVirtualChild(ctx context.Context, cmd *exec.Cmd, _ bool) (*os.ProcessState, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	PrepareVirtualChild(cmd, false)
+	cmd.WaitDelay = 200 * time.Millisecond
+	var stdin io.ReadCloser
+	var pumpDone chan struct{}
+	var pipe io.WriteCloser
+	if input, ok := cmd.Stdin.(ContextReader); ok {
+		cmd.Stdin = nil
+		var err error
+		pipe, err = cmd.StdinPipe()
+		if err != nil {
+			return nil, err
+		}
+		stdin = io.NopCloser(contextInput{ctx, input})
+	}
+	if err := cmd.Start(); err != nil {
+		if pipe != nil {
+			pipe.Close()
+		}
+		return nil, err
+	}
+	stopChild, err := OwnVirtualChild(cmd.Process)
+	if err != nil {
+		_ = cmd.Process.Kill()
+		_ = cmd.Wait()
+		if pipe != nil {
+			pipe.Close()
+		}
+		return nil, err
+	}
+	defer stopChild()
+	if stdin != nil {
+		pumpDone = make(chan struct{})
+		go func() { defer close(pumpDone); io.Copy(pipe, stdin); pipe.Close() }()
+	}
+	killed := make(chan struct{})
+	stop := context.AfterFunc(ctx, func() { stopChild(); close(killed) })
+	err = cmd.Wait()
+	if !stop() {
+		<-killed
+	}
+	cancel()
+	if pipe != nil {
+		pipe.Close()
+		<-pumpDone
+	}
+	var exit *exec.ExitError
+	if err != nil && !errors.As(err, &exit) && !errors.Is(err, exec.ErrWaitDelay) {
+		return cmd.ProcessState, err
+	}
+	return cmd.ProcessState, nil
+}
+
+func virtualExec(fm *Frame, args ...any) error {
+	if len(args) == 0 {
+		return errs.ArityMismatch{What: "arguments", ValidLow: 1, ValidHigh: -1, Actual: 0}
+	}
+	err := NewExternalCmd(vals.ToString(args[0])).Call(fm, args[1:], NoOpts)
+	if err != nil {
+		if status, ok := err.(ExternalCmdExit); ok {
+			return fm.Evaler.Process.Exit(status.WaitStatus.ExitStatus())
+		}
+		return err
+	}
+	return fm.Evaler.Process.Exit(0)
 }

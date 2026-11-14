@@ -60,7 +60,7 @@ func Complete(code CodeBuffer, ev *eval.Evaler, cfg Config) (*Result, error) {
 		cfg.Filterer = FilterPrefix
 	}
 	if cfg.ArgGenerator == nil {
-		cfg.ArgGenerator = GenerateFileNames
+		cfg.ArgGenerator = func(args []string) ([]RawItem, error) { return GenerateFileNamesForProcess(ev.Process, args) }
 	}
 
 	// Ignore the error; the function always returns a valid *ChunkNode.

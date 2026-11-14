@@ -28,7 +28,7 @@ type UmaskVariable struct{}
 var _ vars.Var = UmaskVariable{}
 
 // There is no way to query the current umask without changing it, so we store
-// the umask value in a variable, and initialize it during startup. It needs to
+// the umask value in a variable, and initialize it on first use by a standalone shell. It needs to
 // be mutex-guarded since it could be read or written concurrently.
 //
 // This assumes no other part of the Elvish code base involved in the
@@ -37,15 +37,12 @@ var _ vars.Var = UmaskVariable{}
 var (
 	umaskVal   int
 	umaskMutex sync.RWMutex
+	umaskInit  sync.Once
 )
 
-func init() {
-	// Init functions are run concurrently, so it's normally impossible to
-	// observe the temporary value.
-	//
-	// Even if there is some pathological init logic (e.g. goroutine from init
-	// functions), the failure pattern is relative safe because we are setting
-	// the temporary umask to the most restrictive value possible.
+func initializeUmask() {
+	// Embedded sessions do not expose this process-wide setting. Importing
+	// the package must never temporarily change the embedding process umask.
 	umask := unix.Umask(0o777)
 	unix.Umask(umask)
 	umaskVal = umask
@@ -53,6 +50,7 @@ func init() {
 
 // Get returns the current file creation umask as a string.
 func (UmaskVariable) Get() any {
+	umaskInit.Do(initializeUmask)
 	umaskMutex.RLock()
 	defer umaskMutex.RUnlock()
 	return fmt.Sprintf("0o%03o", umaskVal)
@@ -62,6 +60,7 @@ func (UmaskVariable) Get() any {
 // or a number. Strings are treated as octal numbers by default, unless they
 // have an explicit base prefix like 0x or 0b.
 func (UmaskVariable) Set(v any) error {
+	umaskInit.Do(initializeUmask)
 	umask, err := parseUmask(v)
 	if err != nil {
 		return err

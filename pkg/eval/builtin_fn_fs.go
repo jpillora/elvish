@@ -22,7 +22,7 @@ func cd(fm *Frame, args ...string) error {
 	switch len(args) {
 	case 0:
 		var err error
-		dir, err = getHome("")
+		dir, err = fm.Evaler.Process.GetHome("")
 		if err != nil {
 			return err
 		}

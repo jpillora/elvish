@@ -42,16 +42,21 @@ type NavigationFile interface {
 
 // NewOSNavigationCursor returns a NavigationCursor backed by the OS.
 func NewOSNavigationCursor(chdir func(string) error) NavigationCursor {
-	return osCursor{chdir, lscolors.GetColorist()}
+	return NewOSNavigationCursorWithAbs(chdir, filepath.Abs)
+}
+
+func NewOSNavigationCursorWithAbs(chdir func(string) error, abs func(string) (string, error)) NavigationCursor {
+	return osCursor{chdir: chdir, abs: abs, colorist: lscolors.GetColorist()}
 }
 
 type osCursor struct {
+	abs      func(string) (string, error)
 	chdir    func(string) error
 	colorist lscolors.Colorist
 }
 
 func (c osCursor) Current() (NavigationFile, error) {
-	abs, err := filepath.Abs(".")
+	abs, err := c.abs(".")
 	if err != nil {
 		return nil, err
 	}
@@ -59,10 +64,10 @@ func (c osCursor) Current() (NavigationFile, error) {
 }
 
 func (c osCursor) Parent() (NavigationFile, error) {
-	if abs, _ := filepath.Abs("."); abs == "/" {
+	if abs, _ := c.abs("."); filepath.Dir(abs) == abs {
 		return emptyDir{}, nil
 	}
-	abs, err := filepath.Abs("..")
+	abs, err := c.abs("..")
 	if err != nil {
 		return nil, err
 	}

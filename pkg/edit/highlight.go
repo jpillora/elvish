@@ -45,11 +45,15 @@ func initHighlighter(appSpec *cli.AppSpec, ed *Editor, ev *eval.Evaler, nb eval.
 }
 
 func hasCommand(ev *eval.Evaler, cmd string) bool {
+	hasExternalCommand := hasExternalCommand
+	if ev.Process != nil {
+		hasExternalCommand = func(name string) bool { _, err := ev.Process.LookPath(name); return err == nil }
+	}
 	if eval.IsBuiltinSpecial[cmd] {
 		return true
 	}
 	if fsutil.DontSearch(cmd) {
-		return isDirOrExecutable(cmd) || hasExternalCommand(cmd)
+		return isDirOrExecutable(ev.Process.Path(cmd)) || hasExternalCommand(cmd)
 	}
 
 	sigil, qname := eval.SplitSigil(cmd)
