@@ -131,6 +131,8 @@ func (surrogateKeyEvent) isEvent() {}
 // nil if the event should be ignored.
 func convertEvent(event ewindows.InputEvent) Event {
 	switch event := event.(type) {
+	case *ewindows.WindowBufferSizeEvent:
+		return ResizeEvent{}
 	case *ewindows.KeyEvent:
 		if event.BKeyDown == 0 {
 			// Ignore keyup events.

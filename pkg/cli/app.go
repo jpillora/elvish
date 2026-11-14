@@ -222,6 +222,9 @@ func (a *app) handle(e event) {
 		case sys.SIGWINCH:
 			a.RedrawFull()
 		}
+	case term.ResizeEvent:
+		a.RedrawFull()
+		a.reqRead <- struct{}{}
 	case term.Event:
 		target := a.ActiveWidget()
 		handled := target.Handle(e)

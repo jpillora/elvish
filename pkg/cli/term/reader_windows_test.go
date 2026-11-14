@@ -13,7 +13,8 @@ func TestConvertEvent(t *testing.T) {
 	r1, r2 := utf16.EncodeRune('😀')
 
 	tt.Test(t, convertEvent,
-		// Only convert KeyEvent
+		Args(&ewindows.WindowBufferSizeEvent{}).Rets(ResizeEvent{}),
+		// Mouse events are currently ignored.
 		Args(&ewindows.MouseEvent{}).Rets(nil),
 		// Only convert KeyDown events
 		Args(&ewindows.KeyEvent{BKeyDown: 0}).Rets(nil),

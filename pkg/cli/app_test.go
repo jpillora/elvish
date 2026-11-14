@@ -176,6 +176,27 @@ func TestReadCode_RedrawsOnSIGWINCH(t *testing.T) {
 
 // Code area.
 
+func TestReadCode_RedrawsOnResizeEventAndContinuesReading(t *testing.T) {
+	f := Setup()
+	defer f.Stop()
+
+	feedInput(f.TTY, "1234567890")
+	f.TTY.TestBuffer(t, bb().Write("1234567890").SetDotHere().Buffer())
+	f.TTY.SetSize(24, 4)
+	f.TTY.Inject(term.ResizeEvent{})
+	f.TTY.TestBuffer(t, term.NewBufferBuilder(4).
+		Write("1234567890").SetDotHere().Buffer())
+
+	// A resize must not leave the reader stopped or consume subsequent keys.
+	feedInput(f.TTY, "x")
+	f.TTY.TestBuffer(t, term.NewBufferBuilder(4).
+		Write("1234567890x").SetDotHere().Buffer())
+	f.TTY.SetSize(24, 80)
+	f.TTY.Inject(term.ResizeEvent{})
+	f.TTY.TestBuffer(t, term.NewBufferBuilder(80).
+		Write("1234567890x").SetDotHere().Buffer())
+}
+
 func TestReadCode_LetsCodeAreaHandleEvents(t *testing.T) {
 	f := Setup()
 	defer f.Stop()

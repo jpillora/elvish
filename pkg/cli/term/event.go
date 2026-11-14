@@ -33,6 +33,10 @@ type CursorPosition Pos
 // PasteSetting indicates the start or finish of pasted text.
 type PasteSetting bool
 
+// ResizeEvent reports a terminal size change on platforms without SIGWINCH.
+// The current dimensions are obtained from the TTY when redrawing.
+type ResizeEvent struct{}
+
 // FatalErrorEvent represents an error that affects the Reader's ability to
 // continue reading events. After sending a FatalError, the Reader makes no more
 // attempts at continuing to read events and wait for Stop to be called.
@@ -49,6 +53,7 @@ func (MouseEvent) isEvent() {}
 
 func (CursorPosition) isEvent() {}
 func (PasteSetting) isEvent()   {}
+func (ResizeEvent) isEvent()    {}
 
 func (FatalErrorEvent) isEvent()    {}
 func (NonfatalErrorEvent) isEvent() {}

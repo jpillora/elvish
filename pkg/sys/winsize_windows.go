@@ -17,5 +17,6 @@ func winSize(file *os.File) (row, col int) {
 		return -1, -1
 	}
 	window := info.Window
-	return int(window.Bottom - window.Top), int(window.Right - window.Left)
+	// Console window rectangle boundaries are inclusive.
+	return int(window.Bottom-window.Top) + 1, int(window.Right-window.Left) + 1
 }
