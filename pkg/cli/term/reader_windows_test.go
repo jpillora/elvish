@@ -16,8 +16,12 @@ func TestConvertEvent(t *testing.T) {
 		Args(&ewindows.WindowBufferSizeEvent{}).Rets(ResizeEvent{}),
 		// Mouse events are currently ignored.
 		Args(&ewindows.MouseEvent{}).Rets(nil),
-		// Only convert KeyDown events
+		// Ignore ordinary keyup events but accept Alt+numpad characters.
 		Args(&ewindows.KeyEvent{BKeyDown: 0}).Rets(nil),
+		Args(&ewindows.KeyEvent{BKeyDown: 0, WVirtualKeyCode: 'A', UChar: [2]byte{'a', 0}}).Rets(nil),
+		Args(altRelease('é')).Rets(K('é')),
+		Args(altRelease(uint16(r1))).Rets(surrogateKeyEvent{r1}),
+		Args(altRelease(uint16(r2))).Rets(surrogateKeyEvent{r2}),
 
 		Args(charKeyEvent('a', 0)).Rets(K('a')),
 		Args(charKeyEvent('A', shift)).Rets(K('A')),
@@ -42,6 +46,11 @@ func TestConvertEvent(t *testing.T) {
 		// Unrecognized functional key
 		Args(funcKeyEvent(0, 0)).Rets(nil),
 	)
+}
+
+func altRelease(r uint16) *ewindows.KeyEvent {
+	return &ewindows.KeyEvent{
+		WVirtualKeyCode: 0x12, UChar: [2]byte{byte(r), byte(r >> 8)}}
 }
 
 func charKeyEvent(r uint16, mod uint32) *ewindows.KeyEvent {

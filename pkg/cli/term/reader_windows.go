@@ -134,11 +134,13 @@ func convertEvent(event ewindows.InputEvent) Event {
 	case *ewindows.WindowBufferSizeEvent:
 		return ResizeEvent{}
 	case *ewindows.KeyEvent:
-		if event.BKeyDown == 0 {
-			// Ignore keyup events.
+		r := rune(event.UChar[0]) + rune(event.UChar[1])<<8
+		if event.BKeyDown == 0 && !(event.WVirtualKeyCode == 0x12 && r != 0) {
+			// Alt+numpad input is delivered as a character on Alt release.
+			// ConPTY also uses this for UTF-16 surrogates (such as emoji).
+			// Other keyup events merely repeat the keydown character.
 			return nil
 		}
-		r := rune(event.UChar[0]) + rune(event.UChar[1])<<8
 		filteredMod := event.DwControlKeyState & (leftAlt | leftCtrl | rightAlt | rightCtrl | shift)
 		if r >= 0x20 && r != 0x7f {
 			// This key inputs a character. The flags present in
