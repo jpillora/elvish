@@ -21,6 +21,14 @@ import (
 	"github.com/jpillora/elvish/pkg/parse"
 )
 
+// ContextWriter is an optional capability for a session's output streams.
+// WriteContext must return promptly when ctx is canceled. Interrupting a
+// command cancels its pending writes without closing the caller's stream.
+type ContextWriter interface {
+	io.Writer
+	WriteContext(context.Context, []byte) (int, error)
+}
+
 // SessionConfig describes an in-process shell. Env is an explicit snapshot;
 // nil means an empty environment. The caller owns the output streams.
 type SessionConfig struct {
@@ -52,6 +60,8 @@ type Session struct {
 	input         []byte
 	eof           bool
 	commandCancel context.CancelFunc
+	outputCtx     context.Context
+	outputCancel  context.CancelFunc
 	commandRaw    bool
 	line          []byte
 	lineReady     bool
@@ -61,6 +71,9 @@ type Session struct {
 }
 
 func NewSession(cfg SessionConfig) (*Session, error) {
+	if cfg.Context == nil {
+		cfg.Context = context.Background()
+	}
 	p, err := eval.NewProcess(cfg.Context, cfg.Dir, cfg.Env)
 	if err != nil {
 		return nil, err
@@ -79,8 +92,9 @@ func NewSession(cfg SessionConfig) (*Session, error) {
 	}
 	outputMu := new(sync.Mutex)
 	s := &Session{Process: p, cfg: cfg, changed: make(chan struct{}), cols: cfg.Cols, rows: cfg.Rows}
-	s.out = &sessionOutput{mu: outputMu, writer: cfg.Stdout, terminal: cfg.Terminal}
-	s.errOut = &sessionOutput{mu: outputMu, writer: cfg.Stderr, terminal: cfg.Terminal}
+	s.outputCtx, s.outputCancel = context.WithCancel(cfg.Context)
+	s.out = &sessionOutput{session: s, mu: outputMu, writer: cfg.Stdout, terminal: cfg.Terminal}
+	s.errOut = &sessionOutput{session: s, mu: outputMu, writer: cfg.Stderr, terminal: cfg.Terminal}
 	s.ev = eval.NewEvalerWithProcess(p)
 	s.configurePaths()
 	mods.AddTo(s.ev)
@@ -93,7 +107,13 @@ func NewSession(cfg SessionConfig) (*Session, error) {
 }
 
 // Close stops this virtual root and its child commands, without closing output.
-func (s *Session) Close() error { s.Process.Close(); return nil }
+func (s *Session) Close() error {
+	s.Process.Close()
+	s.mu.Lock()
+	s.outputCancel()
+	s.mu.Unlock()
+	return nil
+}
 
 func (s *Session) Size() (rows, cols int) { s.mu.Lock(); defer s.mu.Unlock(); return s.rows, s.cols }
 func (s *Session) Resize(cols, rows int) {
@@ -115,11 +135,18 @@ func (s *Session) Interrupt() {
 	defer s.mu.Unlock()
 	if s.commandCancel != nil {
 		s.input = nil
-		s.commandCancel()
+		s.cancelCommand()
 	} else {
 		s.input = append(s.input, 3)
 	}
 	s.wake()
+}
+
+// cancelCommand is called with mu held. Keep the output context canceled
+// until the evaluation unwinds, including writes that start after Ctrl-C.
+func (s *Session) cancelCommand() {
+	s.commandCancel()
+	s.outputCancel()
 }
 
 // Run evaluates command, or runs an interactive editor when command is nil.
@@ -133,7 +160,7 @@ func (s *Session) Run(command *string) int {
 	if s.cfg.Terminal {
 		s.Process.TerminalPorts = ports
 	}
-	defer func() { s.Process.Close(); s.Process.Wait(); cleanup() }()
+	defer func() { s.Process.Close(); s.Process.Wait(); cleanup(); s.Close() }()
 	if command != nil {
 		return s.evaluate(*command, "[command]", ports, nil)
 	}
@@ -193,6 +220,9 @@ func (s *Session) evaluate(code, name string, ports []*eval.Port, ed *edit.Edito
 	interrupted := ctx.Err() != nil
 	s.mu.Lock()
 	s.commandCancel = nil
+	if s.outputCtx.Err() != nil && s.Process.Context().Err() == nil {
+		s.outputCtx, s.outputCancel = context.WithCancel(s.cfg.Context)
+	}
 	s.commandRaw = false
 	s.line = nil
 	s.lineReady = false
@@ -277,6 +307,7 @@ func (s *Session) configurePaths() {
 // sessionOutput serializes writes and supplies terminal OPOST/ONLCR behavior
 // without an OS terminal driver. Existing CRLF output is left intact.
 type sessionOutput struct {
+	session  *Session
 	mu       *sync.Mutex
 	writer   io.Writer
 	terminal bool
@@ -284,20 +315,31 @@ type sessionOutput struct {
 }
 
 func (w *sessionOutput) Write(b []byte) (int, error) {
+	write := w.writer.Write
+	if writer, ok := w.writer.(ContextWriter); ok {
+		w.session.mu.Lock()
+		ctx := w.session.outputCtx
+		w.session.mu.Unlock()
+		write = func(p []byte) (int, error) { return writer.WriteContext(ctx, p) }
+	}
 	w.mu.Lock()
 	defer w.mu.Unlock()
 	if !w.terminal {
-		return w.writer.Write(b)
+		return write(b)
 	}
 	out := make([]byte, 0, len(b))
+	lastCR := w.lastCR
 	for _, c := range b {
-		if c == '\n' && !w.lastCR {
+		if c == '\n' && !lastCR {
 			out = append(out, '\r')
 		}
 		out = append(out, c)
-		w.lastCR = c == '\r'
+		lastCR = c == '\r'
 	}
-	n, err := w.writer.Write(out)
+	n, err := write(out)
+	if n > 0 {
+		w.lastCR = out[n-1] == '\r'
+	}
 	if err == nil && n != len(out) {
 		err = io.ErrShortWrite
 	}

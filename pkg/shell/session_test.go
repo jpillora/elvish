@@ -59,6 +59,49 @@ func TestStreamSessionExec(t *testing.T) {
 		t.Fatalf("output=%q", got)
 	}
 }
+
+type blockedSessionOutput struct {
+	sessionTestOutput
+	blocked chan struct{}
+}
+
+func (out *blockedSessionOutput) WriteContext(ctx context.Context, p []byte) (int, error) {
+	if string(p) != "FLOOD" {
+		return out.sessionTestOutput.Write(p)
+	}
+	close(out.blocked)
+	<-ctx.Done()
+	return 0, ctx.Err()
+}
+
+func TestStreamSessionInterruptBlockedOutput(t *testing.T) {
+	out := &blockedSessionOutput{blocked: make(chan struct{})}
+	ctx, cancel := context.WithCancel(context.Background())
+	t.Cleanup(cancel)
+	s, err := NewSession(SessionConfig{Context: ctx, Dir: t.TempDir(), Stdout: out})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = s.Close() })
+	code := "while $true { echo FLOOD }; echo UNREACHABLE"
+	done := make(chan int, 1)
+	go func() { done <- s.Run(&code) }()
+	select {
+	case <-out.blocked:
+	case <-time.After(5 * time.Second):
+		t.Fatal("echo did not block on contextual output")
+	}
+	s.Interrupt()
+	select {
+	case status := <-done:
+		if status != 130 || out.String() != "" {
+			t.Fatalf("exit = %d, output = %q", status, out.String())
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("Ctrl+C did not release the blocked echo")
+	}
+}
+
 func TestStreamSessionEditorInterruptAndTypeahead(t *testing.T) {
 	s, out, dir := newTestSession(t, true)
 	done := make(chan int, 1)

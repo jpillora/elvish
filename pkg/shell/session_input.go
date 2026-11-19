@@ -16,7 +16,7 @@ func (s *Session) interceptInterrupt() {
 		s.input = s.input[i+1:]
 		s.line = nil
 		s.lineReady = false
-		s.commandCancel()
+		s.cancelCommand()
 		s.wake()
 	}
 }
